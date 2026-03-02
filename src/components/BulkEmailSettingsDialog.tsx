@@ -44,6 +44,8 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
     doubleOptInExpiryHours, setDoubleOptInExpiryHours,
     doubleOptInMaxResends, setDoubleOptInMaxResends,
     doubleOptInSubscriptionTypes, setDoubleOptInSubscriptionTypes,
+    doubleOptInEmailSubject, setDoubleOptInEmailSubject,
+    doubleOptInEmailBody, setDoubleOptInEmailBody,
     unsubscribeLinkEnabled, setUnsubscribeLinkEnabled,
     reSubscriptionEnabled, setReSubscriptionEnabled,
     defaultLegalBasis, setDefaultLegalBasis,
@@ -182,6 +184,48 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                     <p className="text-[10px] text-muted-foreground">
                       Only selected subscription types will require double opt-in confirmation
                     </p>
+                  </div>
+
+                  {/* Confirmation email template */}
+                  <div className="space-y-3 pt-2 border-t border-border">
+                    <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
+                      <Mail className="w-3 h-3" /> Confirmation email
+                    </label>
+
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide">Subject</label>
+                      <Input
+                        value={doubleOptInEmailSubject}
+                        onChange={(e) => setDoubleOptInEmailSubject(e.target.value)}
+                        className="h-8 text-sm"
+                        placeholder="Please confirm your subscription"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide">Body</label>
+                      <textarea
+                        value={doubleOptInEmailBody}
+                        onChange={(e) => setDoubleOptInEmailBody(e.target.value)}
+                        rows={8}
+                        className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 resize-y font-mono"
+                        placeholder="Email body..."
+                      />
+                    </div>
+
+                    <div className="bg-muted/50 rounded-md p-2.5 space-y-1">
+                      <p className="text-[10px] font-medium text-muted-foreground">Available merge tags:</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {["{{confirmation_link}}", "{{contact_name}}", "{{subscription_type}}"].map((tag) => (
+                          <code key={tag} className="text-[10px] bg-background border border-border rounded px-1.5 py-0.5 font-mono text-foreground">
+                            {tag}
+                          </code>
+                        ))}
+                      </div>
+                      <p className="text-[10px] text-destructive mt-1">
+                        {"{{confirmation_link}}"} is required in the body
+                      </p>
+                    </div>
                   </div>
                 </div>
               )}
