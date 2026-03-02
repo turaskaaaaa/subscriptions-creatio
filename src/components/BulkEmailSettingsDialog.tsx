@@ -102,6 +102,28 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
               </p>
             </div>
 
+            {/* --- Unsubscribe Link (Enforced) --- */}
+            <div className="flex items-center justify-between p-4 border border-border rounded-lg bg-muted/20">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                  <Mail className="w-4 h-4 text-primary" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-foreground">Unsubscribe link</p>
+                  <p className="text-xs text-muted-foreground">
+                    Automatically include an unsubscribe link in all bulk emails
+                  </p>
+                  <p className="text-[10px] text-destructive mt-1">
+                    Required by CAN-SPAM, GDPR, and CASL regulations. This setting cannot be disabled.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide">Enforced</span>
+                <Toggle checked={true} onChange={() => {}} />
+              </div>
+            </div>
+
             {/* --- Double Opt-In Section --- */}
             <div className="border border-border rounded-lg overflow-hidden">
               <div className="flex items-center justify-between p-4">
@@ -185,28 +207,6 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                   </div>
                 </div>
               )}
-            </div>
-
-            {/* --- Other toggles --- */}
-            <div className="flex items-center justify-between p-4 border border-border rounded-lg bg-muted/20">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                  <Mail className="w-4 h-4 text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-foreground">Unsubscribe link</p>
-                  <p className="text-xs text-muted-foreground">
-                    Automatically include an unsubscribe link in all bulk emails
-                  </p>
-                  <p className="text-[10px] text-destructive mt-1">
-                    Required by CAN-SPAM, GDPR, and CASL regulations. This setting cannot be disabled.
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide">Enforced</span>
-                <Toggle checked={true} onChange={() => {}} />
-              </div>
             </div>
 
             <div className="flex items-center justify-between p-4 border border-border rounded-lg">
