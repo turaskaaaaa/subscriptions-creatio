@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { contactsData } from "@/data/contactsData";
 import TopBar from "@/components/TopBar";
 import AppSidebar from "@/components/AppSidebar";
-import { ArrowLeft, Tag, Lock, MessageSquare, Paperclip, Plus, RefreshCw, MoreVertical, Search, ChevronUp, User, Mail, Phone, X, ShieldAlert, Ban, Clock, Send, ExternalLink } from "lucide-react";
+import { ArrowLeft, Tag, Lock, MessageSquare, Paperclip, Plus, RefreshCw, MoreVertical, Search, ChevronUp, User, Mail, Phone, X, ShieldAlert, Ban, Clock, Send, ExternalLink, Scale } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
@@ -273,6 +273,7 @@ const ContactDetail = () => {
                             <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Channel</th>
                             <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">DELIVERS TO (TARGET ADRESS)</th>
                             <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Status</th>
+                            <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Legal Basis</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -295,6 +296,17 @@ const ContactDetail = () => {
                               "bg-destructive/10 text-destructive border border-destructive/30"}`}>
                                   <span className={`w-1.5 h-1.5 rounded-full ${sub.status === "Subscribed" ? "bg-primary" : "bg-destructive"}`} />
                                   {sub.status === "Subscribed" ? "Opted In" : "Opted Out"}
+                                </span>
+                              </td>
+                              <td className="py-3 px-4">
+                                <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${
+                                  sub.legalBasis === "Explicit consent" ? "bg-primary/10 text-primary border border-primary/30" :
+                                  sub.legalBasis === "Contract necessity" ? "bg-accent text-accent-foreground border border-border" :
+                                  sub.legalBasis === "Legal obligation" ? "bg-secondary text-secondary-foreground border border-border" :
+                                  "bg-muted text-muted-foreground border border-border"
+                                }`}>
+                                  <Scale className="w-3 h-3" />
+                                  {sub.legalBasis}
                                 </span>
                               </td>
                             </tr>
