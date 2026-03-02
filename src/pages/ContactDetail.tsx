@@ -2,11 +2,58 @@ import { useParams, useNavigate } from "react-router-dom";
 import { contactsData } from "@/data/contactsData";
 import TopBar from "@/components/TopBar";
 import AppSidebar from "@/components/AppSidebar";
-import { ArrowLeft, Tag, Lock, MessageSquare, Paperclip, Plus, RefreshCw, MoreVertical, Search, ChevronUp, User, Mail, Phone, X, ShieldAlert, Ban, Clock, Send, ExternalLink, Scale, CheckCircle2, AlertCircle, Globe, Monitor } from "lucide-react";
+import { ArrowLeft, Tag, Lock, MessageSquare, Paperclip, Plus, RefreshCw, MoreVertical, Search, ChevronUp, User, Mail, Phone, X, ShieldAlert, Ban, Clock, Send, ExternalLink, Scale, CheckCircle2, AlertCircle, Globe, Monitor, Pencil } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
+
+const DeliverToCell = ({ currentAddress, isCustom, channel }: { currentAddress: string; isCustom: boolean; channel: "Email" | "SMS" }) => {
+  const [editing, setEditing] = useState(false);
+  const [value, setValue] = useState(currentAddress);
+
+  if (editing) {
+    return (
+      <div className="flex items-center gap-1.5">
+        <Input
+          autoFocus
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              setEditing(false);
+              toast.success("Delivery address updated", { description: `${channel} will now deliver to ${value}` });
+            }
+            if (e.key === "Escape") { setValue(currentAddress); setEditing(false); }
+          }}
+          onBlur={() => {
+            setEditing(false);
+            if (value !== currentAddress) {
+              toast.success("Delivery address updated", { description: `${channel} will now deliver to ${value}` });
+            }
+          }}
+          className="h-7 text-sm w-full min-w-[180px]"
+        />
+      </div>
+    );
+  }
+
+  return (
+    <button
+      onClick={() => setEditing(true)}
+      className="group flex items-center gap-1.5 text-sm text-foreground hover:text-primary transition-colors text-left"
+    >
+      <span className="truncate max-w-[200px]">→ {value}</span>
+      {isCustom && (
+        <span className="inline-flex items-center gap-1 text-[10px] text-primary bg-primary/10 border border-primary/30 rounded-full px-1.5 py-0.5 font-medium shrink-0">
+          Custom
+        </span>
+      )}
+      <Pencil className="w-3 h-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+    </button>
+  );
+};
 
 const ContactDetail = () => {
   const { id } = useParams();
@@ -287,9 +334,11 @@ const ContactDetail = () => {
                                 </span>
                               </td>
                               <td className="py-3 px-4">
-                                <span className="inline-flex items-center gap-1.5 text-sm text-foreground">
-                                  → {sub.channel === "SMS" ? contact.mobilePhone : contact.email}
-                                </span>
+                                <DeliverToCell
+                                  currentAddress={sub.deliverTo || (sub.channel === "SMS" ? contact.mobilePhone : contact.email)}
+                                  isCustom={!!sub.deliverTo}
+                                  channel={sub.channel}
+                                />
                               </td>
                               <td className="py-3 px-4">
                                 <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${
