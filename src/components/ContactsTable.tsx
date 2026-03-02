@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Folder, Tag, Search, Plus, MoreHorizontal, RefreshCw, SlidersHorizontal, BarChart3, Download, Mail, ArrowUpDown } from "lucide-react";
 import { contactsData } from "@/data/contactsData";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -6,6 +7,7 @@ import NewContactDialog from "./NewContactDialog";
 
 const ContactsTable = () => {
   const [newContactOpen, setNewContactOpen] = useState(false);
+  const navigate = useNavigate();
   return (
     <div className="flex-1 flex flex-col overflow-hidden bg-background">
       {/* Page header */}
@@ -75,7 +77,7 @@ const ContactsTable = () => {
               <tr key={contact.id} className="border-b border-border hover:bg-secondary/30 transition-colors group">
                 <td className="py-2 px-2 text-muted-foreground">{contact.id}</td>
                 <td className="py-2 px-2">
-                  <span className="text-primary cursor-pointer hover:underline">
+                  <span className="text-primary cursor-pointer hover:underline" onClick={() => navigate(`/contacts/${contact.id}`)}>
                     {contact.fullName}
                   </span>
                 </td>
