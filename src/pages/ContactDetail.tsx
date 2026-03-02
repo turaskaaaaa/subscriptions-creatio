@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { contactsData } from "@/data/contactsData";
 import TopBar from "@/components/TopBar";
 import AppSidebar from "@/components/AppSidebar";
-import { ArrowLeft, Tag, Lock, MessageSquare, Paperclip, Plus, RefreshCw, MoreVertical, Search, ChevronUp, User, Mail, Phone, X, ShieldAlert, Ban } from "lucide-react";
+import { ArrowLeft, Tag, Lock, MessageSquare, Paperclip, Plus, RefreshCw, MoreVertical, Search, ChevronUp, User, Mail, Phone, X, ShieldAlert, Ban, Clock } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 
@@ -237,6 +237,66 @@ const ContactDetail = () => {
                                 </td>
                                 <td className="py-3 px-4 text-muted-foreground">{sup.blockedDate}</td>
                                 <td className="py-3 px-4 text-muted-foreground text-xs">{sup.source}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Consent Timeline */}
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">CONSENT TIMELINE</p>
+                    {contact.consentTimeline.length === 0 ? (
+                      <div className="border border-border rounded-lg p-6 flex flex-col items-center gap-2 text-muted-foreground">
+                        <Clock className="w-6 h-6" />
+                        <p className="text-sm">No consent events recorded</p>
+                      </div>
+                    ) : (
+                      <div className="border border-border rounded-lg overflow-hidden">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-muted/80">
+                              <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Date</th>
+                              <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Action</th>
+                              <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Subscription</th>
+                              <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Channel</th>
+                              <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Source</th>
+                              <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Modified By</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {contact.consentTimeline.map((evt, idx) => (
+                              <tr key={idx} className="border-t border-border hover:bg-secondary/30 transition-colors">
+                                <td className="py-3 px-4 text-muted-foreground whitespace-nowrap">
+                                  <span className="inline-flex items-center gap-1.5">
+                                    <Clock className="w-3.5 h-3.5" />
+                                    {evt.date}
+                                  </span>
+                                </td>
+                                <td className="py-3 px-4">
+                                  <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${
+                                    evt.action === "Opted In" || evt.action === "Re-subscribed" || evt.action === "Consent given"
+                                      ? "bg-primary/10 text-primary border border-primary/30"
+                                      : "bg-destructive/10 text-destructive border border-destructive/30"
+                                  }`}>
+                                    <span className={`w-1.5 h-1.5 rounded-full ${
+                                      evt.action === "Opted In" || evt.action === "Re-subscribed" || evt.action === "Consent given"
+                                        ? "bg-primary" : "bg-destructive"
+                                    }`} />
+                                    {evt.action}
+                                  </span>
+                                </td>
+                                <td className="py-3 px-4 font-medium text-foreground">{evt.subscriptionType}</td>
+                                <td className="py-3 px-4 text-foreground">
+                                  <span className="inline-flex items-center gap-1.5">
+                                    {evt.channel === "SMS" ? <Phone className="w-3.5 h-3.5 text-muted-foreground" /> : <Mail className="w-3.5 h-3.5 text-muted-foreground" />}
+                                    {evt.channel}
+                                  </span>
+                                </td>
+                                <td className="py-3 px-4 text-muted-foreground text-xs">{evt.source}</td>
+                                <td className="py-3 px-4 text-muted-foreground text-xs">{evt.modifiedBy}</td>
                               </tr>
                             ))}
                           </tbody>
