@@ -150,7 +150,7 @@ const ContactDetail = () => {
                       <div className="border-2 border-primary/40 bg-primary/5 rounded-lg p-5 space-y-4">
                         <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Email delivery routing</p>
                         <p className="text-xs text-muted-foreground -mt-2">Emails will be sent to the primary address unless a different one is selected for a specific subscription type.</p>
-                        {Array.from(deliveryMap.entries()).map(([addr, types], i) => {
+                        {Array.from(deliveryMap.entries()).sort(([a], [b]) => a === contact.email ? -1 : b === contact.email ? 1 : 0).map(([addr, types], i) => {
                           const isPrimary = addr === contact.email;
                           return (
                             <div key={addr} className={`flex items-start gap-3 ${i > 0 ? "pt-3 border-t border-primary/20" : ""}`}>
