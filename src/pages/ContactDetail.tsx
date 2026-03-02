@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { contactsData } from "@/data/contactsData";
 import TopBar from "@/components/TopBar";
 import AppSidebar from "@/components/AppSidebar";
-import { ArrowLeft, Tag, Lock, MessageSquare, Paperclip, Plus, RefreshCw, MoreVertical, Search, ChevronUp, User, Mail, Phone, X } from "lucide-react";
+import { ArrowLeft, Tag, Lock, MessageSquare, Paperclip, Plus, RefreshCw, MoreVertical, Search, ChevronUp, User, Mail, Phone, X, ShieldAlert, Ban } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 
@@ -194,12 +194,56 @@ const ContactDetail = () => {
                       </table>
                     </div>
                   </div>
-
-
-
-
-
-                  
+                  {/* Suppressions / Blocked List */}
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">SUPPRESSIONS (BLOCKED LIST)</p>
+                    {contact.suppressions.length === 0 ? (
+                      <div className="border border-border rounded-lg p-6 flex flex-col items-center gap-2 text-muted-foreground">
+                        <ShieldAlert className="w-6 h-6" />
+                        <p className="text-sm">No suppressed addresses for this contact</p>
+                      </div>
+                    ) : (
+                      <div className="border border-border rounded-lg overflow-hidden">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-muted/80">
+                              <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Channel</th>
+                              <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Blocked Address</th>
+                              <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Reason</th>
+                              <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Date Blocked</th>
+                              <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Source</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {contact.suppressions.map((sup, idx) => (
+                              <tr key={idx} className="border-t border-border hover:bg-secondary/30 transition-colors">
+                                <td className="py-3 px-4 text-foreground">
+                                  <span className="inline-flex items-center gap-1.5">
+                                    {sup.channel === "SMS" ? <Phone className="w-3.5 h-3.5 text-muted-foreground" /> : <Mail className="w-3.5 h-3.5 text-muted-foreground" />}
+                                    {sup.channel}
+                                  </span>
+                                </td>
+                                <td className="py-3 px-4 font-medium text-foreground">{sup.address}</td>
+                                <td className="py-3 px-4">
+                                  <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${
+                                    sup.reason === "Hard bounce" ? "bg-destructive/10 text-destructive border border-destructive/30" :
+                                    sup.reason === "Soft bounce" ? "bg-yellow-500/10 text-yellow-600 border border-yellow-500/30" :
+                                    sup.reason === "Spam complaint" ? "bg-destructive/10 text-destructive border border-destructive/30" :
+                                    "bg-muted text-muted-foreground border border-border"
+                                  }`}>
+                                    <Ban className="w-3 h-3" />
+                                    {sup.reason}
+                                  </span>
+                                </td>
+                                <td className="py-3 px-4 text-muted-foreground">{sup.blockedDate}</td>
+                                <td className="py-3 px-4 text-muted-foreground text-xs">{sup.source}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </div>
                 </TabsContent>
 
                 <TabsContent value="contact-info" className="p-6">
