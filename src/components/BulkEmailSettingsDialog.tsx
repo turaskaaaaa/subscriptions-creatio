@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -11,6 +10,7 @@ import type { LegalBasis } from "@/data/contactsData";
 interface BulkEmailSettingsDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onNavigateToDoiEmail?: () => void;
 }
 
 const SUBSCRIPTION_TYPE_OPTIONS = [
@@ -38,8 +38,7 @@ const Toggle = ({ checked, onChange }: { checked: boolean; onChange: (val: boole
   </label>
 );
 
-const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialogProps) => {
-  const navigate = useNavigate();
+const BulkEmailSettingsDialog = ({ open, onOpenChange, onNavigateToDoiEmail }: BulkEmailSettingsDialogProps) => {
   const {
     marketingConsentDefault, setMarketingConsentDefault,
     doubleOptInEnabled, setDoubleOptInEnabled,
@@ -193,7 +192,7 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                     <button
                       onClick={() => {
                         onOpenChange(false);
-                        navigate("/settings/doi-email");
+                        onNavigateToDoiEmail?.();
                       }}
                       className="inline-flex items-center gap-2 text-xs font-medium text-primary hover:text-primary/80 transition-colors"
                     >
