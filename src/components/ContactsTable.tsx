@@ -1,15 +1,18 @@
+import { useState } from "react";
 import { Folder, Tag, Search, Plus, MoreHorizontal, RefreshCw, SlidersHorizontal, BarChart3, Download, Mail, ArrowUpDown } from "lucide-react";
 import { contactsData } from "@/data/contactsData";
 import { Checkbox } from "@/components/ui/checkbox";
+import NewContactDialog from "./NewContactDialog";
 
 const ContactsTable = () => {
+  const [newContactOpen, setNewContactOpen] = useState(false);
   return (
     <div className="flex-1 flex flex-col overflow-hidden bg-background">
       {/* Page header */}
       <div className="flex items-center justify-between px-6 py-4">
         <h1 className="text-xl font-semibold text-foreground">Contacts</h1>
         <div className="flex items-center gap-2">
-          <button className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors">
+          <button onClick={() => setNewContactOpen(true)} className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors">
             <Plus className="w-4 h-4" />
             New
           </button>
@@ -94,6 +97,8 @@ const ContactsTable = () => {
           </tbody>
         </table>
       </div>
+
+      <NewContactDialog open={newContactOpen} onOpenChange={setNewContactOpen} />
     </div>
   );
 };
