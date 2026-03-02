@@ -133,72 +133,68 @@ const ContactDetail = () => {
                 </TabsList>
 
                 <TabsContent value="subscriptions" className="p-6 space-y-6">
-                  {/* Contact email card */}
-                  <div className="border border-border rounded-lg p-5 space-y-1.5">
+                  {/* Primary email banner */}
+                  <div className="border-2 border-primary/40 bg-primary/5 rounded-lg p-5">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Primary communication email</p>
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center shrink-0">
-                        <span className="text-primary-foreground font-semibold text-sm">
-                          {contact.fullName.split(" ").map((n) => n[0]).join("")}
-                        </span>
+                      <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0">
+                        <Mail className="w-5 h-5 text-primary-foreground" />
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-foreground">{contact.fullName}</p>
-                        <p className="text-xs text-muted-foreground">
-                          Has one email. Subscribes to {contact.subscriptions.length} topic{contact.subscriptions.length !== 1 ? "s" : ""}.
-                        </p>
+                        <p className="text-sm font-semibold text-foreground">{contact.email}</p>
+                        <p className="text-xs text-muted-foreground">All marketing and service emails will be delivered to this address</p>
                       </div>
-                    </div>
-                    <div className="ml-[60px]">
-                      <span className="inline-flex items-center gap-1.5 text-xs bg-secondary text-foreground rounded px-2.5 py-1">
-                        <Mail className="w-3 h-3 text-amber-500" />
-                        {contact.email}
+                      <span className="ml-auto inline-flex items-center gap-1.5 text-xs font-medium bg-primary/10 text-primary border border-primary/30 rounded-full px-3 py-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                        Primary
                       </span>
                     </div>
                   </div>
 
                   {/* Subscriptions table */}
-                  <div className="border border-border rounded-lg overflow-hidden">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="bg-muted/80">
-                          <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">SUBSCRIPTION TYPE</th>
-                          <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Channel</th>
-                          <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Type</th>
-                          <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">TargetAddress</th>
-                          <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">→ System sends to</th>
-                          <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {contact.subscriptions.map((sub, idx) =>
-                        <tr key={idx} className="border-t border-border hover:bg-secondary/30 transition-colors">
-                            <td className="py-3 px-4 font-medium text-foreground">{sub.type}</td>
-                            <td className="py-3 px-4 text-foreground">Email</td>
-                            <td className="py-3 px-4">
-                              <span className="inline-block text-xs border border-primary text-primary rounded px-2 py-0.5 font-medium">
-                                Personal
-                              </span>
-                            </td>
-                            <td className="py-3 px-4 text-muted-foreground italic">empty</td>
-                            <td className="py-3 px-4 text-foreground">→ {contact.email} (primary)</td>
-                            <td className="py-3 px-4">
-                              <span className={`inline-block text-xs rounded px-2 py-0.5 font-medium ${
-                            sub.status === "Subscribed" ?
-                            "bg-primary/10 text-primary border border-primary/30" :
-                            "bg-destructive/10 text-destructive border border-destructive/30"}`
-                            }>
-                                {sub.status === "Subscribed" ? "Opted In" : "Opted Out"}
-                              </span>
-                            </td>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Subscription topics</p>
+                    <div className="border border-border rounded-lg overflow-hidden">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="bg-muted/80">
+                            <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Topic</th>
+                            <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Channel</th>
+                            <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Delivers to</th>
+                            <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Status</th>
                           </tr>
-                        )}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {contact.subscriptions.map((sub, idx) =>
+                          <tr key={idx} className="border-t border-border hover:bg-secondary/30 transition-colors">
+                              <td className="py-3 px-4 font-medium text-foreground">{sub.type}</td>
+                              <td className="py-3 px-4 text-foreground">
+                                <span className="inline-flex items-center gap-1.5">
+                                  <Mail className="w-3.5 h-3.5 text-muted-foreground" />
+                                  Email
+                                </span>
+                              </td>
+                              <td className="py-3 px-4">
+                                <span className="inline-flex items-center gap-1.5 text-sm text-foreground">
+                                  → {contact.email}
+                                  <span className="text-[10px] font-medium bg-muted text-muted-foreground rounded px-1.5 py-0.5">primary</span>
+                                </span>
+                              </td>
+                              <td className="py-3 px-4">
+                                <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${
+                              sub.status === "Subscribed" ?
+                              "bg-primary/10 text-primary border border-primary/30" :
+                              "bg-destructive/10 text-destructive border border-destructive/30"}`}>
+                                  <span className={`w-1.5 h-1.5 rounded-full ${sub.status === "Subscribed" ? "bg-primary" : "bg-destructive"}`} />
+                                  {sub.status === "Subscribed" ? "Opted In" : "Opted Out"}
+                                </span>
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-
-                  {/* Info banner */}
-                  
-
 
 
 
