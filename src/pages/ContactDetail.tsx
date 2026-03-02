@@ -158,15 +158,16 @@ const ContactDetail = () => {
                       <table className="w-full text-sm">
                         <thead>
                           <tr className="bg-muted/80">
-                            <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Topic</th>
+                            <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">SUBSCRIPTION TYPE
+
+                            </th>
                             <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Channel</th>
                             <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">DELIVERS TO (TARGET ADRESS)</th>
                             <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Status</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {contact.subscriptions.map((sub, idx) =>
-                          <tr key={idx} className="border-t border-border hover:bg-secondary/30 transition-colors">
+                          {contact.subscriptions.map((sub, idx) => <tr key={idx} className="border-t border-border hover:bg-secondary/30 transition-colors">
                               <td className="py-3 px-4 font-medium text-foreground">{sub.type}</td>
                               <td className="py-3 px-4 text-foreground">
                                 <span className="inline-flex items-center gap-1.5">
@@ -181,8 +182,7 @@ const ContactDetail = () => {
                                 </span>
                               </td>
                               <td className="py-3 px-4">
-                                <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${
-                              sub.status === "Subscribed" ?
+                                <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${sub.status === "Subscribed" ?
                               "bg-primary/10 text-primary border border-primary/30" :
                               "bg-destructive/10 text-destructive border border-destructive/30"}`}>
                                   <span className={`w-1.5 h-1.5 rounded-full ${sub.status === "Subscribed" ? "bg-primary" : "bg-destructive"}`} />
