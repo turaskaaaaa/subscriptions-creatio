@@ -183,21 +183,54 @@ const ContactDetail = () => {
 
                 <TabsContent value="subscriptions" className="p-6 space-y-6">
                   {/* Primary email banner */}
-                  <div className="border-2 border-primary/40 bg-primary/5 rounded-lg p-5">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Primary communication email</p>
+                  <div className="border-2 border-primary/40 bg-primary/5 rounded-lg p-5 space-y-4">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Delivery overview</p>
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0">
                         <Mail className="w-5 h-5 text-primary-foreground" />
                       </div>
                       <div>
                         <p className="text-sm font-semibold text-foreground">{contact.email}</p>
-                        <p className="text-xs text-muted-foreground">All opted-in and transactional emails will be delivered to this address unless a custom delivery address is specified per subscription</p>
+                        <p className="text-xs text-muted-foreground">Primary address — used for all subscriptions unless overridden below</p>
                       </div>
                       <span className="ml-auto inline-flex items-center gap-1.5 text-xs font-medium bg-primary/10 text-primary border border-primary/30 rounded-full px-3 py-1">
                         <span className="w-1.5 h-1.5 rounded-full bg-primary" />
                         Primary
                       </span>
                     </div>
+
+                    {/* Per-subscription delivery map */}
+                    {(() => {
+                      const customSubs = contact.subscriptions.filter(s => s.deliverTo);
+                      const defaultSubs = contact.subscriptions.filter(s => !s.deliverTo);
+                      return (
+                        <div className="border-t border-primary/20 pt-3 space-y-2">
+                          {defaultSubs.length > 0 && (
+                            <div className="flex items-start gap-2 text-xs">
+                              <span className="text-muted-foreground shrink-0 mt-0.5">→ {contact.email}</span>
+                              <div className="flex flex-wrap gap-1.5">
+                                {defaultSubs.map((s, i) => (
+                                  <span key={i} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-muted text-muted-foreground border border-border font-medium">
+                                    {s.channel === "SMS" ? <Phone className="w-2.5 h-2.5" /> : <Mail className="w-2.5 h-2.5" />}
+                                    {s.type}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                          {customSubs.map((s, i) => (
+                            <div key={i} className="flex items-center gap-2 text-xs">
+                              <span className="text-primary font-medium shrink-0">→ {s.deliverTo}</span>
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/30 font-medium">
+                                {s.channel === "SMS" ? <Phone className="w-2.5 h-2.5" /> : <Mail className="w-2.5 h-2.5" />}
+                                {s.type}
+                              </span>
+                              <span className="text-[10px] text-primary bg-primary/5 border border-primary/20 rounded px-1.5 py-0.5">Custom</span>
+                            </div>
+                          ))}
+                        </div>
+                      );
+                    })()}
                   </div>
 
                   {/* Re-consent / Preference Center Actions */}
