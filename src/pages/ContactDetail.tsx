@@ -161,7 +161,7 @@ const ContactDetail = () => {
                     <table className="w-full text-sm">
                       <thead>
                         <tr className="bg-muted/80">
-                          <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Topic</th>
+                          <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">SUBSCRIPTION TYPE</th>
                           <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Channel</th>
                           <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Type</th>
                           <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">TargetAddress</th>
