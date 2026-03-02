@@ -2,11 +2,9 @@ import { useState } from "react";
 import { Folder, Filter, Calendar, Tag, Search, Plus, MoreHorizontal, RefreshCw, SlidersHorizontal, BarChart3, FileSpreadsheet, ClipboardCheck, SlidersHorizontal as SettingsIcon } from "lucide-react";
 import { emailData } from "@/data/emailData";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-
 import BulkEmailSettingsDialog from "./BulkEmailSettingsDialog";
 
 const EmailTable = () => {
-  
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   return (

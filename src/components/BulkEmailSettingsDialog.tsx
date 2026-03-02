@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { useNavigate } from "react-router-dom";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -10,7 +11,6 @@ import type { LegalBasis } from "@/data/contactsData";
 interface BulkEmailSettingsDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onNavigateToDoiEmail?: () => void;
 }
 
 const SUBSCRIPTION_TYPE_OPTIONS = [
@@ -38,7 +38,8 @@ const Toggle = ({ checked, onChange }: { checked: boolean; onChange: (val: boole
   </label>
 );
 
-const BulkEmailSettingsDialog = ({ open, onOpenChange, onNavigateToDoiEmail }: BulkEmailSettingsDialogProps) => {
+const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialogProps) => {
+  const navigate = useNavigate();
   const {
     marketingConsentDefault, setMarketingConsentDefault,
     doubleOptInEnabled, setDoubleOptInEnabled,
@@ -78,7 +79,6 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange, onNavigateToDoiEmail }: B
       <DialogContent className="max-w-3xl max-h-[95vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-lg font-semibold">Bulk email settings</DialogTitle>
-          <DialogDescription className="sr-only">Configure bulk email opt-in, tracking, and limit settings</DialogDescription>
         </DialogHeader>
 
         <Tabs defaultValue="optin" className="w-full">
@@ -190,22 +190,16 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange, onNavigateToDoiEmail }: B
 
                   {/* Confirmation email link */}
                   <div className="pt-2 border-t border-border">
-                    <a
-                      href="/settings/doi-email"
-                      onClick={(e) => {
-                        e.preventDefault();
+                    <button
+                      onClick={() => {
                         onOpenChange(false);
-                        if (onNavigateToDoiEmail) {
-                          onNavigateToDoiEmail();
-                        } else {
-                          window.location.href = "/settings/doi-email";
-                        }
+                        navigate("/settings/doi-email");
                       }}
                       className="inline-flex items-center gap-2 text-xs font-medium text-primary hover:text-primary/80 transition-colors"
                     >
                       <Mail className="w-3.5 h-3.5" />
                       Configure confirmation email →
-                    </a>
+                    </button>
                     <p className="text-[10px] text-muted-foreground mt-1">
                       Edit the subject, body, and merge tags for the double opt-in confirmation email
                     </p>
