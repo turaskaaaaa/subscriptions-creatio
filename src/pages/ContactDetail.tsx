@@ -272,7 +272,7 @@ const ContactDetail = () => {
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {/* Subscription Status */}
                         <div className="border border-border rounded-lg p-4 space-y-2">
-                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Active Subscriptions</p>
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">ACTIVE EMAIL SUBSCRIPTIONS</p>
                           <div className="flex items-end gap-2">
                             <span className="text-3xl font-bold text-foreground">{activeSubs}</span>
                             <span className="text-sm text-muted-foreground mb-1">of {totalSubs}</span>
