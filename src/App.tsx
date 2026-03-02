@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Contacts from "./pages/Contacts";
 import ContactDetail from "./pages/ContactDetail";
+import DoubleOptInEmail from "./pages/DoubleOptInEmail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/contacts" element={<Contacts />} />
             <Route path="/contacts/:id" element={<ContactDetail />} />
+            <Route path="/settings/doi-email" element={<DoubleOptInEmail />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
