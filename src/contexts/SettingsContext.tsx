@@ -2,8 +2,11 @@ import { createContext, useContext, useState, ReactNode } from "react";
 import type { LegalBasis } from "@/data/contactsData";
 
 interface SettingsContextType {
+  // Marketing consent
   marketingConsentDefault: boolean;
   setMarketingConsentDefault: (value: boolean) => void;
+
+  // Double opt-in
   doubleOptInEnabled: boolean;
   setDoubleOptInEnabled: (value: boolean) => void;
   doubleOptInExpiryHours: number;
@@ -12,16 +15,20 @@ interface SettingsContextType {
   setDoubleOptInMaxResends: (value: number) => void;
   doubleOptInSubscriptionTypes: string[];
   setDoubleOptInSubscriptionTypes: (value: string[]) => void;
-  doubleOptInEmailSubject: string;
-  setDoubleOptInEmailSubject: (value: string) => void;
-  doubleOptInEmailBody: string;
-  setDoubleOptInEmailBody: (value: string) => void;
+
+  // Unsubscribe
   unsubscribeLinkEnabled: boolean;
   setUnsubscribeLinkEnabled: (value: boolean) => void;
+
+  // Re-subscription
   reSubscriptionEnabled: boolean;
   setReSubscriptionEnabled: (value: boolean) => void;
+
+  // Legal basis
   defaultLegalBasis: LegalBasis;
   setDefaultLegalBasis: (value: LegalBasis) => void;
+
+  // Suppression rules
   softBounceThreshold: number;
   setSoftBounceThreshold: (value: number) => void;
   spamComplaintThreshold: number;
@@ -31,8 +38,6 @@ interface SettingsContextType {
   autoSuppressSpamComplaint: boolean;
   setAutoSuppressSpamComplaint: (value: boolean) => void;
 }
-
-const DEFAULT_EMAIL_BODY = "Hi {{contact_name}},\n\nThank you for subscribing to {{subscription_type}}.\n\nPlease confirm your subscription by clicking the link below:\n\n{{confirmation_link}}\n\nThis link will expire in 48 hours.\n\nIf you did not request this, you can safely ignore this email.";
 
 const SettingsContext = createContext<SettingsContextType>({
   marketingConsentDefault: true,
@@ -45,10 +50,6 @@ const SettingsContext = createContext<SettingsContextType>({
   setDoubleOptInMaxResends: () => {},
   doubleOptInSubscriptionTypes: ["Newsletter", "Promotions", "Information material"],
   setDoubleOptInSubscriptionTypes: () => {},
-  doubleOptInEmailSubject: "Please confirm your subscription",
-  setDoubleOptInEmailSubject: () => {},
-  doubleOptInEmailBody: DEFAULT_EMAIL_BODY,
-  setDoubleOptInEmailBody: () => {},
   unsubscribeLinkEnabled: true,
   setUnsubscribeLinkEnabled: () => {},
   reSubscriptionEnabled: false,
@@ -75,8 +76,6 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
   const [doubleOptInSubscriptionTypes, setDoubleOptInSubscriptionTypes] = useState([
     "Newsletter", "Promotions", "Information material"
   ]);
-  const [doubleOptInEmailSubject, setDoubleOptInEmailSubject] = useState("Please confirm your subscription");
-  const [doubleOptInEmailBody, setDoubleOptInEmailBody] = useState(DEFAULT_EMAIL_BODY);
   const [unsubscribeLinkEnabled, setUnsubscribeLinkEnabled] = useState(true);
   const [reSubscriptionEnabled, setReSubscriptionEnabled] = useState(false);
   const [defaultLegalBasis, setDefaultLegalBasis] = useState<LegalBasis>("Explicit consent");
@@ -92,8 +91,6 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
       doubleOptInExpiryHours, setDoubleOptInExpiryHours,
       doubleOptInMaxResends, setDoubleOptInMaxResends,
       doubleOptInSubscriptionTypes, setDoubleOptInSubscriptionTypes,
-      doubleOptInEmailSubject, setDoubleOptInEmailSubject,
-      doubleOptInEmailBody, setDoubleOptInEmailBody,
       unsubscribeLinkEnabled, setUnsubscribeLinkEnabled,
       reSubscriptionEnabled, setReSubscriptionEnabled,
       defaultLegalBasis, setDefaultLegalBasis,

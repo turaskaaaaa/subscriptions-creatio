@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -39,15 +38,12 @@ const Toggle = ({ checked, onChange }: { checked: boolean; onChange: (val: boole
 );
 
 const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialogProps) => {
-  const navigate = useNavigate();
   const {
     marketingConsentDefault, setMarketingConsentDefault,
     doubleOptInEnabled, setDoubleOptInEnabled,
     doubleOptInExpiryHours, setDoubleOptInExpiryHours,
     doubleOptInMaxResends, setDoubleOptInMaxResends,
     doubleOptInSubscriptionTypes, setDoubleOptInSubscriptionTypes,
-    doubleOptInEmailSubject, setDoubleOptInEmailSubject,
-    doubleOptInEmailBody, setDoubleOptInEmailBody,
     unsubscribeLinkEnabled, setUnsubscribeLinkEnabled,
     reSubscriptionEnabled, setReSubscriptionEnabled,
     defaultLegalBasis, setDefaultLegalBasis,
@@ -185,23 +181,6 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                     </div>
                     <p className="text-[10px] text-muted-foreground">
                       Only selected subscription types will require double opt-in confirmation
-                    </p>
-                  </div>
-
-                  {/* Confirmation email link */}
-                  <div className="pt-2 border-t border-border">
-                    <button
-                      onClick={() => {
-                        onOpenChange(false);
-                        navigate("/settings/doi-email");
-                      }}
-                      className="inline-flex items-center gap-2 text-xs font-medium text-primary hover:text-primary/80 transition-colors"
-                    >
-                      <Mail className="w-3.5 h-3.5" />
-                      Configure confirmation email →
-                    </button>
-                    <p className="text-[10px] text-muted-foreground mt-1">
-                      Edit the subject, body, and merge tags for the double opt-in confirmation email
                     </p>
                   </div>
                 </div>
