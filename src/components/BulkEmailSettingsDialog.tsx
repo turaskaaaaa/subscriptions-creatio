@@ -124,6 +124,16 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
               </div>
             </div>
 
+            <div className="flex items-center justify-between p-4 border border-border rounded-lg">
+              <div>
+                <p className="text-sm font-medium text-foreground">Marketing consent default</p>
+                <p className="text-xs text-muted-foreground">
+                  New contacts will have the "Allowed to receive marketing materials" checkbox active by default
+                </p>
+              </div>
+              <Toggle checked={marketingConsentDefault} onChange={setMarketingConsentDefault} />
+            </div>
+
             {/* --- Double Opt-In Section --- */}
             <div className="border border-border rounded-lg overflow-hidden">
               <div className="flex items-center justify-between p-4">
@@ -224,15 +234,6 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
               <Toggle checked={reSubscriptionEnabled} onChange={setReSubscriptionEnabled} />
             </div>
 
-            <div className="flex items-center justify-between p-4 border border-border rounded-lg">
-              <div>
-                <p className="text-sm font-medium text-foreground">Marketing consent default</p>
-                <p className="text-xs text-muted-foreground">
-                  New contacts will have the "Allowed to receive marketing materials" checkbox active by default
-                </p>
-              </div>
-              <Toggle checked={marketingConsentDefault} onChange={setMarketingConsentDefault} />
-            </div>
 
             <Separator />
 
