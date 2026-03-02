@@ -80,6 +80,7 @@ const EmailTable = () => {
               <th className="text-left py-2 px-2 font-medium text-muted-foreground min-w-[400px]">Name</th>
               <th className="text-left py-2 px-2 font-medium text-muted-foreground">Status</th>
               <th className="text-left py-2 px-2 font-medium text-muted-foreground">Sending method</th>
+              <th className="text-left py-2 px-2 font-medium text-muted-foreground">Subscription type</th>
               <th className="text-right py-2 px-2 font-medium text-muted-foreground">Delivered</th>
               <th className="text-right py-2 px-2 font-medium text-muted-foreground">Open rate, %</th>
               <th className="text-right py-2 px-2 font-medium text-muted-foreground">Click rate, %</th>
@@ -101,6 +102,11 @@ const EmailTable = () => {
                 </td>
                 <td className="py-2 px-2 text-foreground">{row.status}</td>
                 <td className="py-2 px-2 text-foreground">{row.sendingMethod}</td>
+                <td className="py-2 px-2">
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20 font-medium">
+                    {row.subscriptionType}
+                  </span>
+                </td>
                 <td className="py-2 px-2 text-right text-foreground">{row.delivered.toLocaleString()}</td>
                 <td className="py-2 px-2 text-right text-foreground">{row.openRate.toFixed(2)}</td>
                 <td className="py-2 px-2 text-right text-foreground">{row.clickRate.toFixed(2)}</td>
