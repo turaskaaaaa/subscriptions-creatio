@@ -182,127 +182,54 @@ const ContactDetail = () => {
                 </TabsList>
 
                 <TabsContent value="subscriptions" className="p-6 space-y-6">
-                  {/* Delivery Overview + Compliance Summary side by side */}
-                  <div className="grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-4 items-start">
-                    {/* Primary email banner */}
-                    <div className="border-2 border-primary/40 bg-primary/5 rounded-lg p-5 space-y-4">
-                      <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Delivery overview</p>
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0">
-                          <Mail className="w-5 h-5 text-primary-foreground" />
-                        </div>
-                        <div>
-                          <p className="text-sm font-semibold text-foreground">{contact.email}</p>
-                          <p className="text-xs text-muted-foreground">Primary address — used for all subscriptions unless overridden below</p>
-                        </div>
-                        <span className="ml-auto inline-flex items-center gap-1.5 text-xs font-medium bg-primary/10 text-primary border border-primary/30 rounded-full px-3 py-1">
-                          <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                          Primary
-                        </span>
+                  {/* Primary email banner */}
+                  <div className="border-2 border-primary/40 bg-primary/5 rounded-lg p-5 space-y-4">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Delivery overview</p>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0">
+                        <Mail className="w-5 h-5 text-primary-foreground" />
                       </div>
-
-                      {/* Per-subscription delivery map */}
-                      {(() => {
-                        const customSubs = contact.subscriptions.filter((s) => s.deliverTo);
-                        const defaultSubs = contact.subscriptions.filter((s) => !s.deliverTo);
-                        return (
-                          <div className="border-t border-primary/20 pt-3 space-y-2">
-                            {defaultSubs.length > 0 &&
-                            <div className="flex items-start gap-2 text-xs">
-                                <span className="text-muted-foreground shrink-0 mt-0.5">→ {contact.email}</span>
-                                <div className="flex flex-wrap gap-1.5">
-                                  {defaultSubs.map((s, i) =>
-                                <span key={i} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-muted text-muted-foreground border border-border font-medium">
-                                      {s.channel === "SMS" ? <Phone className="w-2.5 h-2.5" /> : <Mail className="w-2.5 h-2.5" />}
-                                      {s.type}
-                                    </span>
-                                )}
-                                </div>
-                              </div>
-                            }
-                            {customSubs.map((s, i) =>
-                            <div key={i} className="flex items-center gap-2 text-xs">
-                                <span className="text-primary font-medium shrink-0">→ {s.deliverTo}</span>
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/30 font-medium">
-                                  {s.channel === "SMS" ? <Phone className="w-2.5 h-2.5" /> : <Mail className="w-2.5 h-2.5" />}
-                                  {s.type}
-                                </span>
-                                <span className="text-[10px] text-primary bg-primary/5 border border-primary/20 rounded px-1.5 py-0.5">
-</span>
-                              </div>)}
-                          </div>);
-                      })()}
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">{contact.email}</p>
+                        <p className="text-xs text-muted-foreground">Primary address — used for all subscriptions unless overridden below</p>
+                      </div>
+                      <span className="ml-auto inline-flex items-center gap-1.5 text-xs font-medium bg-primary/10 text-primary border border-primary/30 rounded-full px-3 py-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                        Primary
+                      </span>
                     </div>
 
-                    {/* Compliance Summary - stacked vertically next to delivery overview */}
+                    {/* Per-subscription delivery map */}
                     {(() => {
-                      const totalSubs = contact.subscriptions.length;
-                      const activeSubs = contact.subscriptions.filter((s) => s.status === "Subscribed").length;
-                      const activeSuppCount = contact.suppressions.length;
-                      const lastConsentEvent = contact.consentTimeline.length > 0 ?
-                      contact.consentTimeline[contact.consentTimeline.length - 1] :
-                      null;
-
+                      const customSubs = contact.subscriptions.filter((s) => s.deliverTo);
+                      const defaultSubs = contact.subscriptions.filter((s) => !s.deliverTo);
                       return (
-                        <div className="flex flex-col gap-3">
-                          {/* Subscription Status */}
-                          <div className="border border-border rounded-lg p-4 space-y-2">
-                            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">ACTIVE SUBSCRIPTIONS</p>
-                            <div className="flex items-end gap-2">
-                              <span className="text-3xl font-bold text-foreground">{activeSubs}</span>
-                              <span className="text-sm text-muted-foreground mb-1">of {totalSubs}</span>
+                        <div className="border-t border-primary/20 pt-3 space-y-2">
+                          {defaultSubs.length > 0 &&
+                          <div className="flex items-start gap-2 text-xs">
+                              <span className="text-muted-foreground shrink-0 mt-0.5">→ {contact.email}</span>
+                              <div className="flex flex-wrap gap-1.5">
+                                {defaultSubs.map((s, i) =>
+                              <span key={i} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-muted text-muted-foreground border border-border font-medium">
+                                    {s.channel === "SMS" ? <Phone className="w-2.5 h-2.5" /> : <Mail className="w-2.5 h-2.5" />}
+                                    {s.type}
+                                  </span>
+                              )}
+                              </div>
                             </div>
-                            <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
-                              <div
-                                className="h-full bg-primary rounded-full transition-all"
-                                style={{ width: totalSubs > 0 ? `${activeSubs / totalSubs * 100}%` : '0%' }} />
-                            </div>
-                            <p className="text-xs text-muted-foreground">{totalSubs - activeSubs} opted out</p>
-                          </div>
-
-                          {/* Active Suppressions */}
-                          <div className={`border rounded-lg p-4 space-y-2 ${activeSuppCount > 0 ? 'border-destructive/40 bg-destructive/5' : 'border-border'}`}>
-                            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Suppressions</p>
-                            <div className="flex items-end gap-2">
-                              <span className={`text-3xl font-bold ${activeSuppCount > 0 ? 'text-destructive' : 'text-foreground'}`}>{activeSuppCount}</span>
-                              {activeSuppCount > 0 &&
-                              <span className="inline-flex items-center gap-1 text-xs text-destructive mb-1">
-                                  <Ban className="w-3 h-3" /> Blocked
-                                </span>
-                              }
-                            </div>
-                            {activeSuppCount > 0 ?
-                            <p className="text-xs text-destructive/80">
-                                {contact.suppressions.filter((s) => s.reason === "Hard bounce").length} hard bounce · {contact.suppressions.filter((s) => s.reason === "Spam complaint").length} spam
-                              </p> :
-                            <p className="text-xs text-muted-foreground">No blocked addresses</p>
-                            }
-                          </div>
-
-                          {/* Last Consent Change */}
-                          <div className="border border-border rounded-lg p-4 space-y-2">
-                            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Last Consent</p>
-                            {lastConsentEvent ?
-                            <>
-                                <div className="flex items-center gap-2">
-                                  <Clock className="w-4 h-4 text-muted-foreground" />
-                                  <span className="text-sm font-semibold text-foreground">{lastConsentEvent.date}</span>
-                                </div>
-                                <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${
-                              lastConsentEvent.action === "Opted In" || lastConsentEvent.action === "Re-subscribed" || lastConsentEvent.action === "Consent given" ?
-                              "bg-primary/10 text-primary border border-primary/30" :
-                              "bg-destructive/10 text-destructive border border-destructive/30"}`}>
-                                  <span className={`w-1.5 h-1.5 rounded-full ${
-                                lastConsentEvent.action === "Opted In" || lastConsentEvent.action === "Re-subscribed" || lastConsentEvent.action === "Consent given" ?
-                                "bg-primary" : "bg-destructive"}`} />
-                                  {lastConsentEvent.action}
-                                </span>
-                                <p className="text-xs text-muted-foreground">{lastConsentEvent.subscriptionType}</p>
-                              </> :
-                            <p className="text-xs text-muted-foreground">No events</p>
-                            }
-                          </div>
+                          }
+                          {customSubs.map((s, i) =>
+                          <div key={i} className="flex items-center gap-2 text-xs">
+                              <span className="text-primary font-medium shrink-0">→ {s.deliverTo}</span>
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/30 font-medium">
+                                {s.channel === "SMS" ? <Phone className="w-2.5 h-2.5" /> : <Mail className="w-2.5 h-2.5" />}
+                                {s.type}
+                              </span>
+                              <span className="text-[10px] text-primary bg-primary/5 border border-primary/20 rounded px-1.5 py-0.5">
+</span>
+                            </div>)}
                         </div>);
+
                     })()}
                   </div>
 
@@ -315,6 +242,7 @@ const ContactDetail = () => {
                         });
                       }}
                       className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg border border-primary/30 bg-primary/5 text-primary hover:bg-primary/10 transition-colors">
+                      
                       <Send className="w-4 h-4" />
                       Send Re-consent Email
                     </button>
@@ -325,10 +253,91 @@ const ContactDetail = () => {
                         });
                       }}
                       className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors">
+                      
                       <ExternalLink className="w-4 h-4" />
                       Copy Preference Center Link
                     </button>
                   </div>
+
+                  {/* Compliance Summary Card */}
+                  {(() => {
+                    const totalSubs = contact.subscriptions.length;
+                    const activeSubs = contact.subscriptions.filter((s) => s.status === "Subscribed").length;
+                    const activeSuppCount = contact.suppressions.length;
+                    const lastConsentEvent = contact.consentTimeline.length > 0 ?
+                    contact.consentTimeline[contact.consentTimeline.length - 1] :
+                    null;
+
+                    return (
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {/* Subscription Status */}
+                        <div className="border border-border rounded-lg p-4 space-y-2">
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">ACTIVE EMAIL SUBSCRIPTIONS</p>
+                          <div className="flex items-end gap-2">
+                            <span className="text-3xl font-bold text-foreground">{activeSubs}</span>
+                            <span className="text-sm text-muted-foreground mb-1">of {totalSubs}</span>
+                          </div>
+                          <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
+                            <div
+                              className="h-full bg-primary rounded-full transition-all"
+                              style={{ width: totalSubs > 0 ? `${activeSubs / totalSubs * 100}%` : '0%' }} />
+                            
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            {totalSubs - activeSubs} opted out
+                          </p>
+                        </div>
+
+                        {/* Active Suppressions */}
+                        <div className={`border rounded-lg p-4 space-y-2 ${activeSuppCount > 0 ? 'border-destructive/40 bg-destructive/5' : 'border-border'}`}>
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Active Suppressions</p>
+                          <div className="flex items-end gap-2">
+                            <span className={`text-3xl font-bold ${activeSuppCount > 0 ? 'text-destructive' : 'text-foreground'}`}>{activeSuppCount}</span>
+                            {activeSuppCount > 0 &&
+                            <span className="inline-flex items-center gap-1 text-xs text-destructive mb-1">
+                                <Ban className="w-3 h-3" /> Delivery affected
+                              </span>
+                            }
+                          </div>
+                          {activeSuppCount > 0 ?
+                          <p className="text-xs text-destructive/80">
+                              {contact.suppressions.filter((s) => s.reason === "Hard bounce").length} hard bounce · {contact.suppressions.filter((s) => s.reason === "Spam complaint").length} spam complaint
+                            </p> :
+
+                          <p className="text-xs text-muted-foreground">No blocked addresses</p>
+                          }
+                        </div>
+
+                        {/* Last Consent Change */}
+                        <div className="border border-border rounded-lg p-4 space-y-2">
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Last Consent Change</p>
+                          {lastConsentEvent ?
+                          <>
+                              <div className="flex items-center gap-2">
+                                <Clock className="w-4 h-4 text-muted-foreground" />
+                                <span className="text-sm font-semibold text-foreground">{lastConsentEvent.date}</span>
+                              </div>
+                              <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${
+                            lastConsentEvent.action === "Opted In" || lastConsentEvent.action === "Re-subscribed" || lastConsentEvent.action === "Consent given" ?
+                            "bg-primary/10 text-primary border border-primary/30" :
+                            "bg-destructive/10 text-destructive border border-destructive/30"}`
+                            }>
+                                <span className={`w-1.5 h-1.5 rounded-full ${
+                              lastConsentEvent.action === "Opted In" || lastConsentEvent.action === "Re-subscribed" || lastConsentEvent.action === "Consent given" ?
+                              "bg-primary" : "bg-destructive"}`
+                              } />
+                                {lastConsentEvent.action} — {lastConsentEvent.subscriptionType}
+                              </span>
+                              <p className="text-xs text-muted-foreground">via {lastConsentEvent.source}</p>
+                            </> :
+
+                          <p className="text-xs text-muted-foreground">No consent events recorded</p>
+                          }
+                        </div>
+                      </div>);
+
+                  })()}
+
 
 
                   {/* Subscriptions table */}
