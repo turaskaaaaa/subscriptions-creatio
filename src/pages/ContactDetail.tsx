@@ -133,6 +133,24 @@ const ContactDetail = () => {
                 </TabsList>
 
                 <TabsContent value="subscriptions" className="p-6 space-y-6">
+                  {/* Primary email banner */}
+                  <div className="border-2 border-primary/40 bg-primary/5 rounded-lg p-5">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Primary communication email</p>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0">
+                        <Mail className="w-5 h-5 text-primary-foreground" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">{contact.email}</p>
+                        <p className="text-xs text-muted-foreground">All opted-in and transactional emails will be delivered to this address</p>
+                      </div>
+                      <span className="ml-auto inline-flex items-center gap-1.5 text-xs font-medium bg-primary/10 text-primary border border-primary/30 rounded-full px-3 py-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                        Primary
+                      </span>
+                    </div>
+                  </div>
+
                   {/* Compliance Summary Card */}
                   {(() => {
                     const totalSubs = contact.subscriptions.length;
@@ -212,23 +230,7 @@ const ContactDetail = () => {
                     );
                   })()}
 
-                  {/* Primary email banner */}
-                  <div className="border-2 border-primary/40 bg-primary/5 rounded-lg p-5">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Primary communication email</p>
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0">
-                        <Mail className="w-5 h-5 text-primary-foreground" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-semibold text-foreground">{contact.email}</p>
-                        <p className="text-xs text-muted-foreground">All opted-in and transactional emails will be delivered to this address</p>
-                      </div>
-                      <span className="ml-auto inline-flex items-center gap-1.5 text-xs font-medium bg-primary/10 text-primary border border-primary/30 rounded-full px-3 py-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                        Primary
-                      </span>
-                    </div>
-                  </div>
+
 
                   {/* Subscriptions table */}
                   <div>
