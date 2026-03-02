@@ -21,8 +21,8 @@ const ContactDetail = () => {
             <p className="text-muted-foreground">Contact not found</p>
           </div>
         </div>
-      </div>
-    );
+      </div>);
+
   }
 
   const isSubscribed = contact.subscriptions.some((s) => s.status === "Subscribed");
@@ -121,15 +121,15 @@ const ContactDetail = () => {
             <div className="flex-1 overflow-y-auto">
               <Tabs defaultValue="subscriptions" className="w-full">
                 <TabsList className="w-full justify-start bg-transparent border-b border-border rounded-none h-auto p-0 px-6 gap-0">
-                  {["CONTACT INFO", "TIMELINE", "SUBSCRIPTIONS", "SALES", "MARKETING", "SERVICE"].map((tab) => (
-                    <TabsTrigger
-                      key={tab}
-                      value={tab.toLowerCase().replace(" ", "-")}
-                      className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3 text-xs font-semibold uppercase tracking-wide"
-                    >
+                  {["CONTACT INFO", "TIMELINE", "SUBSCRIPTIONS", "SALES", "MARKETING", "SERVICE"].map((tab) =>
+                  <TabsTrigger
+                    key={tab}
+                    value={tab.toLowerCase().replace(" ", "-")}
+                    className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3 text-xs font-semibold uppercase tracking-wide">
+                    
                       {tab}
                     </TabsTrigger>
-                  ))}
+                  )}
                 </TabsList>
 
                 <TabsContent value="subscriptions" className="p-6 space-y-6">
@@ -138,7 +138,7 @@ const ContactDetail = () => {
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center shrink-0">
                         <span className="text-primary-foreground font-semibold text-sm">
-                          {contact.fullName.split(" ").map(n => n[0]).join("")}
+                          {contact.fullName.split(" ").map((n) => n[0]).join("")}
                         </span>
                       </div>
                       <div>
@@ -170,8 +170,8 @@ const ContactDetail = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {contact.subscriptions.map((sub, idx) => (
-                          <tr key={idx} className="border-t border-border hover:bg-secondary/30 transition-colors">
+                        {contact.subscriptions.map((sub, idx) =>
+                        <tr key={idx} className="border-t border-border hover:bg-secondary/30 transition-colors">
                             <td className="py-3 px-4 font-medium text-foreground">{sub.type}</td>
                             <td className="py-3 px-4 text-foreground">Email</td>
                             <td className="py-3 px-4">
@@ -183,28 +183,28 @@ const ContactDetail = () => {
                             <td className="py-3 px-4 text-foreground">→ {contact.email} (primary)</td>
                             <td className="py-3 px-4">
                               <span className={`inline-block text-xs rounded px-2 py-0.5 font-medium ${
-                                sub.status === "Subscribed"
-                                  ? "bg-primary/10 text-primary border border-primary/30"
-                                  : "bg-destructive/10 text-destructive border border-destructive/30"
-                              }`}>
+                            sub.status === "Subscribed" ?
+                            "bg-primary/10 text-primary border border-primary/30" :
+                            "bg-destructive/10 text-destructive border border-destructive/30"}`
+                            }>
                                 {sub.status === "Subscribed" ? "Opted In" : "Opted Out"}
                               </span>
                             </td>
                           </tr>
-                        ))}
+                        )}
                       </tbody>
                     </table>
                   </div>
 
                   {/* Info banner */}
-                  <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 flex items-start gap-3">
-                    <div className="w-5 h-5 rounded bg-primary flex items-center justify-center shrink-0 mt-0.5">
-                      <span className="text-primary-foreground text-xs font-bold">✓</span>
-                    </div>
-                    <p className="text-sm text-foreground">
-                      <span className="font-semibold">Zero effort.</span> TargetAddress is empty → system uses Contact.Email. This is exactly how the system works today. No changes needed for existing contacts.
-                    </p>
-                  </div>
+                  
+
+
+
+
+
+
+                  
                 </TabsContent>
 
                 <TabsContent value="contact-info" className="p-6">
@@ -227,8 +227,8 @@ const ContactDetail = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 export default ContactDetail;
