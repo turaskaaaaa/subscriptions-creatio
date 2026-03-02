@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
+import { useSettings } from "@/contexts/SettingsContext";
 
 interface BulkEmailSettingsDialogProps {
   open: boolean;
@@ -9,6 +10,7 @@ interface BulkEmailSettingsDialogProps {
 }
 
 const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialogProps) => {
+  const { marketingConsentDefault, setMarketingConsentDefault } = useSettings();
   const [domains, setDomains] = useState(
     "www.creatio.com,creatio.com,www.marketplace.creatio.com,marketplace.creatio.com,www.academy.creatio.com,academy.creatio.com,www.community.creatio.com,community.creatio.com"
   );
@@ -185,6 +187,24 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input type="checkbox" className="sr-only peer" />
+                  <div className="w-9 h-5 bg-muted-foreground/30 peer-checked:bg-primary rounded-full peer-focus:ring-2 peer-focus:ring-ring transition-colors after:content-[''] after:absolute after:top-0.5 after:left-[2px] peer-checked:after:translate-x-full after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
+                </label>
+            </div>
+
+              <div className="flex items-center justify-between p-4 border border-border rounded-md">
+                <div>
+                  <p className="text-sm font-medium text-foreground">Marketing consent default</p>
+                  <p className="text-xs text-muted-foreground">
+                    New contacts will have the "Allowed to receive marketing materials" checkbox active by default
+                  </p>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    className="sr-only peer"
+                    checked={marketingConsentDefault}
+                    onChange={(e) => setMarketingConsentDefault(e.target.checked)}
+                  />
                   <div className="w-9 h-5 bg-muted-foreground/30 peer-checked:bg-primary rounded-full peer-focus:ring-2 peer-focus:ring-ring transition-colors after:content-[''] after:absolute after:top-0.5 after:left-[2px] peer-checked:after:translate-x-full after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
                 </label>
               </div>
