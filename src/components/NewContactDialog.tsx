@@ -131,27 +131,16 @@ const NewContactDialog = ({ open, onOpenChange }: NewContactDialogProps) => {
           </div>
 
           {/* Marketing consent checkbox */}
-          <div className="space-y-2 pt-1">
-            <div className="flex items-start gap-3">
-              <Checkbox
-                id="marketing-consent"
-                checked={marketingConsent}
-                onCheckedChange={(checked) => setMarketingConsent(checked === true)}
-                className="mt-0.5"
-              />
-              <Label htmlFor="marketing-consent" className="text-sm leading-snug cursor-pointer">
-                Subscribe to all marketing materials
-              </Label>
-            </div>
-            {marketingConsent && (
-              <div className="ml-7 flex flex-wrap gap-1.5">
-                {["Information material", "Newsletter", "Promotions", "Account alerts", "Appointment reminders", "Security alerts"].map((type) => (
-                  <span key={type} className="inline-flex items-center rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
-                    {type}
-                  </span>
-                ))}
-              </div>
-            )}
+          <div className="flex items-start gap-3 pt-1">
+            <Checkbox
+              id="marketing-consent"
+              checked={marketingConsent}
+              onCheckedChange={(checked) => setMarketingConsent(checked === true)}
+              className="mt-0.5"
+            />
+            <Label htmlFor="marketing-consent" className="text-sm leading-snug cursor-pointer">
+              Allowed to receive marketing materials
+            </Label>
           </div>
         </div>
 

@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { contactsData } from "@/data/contactsData";
 import TopBar from "@/components/TopBar";
 import AppSidebar from "@/components/AppSidebar";
-import { ArrowLeft, ArrowRight, Tag, Lock, MessageSquare, Paperclip, Plus, RefreshCw, MoreVertical, Search, ChevronUp, User, Mail, Phone, X, ShieldAlert, Ban, Clock, Send, ExternalLink, Scale, CheckCircle2, AlertCircle, Globe, Monitor } from "lucide-react";
+import { ArrowLeft, Tag, Lock, MessageSquare, Paperclip, Plus, RefreshCw, MoreVertical, Search, ChevronUp, User, Mail, Phone, X, ShieldAlert, Ban, Clock, Send, ExternalLink, Scale, CheckCircle2, AlertCircle, Globe, Monitor } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
@@ -139,68 +139,46 @@ const ContactDetail = () => {
                   {(() => {
                     // Group subscriptions by delivery address
                     const emailSubs = contact.subscriptions.filter((s) => s.channel === "Email");
-                    const deliveryMap = new Map<string, { types: string[]; statuses: string[] }>();
+                    const deliveryMap = new Map<string, string[]>();
                     emailSubs.forEach((sub) => {
                       const addr = sub.deliverTo || contact.email;
-                      if (!deliveryMap.has(addr)) deliveryMap.set(addr, { types: [], statuses: [] });
-                      deliveryMap.get(addr)!.types.push(sub.type);
-                      deliveryMap.get(addr)!.statuses.push(sub.status);
+                      if (!deliveryMap.has(addr)) deliveryMap.set(addr, []);
+                      deliveryMap.get(addr)!.push(sub.type);
                     });
 
                     return (
-                      <div className="border-2 border-primary/40 bg-primary/5 rounded-lg overflow-hidden">
-                        <div className="px-5 py-3 bg-primary/10 border-b border-primary/20">
-                          <p className="text-xs font-semibold uppercase tracking-wider text-primary">
-                            Email delivery routing
-                          </p>
-                          <p className="text-[11px] text-muted-foreground mt-0.5">
-                            Shows which email address receives each subscription type
-                          </p>
-                        </div>
-                        <div className="p-5 space-y-0 divide-y divide-primary/15">
-                          {Array.from(deliveryMap.entries()).map(([addr, { types, statuses }]) => {
-                            const isPrimary = addr === contact.email;
-                            return (
-                              <div key={addr} className="py-4 first:pt-0 last:pb-0">
-                                <div className="flex items-center gap-3 mb-2.5">
-                                  <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${isPrimary ? "bg-primary" : "bg-accent"}`}>
-                                    <Mail className={`w-4 h-4 ${isPrimary ? "text-primary-foreground" : "text-accent-foreground"}`} />
-                                  </div>
-                                  <div className="flex items-center gap-2 min-w-0">
-                                    <p className="text-sm font-bold text-foreground truncate">{addr}</p>
-                                    {isPrimary && (
-                                      <span className="inline-flex items-center gap-1 text-[10px] font-semibold bg-primary text-primary-foreground rounded-full px-2.5 py-0.5 shrink-0">
-                                        Primary
-                                      </span>
-                                    )}
-                                    {!isPrimary && (
-                                      <span className="inline-flex items-center gap-1 text-[10px] font-semibold bg-accent text-accent-foreground rounded-full px-2.5 py-0.5 shrink-0">
-                                        Secondary
-                                      </span>
-                                    )}
-                                  </div>
+                      <div className="border-2 border-primary/40 bg-primary/5 rounded-lg p-5 space-y-4">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Email delivery routing</p>
+                        {Array.from(deliveryMap.entries()).map(([addr, types], i) => {
+                          const isPrimary = addr === contact.email;
+                          return (
+                            <div key={addr} className={`flex items-start gap-3 ${i > 0 ? "pt-3 border-t border-primary/20" : ""}`}>
+                              <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${isPrimary ? "bg-primary" : "bg-muted"}`}>
+                                <Mail className={`w-5 h-5 ${isPrimary ? "text-primary-foreground" : "text-muted-foreground"}`} />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2">
+                                  <p className="text-sm font-semibold text-foreground truncate">{addr}</p>
+                                  {isPrimary &&
+                                  <span className="inline-flex items-center gap-1.5 text-[10px] font-medium bg-primary/10 text-primary border border-primary/30 rounded-full px-2 py-0.5 shrink-0">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                                      Primary
+                                    </span>
+                                  }
                                 </div>
-                                <div className="ml-12 space-y-1">
-                                  {types.map((type, idx) => (
-                                    <div key={type} className="flex items-center gap-2 text-xs">
-                                      <ArrowRight className="w-3 h-3 text-primary shrink-0" />
-                                      <span className="font-medium text-foreground">{type}</span>
-                                      <span className={`ml-auto text-[10px] font-semibold px-2 py-0.5 rounded-full ${
-                                        statuses[idx] === "Subscribed" ? "bg-primary/10 text-primary" :
-                                        statuses[idx] === "Pending" ? "bg-yellow-500/10 text-yellow-600" :
-                                        "bg-muted text-muted-foreground"
-                                      }`}>
-                                        {statuses[idx]}
-                                      </span>
-                                    </div>
-                                  ))}
+                                <div className="flex flex-wrap gap-1.5 mt-1.5">
+                                  {types.map((type) =>
+                                  <span key={type} className="text-[11px] px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20 font-medium">
+                                      {type}
+                                    </span>
+                                  )}
                                 </div>
                               </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    );
+                            </div>);
+
+                        })}
+                      </div>);
+
                   })()}
 
                   {/* Re-consent / Preference Center Actions */}

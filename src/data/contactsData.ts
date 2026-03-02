@@ -72,11 +72,7 @@ export const contactsData: Contact[] = [
   ], suppressions: [], consentTimeline: [{ date: "2/25/2026 14:00", action: "Double opt-in sent", subscriptionType: "Newsletter", channel: "Email", source: "Preference center", modifiedBy: "System" }, { date: "2/1/2026 13:05", action: "Double opt-in confirmed", subscriptionType: "Promotions", channel: "SMS", source: "SMS code verification", modifiedBy: "Contact" }, { date: "2/1/2026 13:00", action: "Double opt-in sent", subscriptionType: "Promotions", channel: "SMS", source: "Landing page form", modifiedBy: "System" }, { date: "1/10/2026 10:30", action: "Consent given", subscriptionType: "Newsletter", channel: "Email", source: "Lead capture form", modifiedBy: "System" }] },
   { id: 13, fullName: "Aaron Hibbard", type: "Customer", account: "Norgrum FCU", mobilePhone: "+1 (503) 555-0165", email: "aaronh@norgrumfcu.org", country: "USA", jobTitle: "Account Executive", birthDate: "1/28/1987", subscriptions: [
     { type: "Information material", channel: "Email", status: "Subscribed", legalBasis: "Contract necessity" },
-    { type: "Newsletter", channel: "Email", status: "Subscribed", legalBasis: "Legitimate interest" },
-    { type: "Promotions", channel: "Email", status: "Subscribed", legalBasis: "Explicit consent" },
-    { type: "Account alerts", channel: "Email", status: "Subscribed", legalBasis: "Contract necessity" },
-    { type: "Appointment reminders", channel: "Email", status: "Subscribed", legalBasis: "Explicit consent" },
-    { type: "Security alerts", channel: "Email", status: "Subscribed", legalBasis: "Contract necessity" }
+    { type: "Newsletter", channel: "Email", status: "Subscribed", legalBasis: "Legitimate interest" }
   ], suppressions: [], consentTimeline: [{ date: "12/1/2025 09:00", action: "Consent given", subscriptionType: "Information material", channel: "Email", source: "Account signup", modifiedBy: "System" }] },
   { id: 14, fullName: "Aaron Hurt", type: "Partner", account: "Summit Credit Union", mobilePhone: "+1 (608) 555-0196", email: "aaron.hurt@summitcreditunion.com", country: "USA", jobTitle: "CEO", birthDate: "9/14/1983", subscriptions: [
     { type: "Newsletter", channel: "Email", status: "Subscribed", legalBasis: "Explicit consent", doubleOptIn: { confirmationDate: "1/8/2026 12:10", ipAddress: "192.0.2.33", method: "Email link" } },
