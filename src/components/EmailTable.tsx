@@ -1,8 +1,12 @@
+import { useState } from "react";
 import { Folder, Filter, Calendar, Tag, Search, Plus, MoreHorizontal, RefreshCw, SlidersHorizontal, BarChart3, FileSpreadsheet, ClipboardCheck, SlidersHorizontal as SettingsIcon } from "lucide-react";
 import { emailData } from "@/data/emailData";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import BulkEmailSettingsDialog from "./BulkEmailSettingsDialog";
 
 const EmailTable = () => {
+  const [settingsOpen, setSettingsOpen] = useState(false);
+
   return (
     <div className="flex-1 flex flex-col overflow-hidden bg-background">
       {/* Page header */}
@@ -28,7 +32,7 @@ const EmailTable = () => {
                 <ClipboardCheck className="w-4 h-4 text-primary" />
                 Progress check
               </DropdownMenuItem>
-              <DropdownMenuItem className="flex items-center gap-3 cursor-pointer">
+              <DropdownMenuItem className="flex items-center gap-3 cursor-pointer" onClick={() => setSettingsOpen(true)}>
                 <SettingsIcon className="w-4 h-4 text-primary" />
                 Bulk email settings
               </DropdownMenuItem>
@@ -36,6 +40,9 @@ const EmailTable = () => {
           </DropdownMenu>
         </div>
       </div>
+
+      <BulkEmailSettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
+
 
       {/* Filters bar */}
       <div className="flex items-center justify-between px-6 pb-3">
