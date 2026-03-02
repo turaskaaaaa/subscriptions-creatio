@@ -191,7 +191,7 @@ const ContactDetail = () => {
                       </div>
                       <div>
                         <p className="text-sm font-semibold text-foreground">{contact.email}</p>
-                        <p className="text-xs text-muted-foreground">All opted-in and transactional emails will be delivered to this address</p>
+                        <p className="text-xs text-muted-foreground">All opted-in and transactional emails will be delivered to this address unless a custom delivery address is specified per subscription</p>
                       </div>
                       <span className="ml-auto inline-flex items-center gap-1.5 text-xs font-medium bg-primary/10 text-primary border border-primary/30 rounded-full px-3 py-1">
                         <span className="w-1.5 h-1.5 rounded-full bg-primary" />
