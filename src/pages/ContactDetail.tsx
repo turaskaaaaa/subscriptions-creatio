@@ -213,13 +213,16 @@ const ContactDetail = () => {
                      const emailSubs = contact.subscriptions.filter((s) => s.channel === "Email");
                      const totalSubs = emailSubs.length;
                      const activeSubs = emailSubs.filter((s) => s.status === "Subscribed").length;
+                     const smsSubs = contact.subscriptions.filter((s) => s.channel === "SMS");
+                     const totalSmsSubs = smsSubs.length;
+                     const activeSmsSubs = smsSubs.filter((s) => s.status === "Subscribed").length;
                     const activeSuppCount = contact.suppressions.length;
                     const lastConsentEvent = contact.consentTimeline.length > 0 ?
                     contact.consentTimeline[contact.consentTimeline.length - 1] :
                     null;
 
                     return (
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                         {/* Subscription Status */}
                         <div className="border border-border rounded-lg p-4 space-y-2">
                           <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">ACTIVE EMAIL SUBSCRIPTIONS</p>
@@ -236,9 +239,25 @@ const ContactDetail = () => {
                           <p className="text-xs text-muted-foreground">
                             {totalSubs - activeSubs} opted out
                           </p>
+                         </div>
+
+                        {/* SMS Subscription Status */}
+                        <div className="border border-border rounded-lg p-4 space-y-2">
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">ACTIVE SMS SUBSCRIPTIONS</p>
+                          <div className="flex items-end gap-2">
+                            <span className="text-3xl font-bold text-foreground">{activeSmsSubs}</span>
+                            <span className="text-sm text-muted-foreground mb-1">of {totalSmsSubs}</span>
+                          </div>
+                          <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
+                            <div
+                              className="h-full bg-primary rounded-full transition-all"
+                              style={{ width: totalSmsSubs > 0 ? `${activeSmsSubs / totalSmsSubs * 100}%` : '0%' }} />
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            {totalSmsSubs - activeSmsSubs} opted out
+                          </p>
                         </div>
 
-                        {/* Active Suppressions */}
                         <div className={`border rounded-lg p-4 space-y-2 ${activeSuppCount > 0 ? 'border-destructive/40 bg-destructive/5' : 'border-border'}`}>
                           <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Active Suppressions</p>
                           <div className="flex items-end gap-2">
