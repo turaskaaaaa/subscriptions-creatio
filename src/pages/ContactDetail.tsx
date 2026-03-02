@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { contactsData } from "@/data/contactsData";
 import TopBar from "@/components/TopBar";
 import AppSidebar from "@/components/AppSidebar";
-import { ArrowLeft, Tag, Lock, MessageSquare, Paperclip, Plus, RefreshCw, MoreVertical, Search, ChevronUp, User, Mail, Phone, X, ShieldAlert, Ban, Clock, Send, ExternalLink, Scale } from "lucide-react";
+import { ArrowLeft, Tag, Lock, MessageSquare, Paperclip, Plus, RefreshCw, MoreVertical, Search, ChevronUp, User, Mail, Phone, X, ShieldAlert, Ban, Clock, Send, ExternalLink, Scale, CheckCircle2, AlertCircle, Globe, Monitor } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
@@ -274,6 +274,7 @@ const ContactDetail = () => {
                             <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">DELIVERS TO (TARGET ADRESS)</th>
                             <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Status</th>
                             <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Legal Basis</th>
+                            <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Verification</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -291,12 +292,21 @@ const ContactDetail = () => {
                                 </span>
                               </td>
                               <td className="py-3 px-4">
-                                <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${sub.status === "Subscribed" ?
-                              "bg-primary/10 text-primary border border-primary/30" :
-                              "bg-destructive/10 text-destructive border border-destructive/30"}`}>
-                                  <span className={`w-1.5 h-1.5 rounded-full ${sub.status === "Subscribed" ? "bg-primary" : "bg-destructive"}`} />
-                                  {sub.status === "Subscribed" ? "Opted In" : "Opted Out"}
+                                <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${
+                                  sub.status === "Subscribed" ? "bg-primary/10 text-primary border border-primary/30" :
+                                  sub.status === "Pending" ? "bg-accent text-accent-foreground border border-border" :
+                                  "bg-destructive/10 text-destructive border border-destructive/30"
+                                }`}>
+                                  <span className={`w-1.5 h-1.5 rounded-full ${
+                                    sub.status === "Subscribed" ? "bg-primary" :
+                                    sub.status === "Pending" ? "bg-accent-foreground" :
+                                    "bg-destructive"
+                                  }`} />
+                                  {sub.status === "Subscribed" ? "Opted In" : sub.status === "Pending" ? "Pending" : "Opted Out"}
                                 </span>
+                                {sub.status === "Pending" && sub.confirmationSentAt && (
+                                  <p className="text-[10px] text-muted-foreground mt-1">Sent {sub.confirmationSentAt}</p>
+                                )}
                               </td>
                               <td className="py-3 px-4">
                                 <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${
@@ -308,6 +318,44 @@ const ContactDetail = () => {
                                   <Scale className="w-3 h-3" />
                                   {sub.legalBasis}
                                 </span>
+                              </td>
+                              <td className="py-3 px-4">
+                                {sub.doubleOptIn ? (
+                                  <div className="space-y-1">
+                                    <span className="inline-flex items-center gap-1.5 text-xs font-medium text-primary">
+                                      <CheckCircle2 className="w-3.5 h-3.5" />
+                                      Verified
+                                    </span>
+                                    <div className="text-[10px] text-muted-foreground space-y-0.5">
+                                      <p className="flex items-center gap-1"><Clock className="w-2.5 h-2.5" /> {sub.doubleOptIn.confirmationDate}</p>
+                                      <p className="flex items-center gap-1"><Globe className="w-2.5 h-2.5" /> {sub.doubleOptIn.ipAddress}</p>
+                                      <p className="flex items-center gap-1"><Mail className="w-2.5 h-2.5" /> {sub.doubleOptIn.method}</p>
+                                      {sub.doubleOptIn.userAgent && (
+                                        <p className="flex items-center gap-1 truncate max-w-[180px]" title={sub.doubleOptIn.userAgent}><Monitor className="w-2.5 h-2.5" /> {sub.doubleOptIn.userAgent.split('(')[0].trim()}</p>
+                                      )}
+                                    </div>
+                                  </div>
+                                ) : sub.status === "Pending" ? (
+                                  <div className="space-y-1.5">
+                                    <span className="inline-flex items-center gap-1.5 text-xs font-medium text-accent-foreground">
+                                      <AlertCircle className="w-3.5 h-3.5" />
+                                      Awaiting
+                                    </span>
+                                    <button
+                                      onClick={() => {
+                                        toast.info("Confirmation resent", {
+                                          description: `Double opt-in ${sub.channel === "SMS" ? "code" : "email"} resent to ${sub.channel === "SMS" ? contact.mobilePhone : contact.email}`,
+                                        });
+                                      }}
+                                      className="flex items-center gap-1 text-[10px] font-medium text-primary hover:underline"
+                                    >
+                                      <RefreshCw className="w-2.5 h-2.5" />
+                                      Resend
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <span className="text-xs text-muted-foreground">—</span>
+                                )}
                               </td>
                             </tr>
                           )}
@@ -398,13 +446,18 @@ const ContactDetail = () => {
                                 </td>
                                 <td className="py-3 px-4">
                                   <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${
-                                    evt.action === "Opted In" || evt.action === "Re-subscribed" || evt.action === "Consent given"
+                                    evt.action === "Opted In" || evt.action === "Re-subscribed" || evt.action === "Consent given" || evt.action === "Double opt-in confirmed"
                                       ? "bg-primary/10 text-primary border border-primary/30"
+                                      : evt.action === "Double opt-in sent"
+                                      ? "bg-accent text-accent-foreground border border-border"
                                       : "bg-destructive/10 text-destructive border border-destructive/30"
                                   }`}>
                                     <span className={`w-1.5 h-1.5 rounded-full ${
-                                      evt.action === "Opted In" || evt.action === "Re-subscribed" || evt.action === "Consent given"
-                                        ? "bg-primary" : "bg-destructive"
+                                      evt.action === "Opted In" || evt.action === "Re-subscribed" || evt.action === "Consent given" || evt.action === "Double opt-in confirmed"
+                                        ? "bg-primary"
+                                        : evt.action === "Double opt-in sent"
+                                        ? "bg-accent-foreground"
+                                        : "bg-destructive"
                                     }`} />
                                     {evt.action}
                                   </span>
