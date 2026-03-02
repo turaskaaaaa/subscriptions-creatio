@@ -133,67 +133,77 @@ const ContactDetail = () => {
                 </TabsList>
 
                 <TabsContent value="subscriptions" className="p-6 space-y-6">
-                  {/* Subscription status banner */}
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <p className="text-sm font-medium text-foreground">
-                        {isSubscribed
-                          ? "This contact is currently subscribed to bulk marketing emails"
-                          : "This contact is not subscribed to bulk marketing emails"}
-                      </p>
-                      <p className="text-xs text-muted-foreground mt-0.5">
-                        You can {isSubscribed ? "manage" : "add"} this contact to the audience of bulk marketing emails
-                      </p>
-                    </div>
-                    <button className="flex items-center gap-1.5 text-sm text-destructive hover:text-destructive/80 whitespace-nowrap">
-                      <X className="w-3.5 h-3.5" />
-                      Unsubscribe contact
-                    </button>
-                  </div>
-
-                  {/* Bulk email subscriptions section */}
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2">
-                      <h3 className="text-sm font-semibold text-foreground">Bulk email subscriptions</h3>
-                      <RefreshCw className="w-3.5 h-3.5 text-muted-foreground cursor-pointer" />
-                      <MoreVertical className="w-3.5 h-3.5 text-muted-foreground cursor-pointer" />
-                      <Search className="w-3.5 h-3.5 text-muted-foreground cursor-pointer" />
-                      <div className="ml-auto">
-                        <ChevronUp className="w-4 h-4 text-muted-foreground cursor-pointer" />
+                  {/* Contact email card */}
+                  <div className="border border-border rounded-lg p-5 space-y-1.5">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center shrink-0">
+                        <span className="text-primary-foreground font-semibold text-sm">
+                          {contact.fullName.split(" ").map(n => n[0]).join("")}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">{contact.fullName}</p>
+                        <p className="text-xs text-muted-foreground">
+                          Has one email. Subscribes to {contact.subscriptions.length} topic{contact.subscriptions.length !== 1 ? "s" : ""}.
+                        </p>
                       </div>
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                      Customize the contact's subscriptions of the contact by the bulk email type
-                    </p>
+                    <div className="ml-[60px]">
+                      <span className="inline-flex items-center gap-1.5 text-xs bg-secondary text-foreground rounded px-2.5 py-1">
+                        <Mail className="w-3 h-3 text-amber-500" />
+                        {contact.email}
+                      </span>
+                    </div>
+                  </div>
 
-                    {/* Subscriptions table */}
+                  {/* Subscriptions table */}
+                  <div className="border border-border rounded-lg overflow-hidden">
                     <table className="w-full text-sm">
                       <thead>
-                        <tr className="border-b border-border">
-                          <th className="text-left py-2 px-2 font-medium text-muted-foreground">Bulk email type</th>
-                          <th className="text-left py-2 px-2 font-medium text-muted-foreground">Subscription status</th>
-                          <th className="text-right py-2 px-2 font-medium text-muted-foreground w-16">
-                            <div className="flex items-center justify-end gap-2">
-                              <Plus className="w-3.5 h-3.5" />
-                              <MoreVertical className="w-3.5 h-3.5" />
-                            </div>
-                          </th>
+                        <tr className="bg-muted/80">
+                          <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Topic</th>
+                          <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Channel</th>
+                          <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Type</th>
+                          <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">TargetAddress</th>
+                          <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">→ System sends to</th>
+                          <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Status</th>
                         </tr>
                       </thead>
                       <tbody>
                         {contact.subscriptions.map((sub, idx) => (
-                          <tr key={idx} className="border-b border-border hover:bg-secondary/30 transition-colors">
-                            <td className="py-2.5 px-2 text-foreground">{sub.type}</td>
-                            <td className="py-2.5 px-2 text-foreground">{sub.status}</td>
-                            <td className="py-2.5 px-2"></td>
+                          <tr key={idx} className="border-t border-border hover:bg-secondary/30 transition-colors">
+                            <td className="py-3 px-4 font-medium text-foreground">{sub.type}</td>
+                            <td className="py-3 px-4 text-foreground">Email</td>
+                            <td className="py-3 px-4">
+                              <span className="inline-block text-xs border border-primary text-primary rounded px-2 py-0.5 font-medium">
+                                Personal
+                              </span>
+                            </td>
+                            <td className="py-3 px-4 text-muted-foreground italic">empty</td>
+                            <td className="py-3 px-4 text-foreground">→ {contact.email} (primary)</td>
+                            <td className="py-3 px-4">
+                              <span className={`inline-block text-xs rounded px-2 py-0.5 font-medium ${
+                                sub.status === "Subscribed"
+                                  ? "bg-primary/10 text-primary border border-primary/30"
+                                  : "bg-destructive/10 text-destructive border border-destructive/30"
+                              }`}>
+                                {sub.status === "Subscribed" ? "Opted In" : "Opted Out"}
+                              </span>
+                            </td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
+                  </div>
 
-                    <button className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground mt-2">
-                      <Plus className="w-3.5 h-3.5" /> New
-                    </button>
+                  {/* Info banner */}
+                  <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 flex items-start gap-3">
+                    <div className="w-5 h-5 rounded bg-primary flex items-center justify-center shrink-0 mt-0.5">
+                      <span className="text-primary-foreground text-xs font-bold">✓</span>
+                    </div>
+                    <p className="text-sm text-foreground">
+                      <span className="font-semibold">Zero effort.</span> TargetAddress is empty → system uses Contact.Email. This is exactly how the system works today. No changes needed for existing contacts.
+                    </p>
                   </div>
                 </TabsContent>
 
