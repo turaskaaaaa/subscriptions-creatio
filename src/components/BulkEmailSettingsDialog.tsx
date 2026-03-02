@@ -3,15 +3,23 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { useSettings, type SubscriptionTypeConfig } from "@/contexts/SettingsContext";
-import { Scale, ShieldAlert, Clock, RefreshCw, Mail, CheckCircle2, Plus, Trash2, Phone, MessageSquare } from "lucide-react";
-import { toast } from "sonner";
+import { useSettings } from "@/contexts/SettingsContext";
+import { Scale, ShieldAlert, Clock, RefreshCw, Mail, CheckCircle2 } from "lucide-react";
 import type { LegalBasis } from "@/data/contactsData";
 
 interface BulkEmailSettingsDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
+
+const SUBSCRIPTION_TYPE_OPTIONS = [
+  "Information material",
+  "Newsletter",
+  "Promotions",
+  "Account alerts",
+  "Appointment reminders",
+  "Security alerts",
+];
 
 const LEGAL_BASIS_OPTIONS: { value: LegalBasis; label: string; description: string }[] = [
   { value: "Explicit consent", label: "Explicit consent", description: "User actively opted in (GDPR Art. 6(1)(a))" },
@@ -43,10 +51,7 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
     spamComplaintThreshold, setSpamComplaintThreshold,
     autoSuppressHardBounce, setAutoSuppressHardBounce,
     autoSuppressSpamComplaint, setAutoSuppressSpamComplaint,
-    subscriptionTypes, setSubscriptionTypes,
   } = useSettings();
-
-  const [newTypeName, setNewTypeName] = useState("");
 
   const [domains, setDomains] = useState(
     "www.creatio.com,creatio.com,www.marketplace.creatio.com,marketplace.creatio.com,www.academy.creatio.com,academy.creatio.com,www.community.creatio.com,community.creatio.com"
@@ -72,11 +77,8 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
           <DialogTitle className="text-lg font-semibold">Bulk email settings</DialogTitle>
         </DialogHeader>
 
-        <Tabs defaultValue="subscription-types" className="w-full">
+        <Tabs defaultValue="optin" className="w-full">
           <TabsList className="w-full justify-start bg-transparent border-b border-border rounded-none h-auto p-0 gap-0">
-            <TabsTrigger value="subscription-types" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2 text-xs font-semibold uppercase tracking-wide">
-              Subscription types
-            </TabsTrigger>
             <TabsTrigger value="optin" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2 text-xs font-semibold uppercase tracking-wide">
               Opt-in / Opt-out
             </TabsTrigger>
@@ -90,130 +92,6 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
               Limits defaults
             </TabsTrigger>
           </TabsList>
-
-          {/* ===== SUBSCRIPTION TYPES TAB ===== */}
-          <TabsContent value="subscription-types" className="mt-6 space-y-6">
-            <div>
-              <h3 className="text-base font-semibold text-foreground mb-1">Subscription types</h3>
-              <p className="text-sm text-muted-foreground">
-                Define the subscription types available across your contacts and campaigns
-              </p>
-            </div>
-
-            {/* Add new type */}
-            <div className="flex items-center gap-3">
-              <Input
-                placeholder="New subscription type name..."
-                value={newTypeName}
-                onChange={(e) => setNewTypeName(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && newTypeName.trim()) {
-                    const id = newTypeName.trim().toLowerCase().replace(/\s+/g, "-");
-                    if (subscriptionTypes.some(st => st.id === id)) {
-                      toast.error("A subscription type with this name already exists");
-                      return;
-                    }
-                    setSubscriptionTypes([...subscriptionTypes, { id, name: newTypeName.trim(), channels: ["Email"] }]);
-                    setNewTypeName("");
-                    toast.success(`"${newTypeName.trim()}" subscription type created`);
-                  }
-                }}
-                className="flex-1 h-9"
-              />
-              <button
-                onClick={() => {
-                  if (!newTypeName.trim()) return;
-                  const id = newTypeName.trim().toLowerCase().replace(/\s+/g, "-");
-                  if (subscriptionTypes.some(st => st.id === id)) {
-                    toast.error("A subscription type with this name already exists");
-                    return;
-                  }
-                  setSubscriptionTypes([...subscriptionTypes, { id, name: newTypeName.trim(), channels: ["Email"] }]);
-                  setNewTypeName("");
-                  toast.success(`"${newTypeName.trim()}" subscription type created`);
-                }}
-                className="inline-flex items-center gap-1.5 px-4 h-9 text-sm font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
-              >
-                <Plus className="w-4 h-4" />
-                Add
-              </button>
-            </div>
-
-            {/* Types list */}
-            <div className="border border-border rounded-lg overflow-hidden">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-muted/80">
-                    <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Subscription type</th>
-                    <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Channels</th>
-                    <th className="text-right py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground w-16"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {subscriptionTypes.map((st) => (
-                    <tr key={st.id} className="border-t border-border hover:bg-secondary/30 transition-colors">
-                      <td className="py-3 px-4 font-medium text-foreground">{st.name}</td>
-                      <td className="py-3 px-4">
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => {
-                              const hasEmail = st.channels.includes("Email");
-                              const newChannels = hasEmail
-                                ? st.channels.filter(c => c !== "Email")
-                                : [...st.channels, "Email" as const];
-                              if (newChannels.length === 0) return;
-                              setSubscriptionTypes(subscriptionTypes.map(s => s.id === st.id ? { ...s, channels: newChannels } : s));
-                            }}
-                            className={`inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full border transition-colors font-medium ${
-                              st.channels.includes("Email")
-                                ? "bg-primary/10 text-primary border-primary/30"
-                                : "bg-muted text-muted-foreground border-border hover:border-primary/30"
-                            }`}
-                          >
-                            <Mail className="w-3 h-3" />
-                            Email
-                          </button>
-                          <button
-                            onClick={() => {
-                              const hasSMS = st.channels.includes("SMS");
-                              const newChannels = hasSMS
-                                ? st.channels.filter(c => c !== "SMS")
-                                : [...st.channels, "SMS" as const];
-                              if (newChannels.length === 0) return;
-                              setSubscriptionTypes(subscriptionTypes.map(s => s.id === st.id ? { ...s, channels: newChannels } : s));
-                            }}
-                            className={`inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full border transition-colors font-medium ${
-                              st.channels.includes("SMS")
-                                ? "bg-primary/10 text-primary border-primary/30"
-                                : "bg-muted text-muted-foreground border-border hover:border-primary/30"
-                            }`}
-                          >
-                            <Phone className="w-3 h-3" />
-                            SMS
-                          </button>
-                        </div>
-                      </td>
-                      <td className="py-3 px-4 text-right">
-                        <button
-                          onClick={() => {
-                            setSubscriptionTypes(subscriptionTypes.filter(s => s.id !== st.id));
-                            toast.info(`"${st.name}" removed`);
-                          }}
-                          className="text-muted-foreground hover:text-destructive transition-colors p-1"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            <p className="text-[10px] text-muted-foreground">
-              {subscriptionTypes.length} subscription type{subscriptionTypes.length !== 1 ? "s" : ""} configured. Click channel badges to toggle availability per type.
-            </p>
-          </TabsContent>
 
           {/* ===== OPT-IN / OPT-OUT TAB ===== */}
           <TabsContent value="optin" className="mt-6 space-y-6">
@@ -284,19 +162,19 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                   <div className="space-y-2">
                     <label className="text-xs font-medium text-muted-foreground">Require double opt-in for:</label>
                     <div className="flex flex-wrap gap-2">
-                      {subscriptionTypes.map((st) => {
-                        const isActive = doubleOptInSubscriptionTypes.includes(st.name);
+                      {SUBSCRIPTION_TYPE_OPTIONS.map((type) => {
+                        const isActive = doubleOptInSubscriptionTypes.includes(type);
                         return (
                           <button
-                            key={st.id}
-                            onClick={() => toggleSubscriptionType(st.name)}
+                            key={type}
+                            onClick={() => toggleSubscriptionType(type)}
                             className={`text-xs px-3 py-1.5 rounded-full border transition-colors font-medium ${
                               isActive
                                 ? "bg-primary/10 text-primary border-primary/30"
                                 : "bg-muted text-muted-foreground border-border hover:border-primary/30"
                             }`}
                           >
-                            {st.name}
+                            {type}
                           </button>
                         );
                       })}

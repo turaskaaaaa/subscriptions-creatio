@@ -1,17 +1,7 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import type { LegalBasis } from "@/data/contactsData";
 
-export interface SubscriptionTypeConfig {
-  id: string;
-  name: string;
-  channels: ("Email" | "SMS")[];
-}
-
 interface SettingsContextType {
-  // Subscription types
-  subscriptionTypes: SubscriptionTypeConfig[];
-  setSubscriptionTypes: (value: SubscriptionTypeConfig[]) => void;
-
   // Marketing consent
   marketingConsentDefault: boolean;
   setMarketingConsentDefault: (value: boolean) => void;
@@ -49,18 +39,7 @@ interface SettingsContextType {
   setAutoSuppressSpamComplaint: (value: boolean) => void;
 }
 
-const DEFAULT_SUBSCRIPTION_TYPES: SubscriptionTypeConfig[] = [
-  { id: "info-material", name: "Information material", channels: ["Email"] },
-  { id: "newsletter", name: "Newsletter", channels: ["Email"] },
-  { id: "promotions", name: "Promotions", channels: ["Email", "SMS"] },
-  { id: "account-alerts", name: "Account alerts", channels: ["SMS"] },
-  { id: "appointment-reminders", name: "Appointment reminders", channels: ["SMS"] },
-  { id: "security-alerts", name: "Security alerts", channels: ["Email", "SMS"] },
-];
-
 const SettingsContext = createContext<SettingsContextType>({
-  subscriptionTypes: DEFAULT_SUBSCRIPTION_TYPES,
-  setSubscriptionTypes: () => {},
   marketingConsentDefault: true,
   setMarketingConsentDefault: () => {},
   doubleOptInEnabled: true,
@@ -90,7 +69,6 @@ const SettingsContext = createContext<SettingsContextType>({
 export const useSettings = () => useContext(SettingsContext);
 
 export const SettingsProvider = ({ children }: { children: ReactNode }) => {
-  const [subscriptionTypes, setSubscriptionTypes] = useState<SubscriptionTypeConfig[]>(DEFAULT_SUBSCRIPTION_TYPES);
   const [marketingConsentDefault, setMarketingConsentDefault] = useState(true);
   const [doubleOptInEnabled, setDoubleOptInEnabled] = useState(true);
   const [doubleOptInExpiryHours, setDoubleOptInExpiryHours] = useState(48);
@@ -108,7 +86,6 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <SettingsContext.Provider value={{
-      subscriptionTypes, setSubscriptionTypes,
       marketingConsentDefault, setMarketingConsentDefault,
       doubleOptInEnabled, setDoubleOptInEnabled,
       doubleOptInExpiryHours, setDoubleOptInExpiryHours,
