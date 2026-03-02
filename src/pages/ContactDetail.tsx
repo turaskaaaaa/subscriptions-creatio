@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 
-const DeliverToCell = ({ currentAddress, isCustom, channel }: { currentAddress: string; isCustom: boolean; channel: "Email" | "SMS" }) => {
+const DeliverToCell = ({ currentAddress, isCustom, channel }: {currentAddress: string;isCustom: boolean;channel: "Email" | "SMS";}) => {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(currentAddress);
 
@@ -25,7 +25,7 @@ const DeliverToCell = ({ currentAddress, isCustom, channel }: { currentAddress: 
               setEditing(false);
               toast.success("Delivery address updated", { description: `${channel} will now deliver to ${value}` });
             }
-            if (e.key === "Escape") { setValue(currentAddress); setEditing(false); }
+            if (e.key === "Escape") {setValue(currentAddress);setEditing(false);}
           }}
           onBlur={() => {
             setEditing(false);
@@ -33,26 +33,26 @@ const DeliverToCell = ({ currentAddress, isCustom, channel }: { currentAddress: 
               toast.success("Delivery address updated", { description: `${channel} will now deliver to ${value}` });
             }
           }}
-          className="h-7 text-sm w-full min-w-[180px]"
-        />
-      </div>
-    );
+          className="h-7 text-sm w-full min-w-[180px]" />
+        
+      </div>);
+
   }
 
   return (
     <button
       onClick={() => setEditing(true)}
-      className="group flex items-center gap-1.5 text-sm text-foreground hover:text-primary transition-colors text-left"
-    >
+      className="group flex items-center gap-1.5 text-sm text-foreground hover:text-primary transition-colors text-left">
+      
       <span className="truncate max-w-[200px]">→ {value}</span>
-      {isCustom && (
-        <span className="inline-flex items-center gap-1 text-[10px] text-primary bg-primary/10 border border-primary/30 rounded-full px-1.5 py-0.5 font-medium shrink-0">
+      {isCustom &&
+      <span className="inline-flex items-center gap-1 text-[10px] text-primary bg-primary/10 border border-primary/30 rounded-full px-1.5 py-0.5 font-medium shrink-0">
           Custom
         </span>
-      )}
+      }
       <Pencil className="w-3 h-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
-    </button>
-  );
+    </button>);
+
 };
 
 const ContactDetail = () => {
@@ -201,35 +201,35 @@ const ContactDetail = () => {
 
                     {/* Per-subscription delivery map */}
                     {(() => {
-                      const customSubs = contact.subscriptions.filter(s => s.deliverTo);
-                      const defaultSubs = contact.subscriptions.filter(s => !s.deliverTo);
+                      const customSubs = contact.subscriptions.filter((s) => s.deliverTo);
+                      const defaultSubs = contact.subscriptions.filter((s) => !s.deliverTo);
                       return (
                         <div className="border-t border-primary/20 pt-3 space-y-2">
-                          {defaultSubs.length > 0 && (
-                            <div className="flex items-start gap-2 text-xs">
+                          {defaultSubs.length > 0 &&
+                          <div className="flex items-start gap-2 text-xs">
                               <span className="text-muted-foreground shrink-0 mt-0.5">→ {contact.email}</span>
                               <div className="flex flex-wrap gap-1.5">
-                                {defaultSubs.map((s, i) => (
-                                  <span key={i} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-muted text-muted-foreground border border-border font-medium">
+                                {defaultSubs.map((s, i) =>
+                              <span key={i} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-muted text-muted-foreground border border-border font-medium">
                                     {s.channel === "SMS" ? <Phone className="w-2.5 h-2.5" /> : <Mail className="w-2.5 h-2.5" />}
                                     {s.type}
                                   </span>
-                                ))}
+                              )}
                               </div>
                             </div>
-                          )}
-                          {customSubs.map((s, i) => (
-                            <div key={i} className="flex items-center gap-2 text-xs">
+                          }
+                          {customSubs.map((s, i) =>
+                          <div key={i} className="flex items-center gap-2 text-xs">
                               <span className="text-primary font-medium shrink-0">→ {s.deliverTo}</span>
                               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/30 font-medium">
                                 {s.channel === "SMS" ? <Phone className="w-2.5 h-2.5" /> : <Mail className="w-2.5 h-2.5" />}
                                 {s.type}
                               </span>
-                              <span className="text-[10px] text-primary bg-primary/5 border border-primary/20 rounded px-1.5 py-0.5">Custom</span>
-                            </div>
-                          ))}
-                        </div>
-                      );
+                              <span className="text-[10px] text-primary bg-primary/5 border border-primary/20 rounded px-1.5 py-0.5">
+</span>
+                            </div>)}
+                        </div>);
+
                     })()}
                   </div>
 
@@ -238,22 +238,22 @@ const ContactDetail = () => {
                     <button
                       onClick={() => {
                         toast.success("Re-consent email queued", {
-                          description: `A preference update request will be sent to ${contact.email}`,
+                          description: `A preference update request will be sent to ${contact.email}`
                         });
                       }}
-                      className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg border border-primary/30 bg-primary/5 text-primary hover:bg-primary/10 transition-colors"
-                    >
+                      className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg border border-primary/30 bg-primary/5 text-primary hover:bg-primary/10 transition-colors">
+                      
                       <Send className="w-4 h-4" />
                       Send Re-consent Email
                     </button>
                     <button
                       onClick={() => {
                         toast.info("Preference center link copied", {
-                          description: "The unique preference center URL has been copied to clipboard",
+                          description: "The unique preference center URL has been copied to clipboard"
                         });
                       }}
-                      className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors"
-                    >
+                      className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors">
+                      
                       <ExternalLink className="w-4 h-4" />
                       Copy Preference Center Link
                     </button>
@@ -262,11 +262,11 @@ const ContactDetail = () => {
                   {/* Compliance Summary Card */}
                   {(() => {
                     const totalSubs = contact.subscriptions.length;
-                    const activeSubs = contact.subscriptions.filter(s => s.status === "Subscribed").length;
+                    const activeSubs = contact.subscriptions.filter((s) => s.status === "Subscribed").length;
                     const activeSuppCount = contact.suppressions.length;
-                    const lastConsentEvent = contact.consentTimeline.length > 0
-                      ? contact.consentTimeline[contact.consentTimeline.length - 1]
-                      : null;
+                    const lastConsentEvent = contact.consentTimeline.length > 0 ?
+                    contact.consentTimeline[contact.consentTimeline.length - 1] :
+                    null;
 
                     return (
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -280,8 +280,8 @@ const ContactDetail = () => {
                           <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
                             <div
                               className="h-full bg-primary rounded-full transition-all"
-                              style={{ width: totalSubs > 0 ? `${(activeSubs / totalSubs) * 100}%` : '0%' }}
-                            />
+                              style={{ width: totalSubs > 0 ? `${activeSubs / totalSubs * 100}%` : '0%' }} />
+                            
                           </div>
                           <p className="text-xs text-muted-foreground">
                             {totalSubs - activeSubs} opted out
@@ -293,49 +293,49 @@ const ContactDetail = () => {
                           <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Active Suppressions</p>
                           <div className="flex items-end gap-2">
                             <span className={`text-3xl font-bold ${activeSuppCount > 0 ? 'text-destructive' : 'text-foreground'}`}>{activeSuppCount}</span>
-                            {activeSuppCount > 0 && (
-                              <span className="inline-flex items-center gap-1 text-xs text-destructive mb-1">
+                            {activeSuppCount > 0 &&
+                            <span className="inline-flex items-center gap-1 text-xs text-destructive mb-1">
                                 <Ban className="w-3 h-3" /> Delivery affected
                               </span>
-                            )}
+                            }
                           </div>
-                          {activeSuppCount > 0 ? (
-                            <p className="text-xs text-destructive/80">
-                              {contact.suppressions.filter(s => s.reason === "Hard bounce").length} hard bounce · {contact.suppressions.filter(s => s.reason === "Spam complaint").length} spam complaint
-                            </p>
-                          ) : (
-                            <p className="text-xs text-muted-foreground">No blocked addresses</p>
-                          )}
+                          {activeSuppCount > 0 ?
+                          <p className="text-xs text-destructive/80">
+                              {contact.suppressions.filter((s) => s.reason === "Hard bounce").length} hard bounce · {contact.suppressions.filter((s) => s.reason === "Spam complaint").length} spam complaint
+                            </p> :
+
+                          <p className="text-xs text-muted-foreground">No blocked addresses</p>
+                          }
                         </div>
 
                         {/* Last Consent Change */}
                         <div className="border border-border rounded-lg p-4 space-y-2">
                           <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Last Consent Change</p>
-                          {lastConsentEvent ? (
-                            <>
+                          {lastConsentEvent ?
+                          <>
                               <div className="flex items-center gap-2">
                                 <Clock className="w-4 h-4 text-muted-foreground" />
                                 <span className="text-sm font-semibold text-foreground">{lastConsentEvent.date}</span>
                               </div>
                               <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${
-                                lastConsentEvent.action === "Opted In" || lastConsentEvent.action === "Re-subscribed" || lastConsentEvent.action === "Consent given"
-                                  ? "bg-primary/10 text-primary border border-primary/30"
-                                  : "bg-destructive/10 text-destructive border border-destructive/30"
-                              }`}>
+                            lastConsentEvent.action === "Opted In" || lastConsentEvent.action === "Re-subscribed" || lastConsentEvent.action === "Consent given" ?
+                            "bg-primary/10 text-primary border border-primary/30" :
+                            "bg-destructive/10 text-destructive border border-destructive/30"}`
+                            }>
                                 <span className={`w-1.5 h-1.5 rounded-full ${
-                                  lastConsentEvent.action === "Opted In" || lastConsentEvent.action === "Re-subscribed" || lastConsentEvent.action === "Consent given"
-                                    ? "bg-primary" : "bg-destructive"
-                                }`} />
+                              lastConsentEvent.action === "Opted In" || lastConsentEvent.action === "Re-subscribed" || lastConsentEvent.action === "Consent given" ?
+                              "bg-primary" : "bg-destructive"}`
+                              } />
                                 {lastConsentEvent.action} — {lastConsentEvent.subscriptionType}
                               </span>
                               <p className="text-xs text-muted-foreground">via {lastConsentEvent.source}</p>
-                            </>
-                          ) : (
-                            <p className="text-xs text-muted-foreground">No consent events recorded</p>
-                          )}
+                            </> :
+
+                          <p className="text-xs text-muted-foreground">No consent events recorded</p>
+                          }
                         </div>
-                      </div>
-                    );
+                      </div>);
+
                   })()}
 
 
@@ -368,42 +368,42 @@ const ContactDetail = () => {
                               </td>
                               <td className="py-3 px-4">
                                 <DeliverToCell
-                                  currentAddress={sub.deliverTo || (sub.channel === "SMS" ? contact.mobilePhone : contact.email)}
-                                  isCustom={!!sub.deliverTo}
-                                  channel={sub.channel}
-                                />
+                                currentAddress={sub.deliverTo || (sub.channel === "SMS" ? contact.mobilePhone : contact.email)}
+                                isCustom={!!sub.deliverTo}
+                                channel={sub.channel} />
+                              
                               </td>
                               <td className="py-3 px-4">
                                 <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${
-                                  sub.status === "Subscribed" ? "bg-primary/10 text-primary border border-primary/30" :
-                                  sub.status === "Pending" ? "bg-accent text-accent-foreground border border-border" :
-                                  "bg-destructive/10 text-destructive border border-destructive/30"
-                                }`}>
+                              sub.status === "Subscribed" ? "bg-primary/10 text-primary border border-primary/30" :
+                              sub.status === "Pending" ? "bg-accent text-accent-foreground border border-border" :
+                              "bg-destructive/10 text-destructive border border-destructive/30"}`
+                              }>
                                   <span className={`w-1.5 h-1.5 rounded-full ${
-                                    sub.status === "Subscribed" ? "bg-primary" :
-                                    sub.status === "Pending" ? "bg-accent-foreground" :
-                                    "bg-destructive"
-                                  }`} />
+                                sub.status === "Subscribed" ? "bg-primary" :
+                                sub.status === "Pending" ? "bg-accent-foreground" :
+                                "bg-destructive"}`
+                                } />
                                   {sub.status === "Subscribed" ? "Opted In" : sub.status === "Pending" ? "Pending" : "Opted Out"}
                                 </span>
-                                {sub.status === "Pending" && sub.confirmationSentAt && (
-                                  <p className="text-[10px] text-muted-foreground mt-1">Sent {sub.confirmationSentAt}</p>
-                                )}
+                                {sub.status === "Pending" && sub.confirmationSentAt &&
+                              <p className="text-[10px] text-muted-foreground mt-1">Sent {sub.confirmationSentAt}</p>
+                              }
                               </td>
                               <td className="py-3 px-4">
                                 <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${
-                                  sub.legalBasis === "Explicit consent" ? "bg-primary/10 text-primary border border-primary/30" :
-                                  sub.legalBasis === "Contract necessity" ? "bg-accent text-accent-foreground border border-border" :
-                                  sub.legalBasis === "Legal obligation" ? "bg-secondary text-secondary-foreground border border-border" :
-                                  "bg-muted text-muted-foreground border border-border"
-                                }`}>
+                              sub.legalBasis === "Explicit consent" ? "bg-primary/10 text-primary border border-primary/30" :
+                              sub.legalBasis === "Contract necessity" ? "bg-accent text-accent-foreground border border-border" :
+                              sub.legalBasis === "Legal obligation" ? "bg-secondary text-secondary-foreground border border-border" :
+                              "bg-muted text-muted-foreground border border-border"}`
+                              }>
                                   <Scale className="w-3 h-3" />
                                   {sub.legalBasis}
                                 </span>
                               </td>
                               <td className="py-3 px-4">
-                                {sub.doubleOptIn ? (
-                                  <div className="space-y-1">
+                                {sub.doubleOptIn ?
+                              <div className="space-y-1">
                                     <span className="inline-flex items-center gap-1.5 text-xs font-medium text-primary">
                                       <CheckCircle2 className="w-3.5 h-3.5" />
                                       Verified
@@ -412,32 +412,32 @@ const ContactDetail = () => {
                                       <p className="flex items-center gap-1"><Clock className="w-2.5 h-2.5" /> {sub.doubleOptIn.confirmationDate}</p>
                                       <p className="flex items-center gap-1"><Globe className="w-2.5 h-2.5" /> {sub.doubleOptIn.ipAddress}</p>
                                       <p className="flex items-center gap-1"><Mail className="w-2.5 h-2.5" /> {sub.doubleOptIn.method}</p>
-                                      {sub.doubleOptIn.userAgent && (
-                                        <p className="flex items-center gap-1 truncate max-w-[180px]" title={sub.doubleOptIn.userAgent}><Monitor className="w-2.5 h-2.5" /> {sub.doubleOptIn.userAgent.split('(')[0].trim()}</p>
-                                      )}
+                                      {sub.doubleOptIn.userAgent &&
+                                  <p className="flex items-center gap-1 truncate max-w-[180px]" title={sub.doubleOptIn.userAgent}><Monitor className="w-2.5 h-2.5" /> {sub.doubleOptIn.userAgent.split('(')[0].trim()}</p>
+                                  }
                                     </div>
-                                  </div>
-                                ) : sub.status === "Pending" ? (
-                                  <div className="space-y-1.5">
+                                  </div> :
+                              sub.status === "Pending" ?
+                              <div className="space-y-1.5">
                                     <span className="inline-flex items-center gap-1.5 text-xs font-medium text-accent-foreground">
                                       <AlertCircle className="w-3.5 h-3.5" />
                                       Awaiting
                                     </span>
                                     <button
-                                      onClick={() => {
-                                        toast.info("Confirmation resent", {
-                                          description: `Double opt-in ${sub.channel === "SMS" ? "code" : "email"} resent to ${sub.channel === "SMS" ? contact.mobilePhone : contact.email}`,
-                                        });
-                                      }}
-                                      className="flex items-center gap-1 text-[10px] font-medium text-primary hover:underline"
-                                    >
+                                  onClick={() => {
+                                    toast.info("Confirmation resent", {
+                                      description: `Double opt-in ${sub.channel === "SMS" ? "code" : "email"} resent to ${sub.channel === "SMS" ? contact.mobilePhone : contact.email}`
+                                    });
+                                  }}
+                                  className="flex items-center gap-1 text-[10px] font-medium text-primary hover:underline">
+                                  
                                       <RefreshCw className="w-2.5 h-2.5" />
                                       Resend
                                     </button>
-                                  </div>
-                                ) : (
-                                  <span className="text-xs text-muted-foreground">—</span>
-                                )}
+                                  </div> :
+
+                              <span className="text-xs text-muted-foreground">—</span>
+                              }
                               </td>
                             </tr>
                           )}
@@ -448,13 +448,13 @@ const ContactDetail = () => {
                   {/* Suppressions / Blocked List */}
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">SUPPRESSIONS (BLOCKED LIST)</p>
-                    {contact.suppressions.length === 0 ? (
-                      <div className="border border-border rounded-lg p-6 flex flex-col items-center gap-2 text-muted-foreground">
+                    {contact.suppressions.length === 0 ?
+                    <div className="border border-border rounded-lg p-6 flex flex-col items-center gap-2 text-muted-foreground">
                         <ShieldAlert className="w-6 h-6" />
                         <p className="text-sm">No suppressed addresses for this contact</p>
-                      </div>
-                    ) : (
-                      <div className="border border-border rounded-lg overflow-hidden">
+                      </div> :
+
+                    <div className="border border-border rounded-lg overflow-hidden">
                         <table className="w-full text-sm">
                           <thead>
                             <tr className="bg-muted/80">
@@ -466,8 +466,8 @@ const ContactDetail = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {contact.suppressions.map((sup, idx) => (
-                              <tr key={idx} className="border-t border-border hover:bg-secondary/30 transition-colors">
+                            {contact.suppressions.map((sup, idx) =>
+                          <tr key={idx} className="border-t border-border hover:bg-secondary/30 transition-colors">
                                 <td className="py-3 px-4 text-foreground">
                                   <span className="inline-flex items-center gap-1.5">
                                     {sup.channel === "SMS" ? <Phone className="w-3.5 h-3.5 text-muted-foreground" /> : <Mail className="w-3.5 h-3.5 text-muted-foreground" />}
@@ -477,11 +477,11 @@ const ContactDetail = () => {
                                 <td className="py-3 px-4 font-medium text-foreground">{sup.address}</td>
                                 <td className="py-3 px-4">
                                   <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${
-                                    sup.reason === "Hard bounce" ? "bg-destructive/10 text-destructive border border-destructive/30" :
-                                    sup.reason === "Soft bounce" ? "bg-yellow-500/10 text-yellow-600 border border-yellow-500/30" :
-                                    sup.reason === "Spam complaint" ? "bg-destructive/10 text-destructive border border-destructive/30" :
-                                    "bg-muted text-muted-foreground border border-border"
-                                  }`}>
+                              sup.reason === "Hard bounce" ? "bg-destructive/10 text-destructive border border-destructive/30" :
+                              sup.reason === "Soft bounce" ? "bg-yellow-500/10 text-yellow-600 border border-yellow-500/30" :
+                              sup.reason === "Spam complaint" ? "bg-destructive/10 text-destructive border border-destructive/30" :
+                              "bg-muted text-muted-foreground border border-border"}`
+                              }>
                                     <Ban className="w-3 h-3" />
                                     {sup.reason}
                                   </span>
@@ -489,23 +489,23 @@ const ContactDetail = () => {
                                 <td className="py-3 px-4 text-muted-foreground">{sup.blockedDate}</td>
                                 <td className="py-3 px-4 text-muted-foreground text-xs">{sup.source}</td>
                               </tr>
-                            ))}
+                          )}
                           </tbody>
                         </table>
                       </div>
-                    )}
+                    }
                   </div>
 
                   {/* Consent Timeline */}
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">CONSENT TIMELINE</p>
-                    {contact.consentTimeline.length === 0 ? (
-                      <div className="border border-border rounded-lg p-6 flex flex-col items-center gap-2 text-muted-foreground">
+                    {contact.consentTimeline.length === 0 ?
+                    <div className="border border-border rounded-lg p-6 flex flex-col items-center gap-2 text-muted-foreground">
                         <Clock className="w-6 h-6" />
                         <p className="text-sm">No consent events recorded</p>
-                      </div>
-                    ) : (
-                      <div className="border border-border rounded-lg overflow-hidden">
+                      </div> :
+
+                    <div className="border border-border rounded-lg overflow-hidden">
                         <table className="w-full text-sm">
                           <thead>
                             <tr className="bg-muted/80">
@@ -518,8 +518,8 @@ const ContactDetail = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {contact.consentTimeline.map((evt, idx) => (
-                              <tr key={idx} className="border-t border-border hover:bg-secondary/30 transition-colors">
+                            {contact.consentTimeline.map((evt, idx) =>
+                          <tr key={idx} className="border-t border-border hover:bg-secondary/30 transition-colors">
                                 <td className="py-3 px-4 text-muted-foreground whitespace-nowrap">
                                   <span className="inline-flex items-center gap-1.5">
                                     <Clock className="w-3.5 h-3.5" />
@@ -528,19 +528,19 @@ const ContactDetail = () => {
                                 </td>
                                 <td className="py-3 px-4">
                                   <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${
-                                    evt.action === "Opted In" || evt.action === "Re-subscribed" || evt.action === "Consent given" || evt.action === "Double opt-in confirmed"
-                                      ? "bg-primary/10 text-primary border border-primary/30"
-                                      : evt.action === "Double opt-in sent"
-                                      ? "bg-accent text-accent-foreground border border-border"
-                                      : "bg-destructive/10 text-destructive border border-destructive/30"
-                                  }`}>
+                              evt.action === "Opted In" || evt.action === "Re-subscribed" || evt.action === "Consent given" || evt.action === "Double opt-in confirmed" ?
+                              "bg-primary/10 text-primary border border-primary/30" :
+                              evt.action === "Double opt-in sent" ?
+                              "bg-accent text-accent-foreground border border-border" :
+                              "bg-destructive/10 text-destructive border border-destructive/30"}`
+                              }>
                                     <span className={`w-1.5 h-1.5 rounded-full ${
-                                      evt.action === "Opted In" || evt.action === "Re-subscribed" || evt.action === "Consent given" || evt.action === "Double opt-in confirmed"
-                                        ? "bg-primary"
-                                        : evt.action === "Double opt-in sent"
-                                        ? "bg-accent-foreground"
-                                        : "bg-destructive"
-                                    }`} />
+                                evt.action === "Opted In" || evt.action === "Re-subscribed" || evt.action === "Consent given" || evt.action === "Double opt-in confirmed" ?
+                                "bg-primary" :
+                                evt.action === "Double opt-in sent" ?
+                                "bg-accent-foreground" :
+                                "bg-destructive"}`
+                                } />
                                     {evt.action}
                                   </span>
                                 </td>
@@ -554,11 +554,11 @@ const ContactDetail = () => {
                                 <td className="py-3 px-4 text-muted-foreground text-xs">{evt.source}</td>
                                 <td className="py-3 px-4 text-muted-foreground text-xs">{evt.modifiedBy}</td>
                               </tr>
-                            ))}
+                          )}
                           </tbody>
                         </table>
                       </div>
-                    )}
+                    }
                   </div>
                 </TabsContent>
 
