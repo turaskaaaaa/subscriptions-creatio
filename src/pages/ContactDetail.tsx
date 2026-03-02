@@ -171,14 +171,13 @@ const ContactDetail = () => {
                               <td className="py-3 px-4 font-medium text-foreground">{sub.type}</td>
                               <td className="py-3 px-4 text-foreground">
                                 <span className="inline-flex items-center gap-1.5">
-                                  <Mail className="w-3.5 h-3.5 text-muted-foreground" />
-                                  Email
+                                  {sub.channel === "SMS" ? <Phone className="w-3.5 h-3.5 text-muted-foreground" /> : <Mail className="w-3.5 h-3.5 text-muted-foreground" />}
+                                  {sub.channel}
                                 </span>
                               </td>
                               <td className="py-3 px-4">
                                 <span className="inline-flex items-center gap-1.5 text-sm text-foreground">
-                                  → {contact.email}
-                                  
+                                  → {sub.channel === "SMS" ? contact.mobilePhone : contact.email}
                                 </span>
                               </td>
                               <td className="py-3 px-4">
