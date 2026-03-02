@@ -1,7 +1,8 @@
-import { Mail, Megaphone, Globe, HeartPulse, ChevronLeft, Search } from "lucide-react";
+import { Mail, Megaphone, Globe, HeartPulse, ChevronLeft, Search, Users } from "lucide-react";
 
 const navItems = [
   { icon: Mail, label: "Bulk emails", active: true, color: "text-blue-400" },
+  { icon: Users, label: "Contacts", active: false, color: "text-violet-400" },
   { icon: Megaphone, label: "Campaigns", active: false, color: "text-blue-500" },
   { icon: Globe, label: "Sender domains", active: false, color: "text-emerald-400" },
   { icon: HeartPulse, label: "Email audience health", active: false, color: "text-teal-400" },
