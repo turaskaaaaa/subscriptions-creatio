@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Folder, Tag, Search, Plus, MoreHorizontal, RefreshCw, SlidersHorizontal, BarChart3, Download, Mail, ArrowUpDown } from "lucide-react";
 import { contactsData } from "@/data/contactsData";
 import { Checkbox } from "@/components/ui/checkbox";
 import NewContactDialog from "./NewContactDialog";
+import { useSafeNavigate } from "@/hooks/useSafeRouter";
 
 const ContactsTable = () => {
   const [newContactOpen, setNewContactOpen] = useState(false);
-  const navigate = useNavigate();
+  const navigate = useSafeNavigate();
   return (
     <div className="flex-1 flex flex-col overflow-hidden bg-background">
       {/* Page header */}

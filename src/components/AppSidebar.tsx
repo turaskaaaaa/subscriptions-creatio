@@ -1,5 +1,5 @@
 import { Mail, Megaphone, Globe, HeartPulse, ChevronLeft, Search, Users } from "lucide-react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useSafeNavigate, useSafeLocation } from "@/hooks/useSafeRouter";
 
 const navItems = [
   { icon: Mail, label: "Bulk emails", path: "/", color: "text-blue-400" },
@@ -10,8 +10,8 @@ const navItems = [
 ];
 
 const AppSidebar = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useSafeNavigate();
+  const location = useSafeLocation();
 
   return (
     <aside className="flex flex-col w-[200px] min-w-[200px] bg-sidebar h-screen">
