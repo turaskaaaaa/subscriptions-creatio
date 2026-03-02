@@ -288,8 +288,14 @@ const ContactDetail = () => {
                               </td>
                               <td className="py-3 px-4">
                                 <span className="inline-flex items-center gap-1.5 text-sm text-foreground">
-                                  → {sub.channel === "SMS" ? contact.mobilePhone : contact.email}
+                                  → {sub.deliverTo || (sub.channel === "SMS" ? contact.mobilePhone : contact.email)}
                                 </span>
+                                {sub.deliverTo && sub.channel === "Email" && sub.deliverTo !== contact.email && (
+                                  <p className="text-[10px] text-muted-foreground mt-0.5">Different from primary</p>
+                                )}
+                                {sub.deliverTo && sub.channel === "SMS" && sub.deliverTo !== contact.mobilePhone && (
+                                  <p className="text-[10px] text-muted-foreground mt-0.5">Different from primary</p>
+                                )}
                               </td>
                               <td className="py-3 px-4">
                                 <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${

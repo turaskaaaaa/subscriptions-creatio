@@ -29,6 +29,7 @@ export interface Subscription {
   channel: "Email" | "SMS";
   status: "Subscribed" | "Unsubscribed" | "Pending";
   legalBasis: LegalBasis;
+  deliverTo?: string;
   doubleOptIn?: DoubleOptInProof;
   confirmationSentAt?: string;
 }
@@ -50,10 +51,10 @@ export interface Contact {
 
 export const contactsData: Contact[] = [
   { id: 9, fullName: "Aaron D'Souza", type: "Customer", account: "Computershare", mobilePhone: "+1 (415) 555-0101", email: "aaron.dsouza@computershare.com", country: "USA", jobTitle: "VP of Sales", birthDate: "3/15/1985", subscriptions: [
-    { type: "Information material", channel: "Email", status: "Subscribed", legalBasis: "Explicit consent", doubleOptIn: { confirmationDate: "11/10/2025 08:12", ipAddress: "198.51.100.42", method: "Email link", userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)" } },
-    { type: "Newsletter", channel: "Email", status: "Subscribed", legalBasis: "Explicit consent", doubleOptIn: { confirmationDate: "1/20/2026 11:47", ipAddress: "203.0.113.15", method: "Email link" } },
-    { type: "Promotions", channel: "SMS", status: "Pending", legalBasis: "Explicit consent", confirmationSentAt: "2/15/2026 09:10" },
-    { type: "Account alerts", channel: "SMS", status: "Unsubscribed", legalBasis: "Contract necessity" }
+    { type: "Information material", channel: "Email", status: "Subscribed", legalBasis: "Explicit consent", deliverTo: "aaron.dsouza@computershare.com", doubleOptIn: { confirmationDate: "11/10/2025 08:12", ipAddress: "198.51.100.42", method: "Email link", userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)" } },
+    { type: "Newsletter", channel: "Email", status: "Subscribed", legalBasis: "Explicit consent", deliverTo: "aaron.personal@gmail.com", doubleOptIn: { confirmationDate: "1/20/2026 11:47", ipAddress: "203.0.113.15", method: "Email link" } },
+    { type: "Promotions", channel: "SMS", status: "Pending", legalBasis: "Explicit consent", deliverTo: "+1 (415) 555-0101", confirmationSentAt: "2/15/2026 09:10" },
+    { type: "Account alerts", channel: "SMS", status: "Unsubscribed", legalBasis: "Contract necessity", deliverTo: "+1 (415) 555-0199" }
   ], suppressions: [{ channel: "Email", reason: "Hard bounce", address: "aaron.old@computershare.com", blockedDate: "1/10/2026", source: "Campaign: Q4 Product Update" }, { channel: "SMS", reason: "Spam complaint", address: "+1 (415) 555-0199", blockedDate: "2/5/2026", source: "Campaign: Holiday Promo SMS" }], consentTimeline: [{ date: "2/28/2026 14:32", action: "Opted Out", subscriptionType: "Account alerts", channel: "SMS", source: "Preference center", modifiedBy: "Contact" }, { date: "2/15/2026 09:10", action: "Double opt-in sent", subscriptionType: "Promotions", channel: "SMS", source: "Web form: Spring Campaign", modifiedBy: "System" }, { date: "1/20/2026 11:47", action: "Double opt-in confirmed", subscriptionType: "Newsletter", channel: "Email", source: "Email confirmation link", modifiedBy: "Contact" }, { date: "1/20/2026 11:45", action: "Double opt-in sent", subscriptionType: "Newsletter", channel: "Email", source: "Double opt-in confirmation", modifiedBy: "System" }, { date: "12/5/2025 16:20", action: "Opted In", subscriptionType: "Information material", channel: "Email", source: "Account signup", modifiedBy: "System" }, { date: "11/10/2025 08:12", action: "Double opt-in confirmed", subscriptionType: "Information material", channel: "Email", source: "Email confirmation link", modifiedBy: "Contact" }, { date: "11/10/2025 08:00", action: "Double opt-in sent", subscriptionType: "Information material", channel: "Email", source: "GDPR consent form", modifiedBy: "System" }] },
   { id: 10, fullName: "Aaron Falcone", type: "Partner", account: "LFG Financial", mobilePhone: "+1 (312) 555-0142", email: "aaron.falcone@lfg.com", country: "USA", jobTitle: "Director", birthDate: "7/22/1990", subscriptions: [
     { type: "Information material", channel: "Email", status: "Subscribed", legalBasis: "Legitimate interest" },
