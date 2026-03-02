@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { contactsData } from "@/data/contactsData";
 import TopBar from "@/components/TopBar";
 import AppSidebar from "@/components/AppSidebar";
-import { ArrowLeft, Tag, Lock, MessageSquare, Paperclip, Plus, RefreshCw, MoreVertical, Search, ChevronUp, User, Mail, Phone, X, MessageCircle } from "lucide-react";
+import { ArrowLeft, Tag, Lock, MessageSquare, Paperclip, Plus, RefreshCw, MoreVertical, Search, ChevronUp, User, Mail, Phone, X } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 
@@ -170,14 +170,14 @@ const ContactDetail = () => {
                               <td className="py-3 px-4 font-medium text-foreground">{sub.type}</td>
                               <td className="py-3 px-4 text-foreground">
                                 <span className="inline-flex items-center gap-1.5">
-                                  {sub.channel === "SMS" ? <MessageCircle className="w-3.5 h-3.5 text-muted-foreground" /> : <Mail className="w-3.5 h-3.5 text-muted-foreground" />}
-                                  {sub.channel}
+                                  <Mail className="w-3.5 h-3.5 text-muted-foreground" />
+                                  Email
                                 </span>
                               </td>
                               <td className="py-3 px-4">
                                 <span className="inline-flex items-center gap-1.5 text-sm text-foreground">
-                                  → {sub.channel === "SMS" ? contact.mobilePhone : contact.email}
-                                  <span className="text-[10px] font-medium bg-muted text-muted-foreground rounded px-1.5 py-0.5">primary</span>
+                                  → {contact.email}
+                                  
                                 </span>
                               </td>
                               <td className="py-3 px-4">
