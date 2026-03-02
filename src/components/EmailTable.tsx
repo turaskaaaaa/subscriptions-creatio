@@ -1,5 +1,6 @@
-import { Folder, Filter, Calendar, Tag, Search, Plus, MoreHorizontal, RefreshCw, SlidersHorizontal, BarChart3 } from "lucide-react";
+import { Folder, Filter, Calendar, Tag, Search, Plus, MoreHorizontal, RefreshCw, SlidersHorizontal, BarChart3, FileSpreadsheet, ClipboardCheck, SlidersHorizontal as SettingsIcon } from "lucide-react";
 import { emailData } from "@/data/emailData";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 const EmailTable = () => {
   return (
@@ -12,9 +13,27 @@ const EmailTable = () => {
             <Plus className="w-4 h-4" />
             Create email
           </button>
-          <button className="p-2 text-muted-foreground hover:text-foreground">
-            <MoreHorizontal className="w-4 h-4" />
-          </button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="p-2 text-muted-foreground hover:text-foreground">
+                <MoreHorizontal className="w-4 h-4" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuItem className="flex items-center gap-3 cursor-pointer">
+                <FileSpreadsheet className="w-4 h-4 text-primary" />
+                Export to Excel
+              </DropdownMenuItem>
+              <DropdownMenuItem className="flex items-center gap-3 cursor-pointer">
+                <ClipboardCheck className="w-4 h-4 text-primary" />
+                Progress check
+              </DropdownMenuItem>
+              <DropdownMenuItem className="flex items-center gap-3 cursor-pointer">
+                <SettingsIcon className="w-4 h-4 text-primary" />
+                Bulk email settings
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 
