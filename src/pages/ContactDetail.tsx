@@ -110,7 +110,7 @@ const ContactDetail = () => {
                 <div>
                   <p className="text-xs text-muted-foreground">Mobile phone</p>
                   <div className="flex items-center gap-1.5">
-                    <Phone className="w-3.5 h-3.5 text-emerald-500" />
+                    <Phone className="w-3.5 h-3.5 text-primary" />
                     <span className="text-sm text-foreground">{contact.mobilePhone}</span>
                   </div>
                 </div>
@@ -133,6 +133,85 @@ const ContactDetail = () => {
                 </TabsList>
 
                 <TabsContent value="subscriptions" className="p-6 space-y-6">
+                  {/* Compliance Summary Card */}
+                  {(() => {
+                    const totalSubs = contact.subscriptions.length;
+                    const activeSubs = contact.subscriptions.filter(s => s.status === "Subscribed").length;
+                    const activeSuppCount = contact.suppressions.length;
+                    const lastConsentEvent = contact.consentTimeline.length > 0
+                      ? contact.consentTimeline[contact.consentTimeline.length - 1]
+                      : null;
+
+                    return (
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {/* Subscription Status */}
+                        <div className="border border-border rounded-lg p-4 space-y-2">
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Active Subscriptions</p>
+                          <div className="flex items-end gap-2">
+                            <span className="text-3xl font-bold text-foreground">{activeSubs}</span>
+                            <span className="text-sm text-muted-foreground mb-1">of {totalSubs}</span>
+                          </div>
+                          <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
+                            <div
+                              className="h-full bg-primary rounded-full transition-all"
+                              style={{ width: totalSubs > 0 ? `${(activeSubs / totalSubs) * 100}%` : '0%' }}
+                            />
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            {totalSubs - activeSubs} opted out
+                          </p>
+                        </div>
+
+                        {/* Active Suppressions */}
+                        <div className={`border rounded-lg p-4 space-y-2 ${activeSuppCount > 0 ? 'border-destructive/40 bg-destructive/5' : 'border-border'}`}>
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Active Suppressions</p>
+                          <div className="flex items-end gap-2">
+                            <span className={`text-3xl font-bold ${activeSuppCount > 0 ? 'text-destructive' : 'text-foreground'}`}>{activeSuppCount}</span>
+                            {activeSuppCount > 0 && (
+                              <span className="inline-flex items-center gap-1 text-xs text-destructive mb-1">
+                                <Ban className="w-3 h-3" /> Delivery affected
+                              </span>
+                            )}
+                          </div>
+                          {activeSuppCount > 0 ? (
+                            <p className="text-xs text-destructive/80">
+                              {contact.suppressions.filter(s => s.reason === "Hard bounce").length} hard bounce · {contact.suppressions.filter(s => s.reason === "Spam complaint").length} spam complaint
+                            </p>
+                          ) : (
+                            <p className="text-xs text-muted-foreground">No blocked addresses</p>
+                          )}
+                        </div>
+
+                        {/* Last Consent Change */}
+                        <div className="border border-border rounded-lg p-4 space-y-2">
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Last Consent Change</p>
+                          {lastConsentEvent ? (
+                            <>
+                              <div className="flex items-center gap-2">
+                                <Clock className="w-4 h-4 text-muted-foreground" />
+                                <span className="text-sm font-semibold text-foreground">{lastConsentEvent.date}</span>
+                              </div>
+                              <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${
+                                lastConsentEvent.action === "Opted In" || lastConsentEvent.action === "Re-subscribed" || lastConsentEvent.action === "Consent given"
+                                  ? "bg-primary/10 text-primary border border-primary/30"
+                                  : "bg-destructive/10 text-destructive border border-destructive/30"
+                              }`}>
+                                <span className={`w-1.5 h-1.5 rounded-full ${
+                                  lastConsentEvent.action === "Opted In" || lastConsentEvent.action === "Re-subscribed" || lastConsentEvent.action === "Consent given"
+                                    ? "bg-primary" : "bg-destructive"
+                                }`} />
+                                {lastConsentEvent.action} — {lastConsentEvent.subscriptionType}
+                              </span>
+                              <p className="text-xs text-muted-foreground">via {lastConsentEvent.source}</p>
+                            </>
+                          ) : (
+                            <p className="text-xs text-muted-foreground">No consent events recorded</p>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })()}
+
                   {/* Primary email banner */}
                   <div className="border-2 border-primary/40 bg-primary/5 rounded-lg p-5">
                     <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Primary communication email</p>
