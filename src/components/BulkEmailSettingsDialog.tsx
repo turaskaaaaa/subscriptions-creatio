@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useSettings } from "@/contexts/SettingsContext";
-import { Scale, ShieldAlert, Clock, RefreshCw, Mail, CheckCircle2 } from "lucide-react";
+import { Scale, ShieldAlert, CalendarClock, RefreshCw, Mail, CheckCircle2 } from "lucide-react";
 import type { LegalBasis } from "@/data/contactsData";
 
 interface BulkEmailSettingsDialogProps {
@@ -146,7 +146,7 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
-                        <Clock className="w-3 h-3" /> Confirmation expiry
+                        <CalendarClock className="w-3 h-3" /> Confirmation expiry
                       </label>
                       <div className="flex items-center gap-2">
                         <Input
