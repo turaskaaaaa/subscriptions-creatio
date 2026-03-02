@@ -2,9 +2,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import { contactsData } from "@/data/contactsData";
 import TopBar from "@/components/TopBar";
 import AppSidebar from "@/components/AppSidebar";
-import { ArrowLeft, Tag, Lock, MessageSquare, Paperclip, Plus, RefreshCw, MoreVertical, Search, ChevronUp, User, Mail, Phone, X, ShieldAlert, Ban, Clock } from "lucide-react";
+import { ArrowLeft, Tag, Lock, MessageSquare, Paperclip, Plus, RefreshCw, MoreVertical, Search, ChevronUp, User, Mail, Phone, X, ShieldAlert, Ban, Clock, Send, ExternalLink } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
+import { useState } from "react";
 
 const ContactDetail = () => {
   const { id } = useParams();
@@ -149,6 +151,32 @@ const ContactDetail = () => {
                         Primary
                       </span>
                     </div>
+                  </div>
+
+                  {/* Re-consent / Preference Center Actions */}
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <button
+                      onClick={() => {
+                        toast.success("Re-consent email queued", {
+                          description: `A preference update request will be sent to ${contact.email}`,
+                        });
+                      }}
+                      className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg border border-primary/30 bg-primary/5 text-primary hover:bg-primary/10 transition-colors"
+                    >
+                      <Send className="w-4 h-4" />
+                      Send Re-consent Email
+                    </button>
+                    <button
+                      onClick={() => {
+                        toast.info("Preference center link copied", {
+                          description: "The unique preference center URL has been copied to clipboard",
+                        });
+                      }}
+                      className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      Copy Preference Center Link
+                    </button>
                   </div>
 
                   {/* Compliance Summary Card */}
