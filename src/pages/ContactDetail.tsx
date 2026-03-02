@@ -210,8 +210,9 @@ const ContactDetail = () => {
 
                   {/* Compliance Summary Card */}
                   {(() => {
-                    const totalSubs = contact.subscriptions.length;
-                    const activeSubs = contact.subscriptions.filter((s) => s.status === "Subscribed").length;
+                     const emailSubs = contact.subscriptions.filter((s) => s.channel === "Email");
+                     const totalSubs = emailSubs.length;
+                     const activeSubs = emailSubs.filter((s) => s.status === "Subscribed").length;
                     const activeSuppCount = contact.suppressions.length;
                     const lastConsentEvent = contact.consentTimeline.length > 0 ?
                     contact.consentTimeline[contact.consentTimeline.length - 1] :
