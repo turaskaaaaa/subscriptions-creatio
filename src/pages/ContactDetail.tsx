@@ -135,23 +135,51 @@ const ContactDetail = () => {
                 </TabsList>
 
                 <TabsContent value="subscriptions" className="p-6 space-y-6">
-                  {/* Primary email banner */}
-                  <div className="border-2 border-primary/40 bg-primary/5 rounded-lg p-5">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Primary communication email</p>
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0">
-                        <Mail className="w-5 h-5 text-primary-foreground" />
+                  {/* Primary email banner with per-subscription delivery map */}
+                  {(() => {
+                    // Group subscriptions by delivery address
+                    const emailSubs = contact.subscriptions.filter(s => s.channel === "Email");
+                    const deliveryMap = new Map<string, string[]>();
+                    emailSubs.forEach(sub => {
+                      const addr = sub.deliverTo || contact.email;
+                      if (!deliveryMap.has(addr)) deliveryMap.set(addr, []);
+                      deliveryMap.get(addr)!.push(sub.type);
+                    });
+
+                    return (
+                      <div className="border-2 border-primary/40 bg-primary/5 rounded-lg p-5 space-y-4">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Email delivery routing</p>
+                        {Array.from(deliveryMap.entries()).map(([addr, types], i) => {
+                          const isPrimary = addr === contact.email;
+                          return (
+                            <div key={addr} className={`flex items-start gap-3 ${i > 0 ? "pt-3 border-t border-primary/20" : ""}`}>
+                              <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${isPrimary ? "bg-primary" : "bg-muted"}`}>
+                                <Mail className={`w-5 h-5 ${isPrimary ? "text-primary-foreground" : "text-muted-foreground"}`} />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2">
+                                  <p className="text-sm font-semibold text-foreground truncate">{addr}</p>
+                                  {isPrimary && (
+                                    <span className="inline-flex items-center gap-1.5 text-[10px] font-medium bg-primary/10 text-primary border border-primary/30 rounded-full px-2 py-0.5 shrink-0">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                                      Primary
+                                    </span>
+                                  )}
+                                </div>
+                                <div className="flex flex-wrap gap-1.5 mt-1.5">
+                                  {types.map(type => (
+                                    <span key={type} className="text-[11px] px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20 font-medium">
+                                      {type}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
-                      <div>
-                        <p className="text-sm font-semibold text-foreground">{contact.email}</p>
-                        <p className="text-xs text-muted-foreground">All opted-in and transactional emails will be delivered to this address</p>
-                      </div>
-                      <span className="ml-auto inline-flex items-center gap-1.5 text-xs font-medium bg-primary/10 text-primary border border-primary/30 rounded-full px-3 py-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                        Primary
-                      </span>
-                    </div>
-                  </div>
+                    );
+                  })()}
 
                   {/* Re-consent / Preference Center Actions */}
                   <div className="flex items-center gap-3 flex-wrap">
