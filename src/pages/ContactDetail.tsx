@@ -152,6 +152,96 @@ const ContactDetail = () => {
                     </div>
                   </div>
 
+                  {/* Re-consent action bar */}
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => toast.info("Re-consent email sent", { description: `Sent to ${contact.email}` })}
+                      className="flex items-center gap-2 border border-destructive/40 text-destructive px-4 py-2 rounded-md text-sm font-medium hover:bg-destructive/5 transition-colors"
+                    >
+                      <Send className="w-4 h-4" />
+                      Send Re-consent Email
+                    </button>
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(`https://preferences.example.com/${contact.id}`);
+                        toast.success("Preference center link copied to clipboard");
+                      }}
+                      className="flex items-center gap-2 border border-border text-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-secondary transition-colors"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      Copy Preference Center Link
+                    </button>
+                  </div>
+
+                  {/* Compliance summary cards */}
+                  {(() => {
+                    const emailSubs = contact.subscriptions.filter(s => s.channel === "Email");
+                    const subscribedCount = emailSubs.filter(s => s.status === "Subscribed").length;
+                    const totalCount = emailSubs.length;
+                    const optedOutCount = emailSubs.filter(s => s.status === "Unsubscribed").length;
+                    const activeSuppressions = contact.suppressions.length;
+                    const hardBounces = contact.suppressions.filter(s => s.reason === "Hard bounce").length;
+                    const spamComplaints = contact.suppressions.filter(s => s.reason === "Spam complaint").length;
+                    const lastEvent = contact.consentTimeline.length > 0 ? contact.consentTimeline[0] : null;
+
+                    return (
+                      <div className="grid grid-cols-3 gap-4">
+                        {/* Marketing Email Status */}
+                        <div className="border border-border rounded-lg p-5 space-y-3">
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Marketing Email Status</p>
+                          <p className="text-3xl font-bold text-foreground">{subscribedCount} <span className="text-sm font-normal text-muted-foreground">of {totalCount}</span></p>
+                          <div className="w-full bg-muted rounded-full h-2">
+                            <div className="bg-primary h-2 rounded-full" style={{ width: totalCount > 0 ? `${(subscribedCount / totalCount) * 100}%` : '0%' }} />
+                          </div>
+                          <p className="text-xs text-muted-foreground">{optedOutCount} opted out</p>
+                        </div>
+
+                        {/* Active Suppressions */}
+                        <div className={`border rounded-lg p-5 space-y-3 ${activeSuppressions > 0 ? 'border-destructive/30 bg-destructive/5' : 'border-border'}`}>
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Active Suppressions</p>
+                          <p className={`text-3xl font-bold ${activeSuppressions > 0 ? 'text-destructive' : 'text-foreground'}`}>{activeSuppressions}</p>
+                          {activeSuppressions > 0 && (
+                            <>
+                              <p className="text-xs text-destructive flex items-center gap-1.5">
+                                <Ban className="w-3 h-3" /> Delivery affected
+                              </p>
+                              <p className="text-xs text-muted-foreground">{hardBounces} hard bounce · {spamComplaints} spam complaint</p>
+                            </>
+                          )}
+                        </div>
+
+                        {/* Last Consent Change */}
+                        <div className="border border-border rounded-lg p-5 space-y-3">
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Last Consent Change</p>
+                          {lastEvent ? (
+                            <>
+                              <p className="text-sm font-semibold text-foreground flex items-center gap-1.5">
+                                <Clock className="w-4 h-4 text-muted-foreground" />
+                                {lastEvent.date}
+                              </p>
+                              <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${
+                                lastEvent.action === "Opted In" || lastEvent.action === "Re-subscribed" || lastEvent.action === "Consent given" || lastEvent.action === "Double opt-in confirmed"
+                                  ? "bg-primary/10 text-primary"
+                                  : lastEvent.action === "Double opt-in sent"
+                                  ? "bg-destructive/10 text-destructive"
+                                  : "bg-destructive/10 text-destructive"
+                              }`}>
+                                <span className={`w-1.5 h-1.5 rounded-full ${
+                                  lastEvent.action === "Opted In" || lastEvent.action === "Re-subscribed" || lastEvent.action === "Consent given" || lastEvent.action === "Double opt-in confirmed"
+                                    ? "bg-primary"
+                                    : "bg-destructive"
+                                }`} />
+                                {lastEvent.action} — {lastEvent.subscriptionType}
+                              </span>
+                              <p className="text-xs text-muted-foreground">via {lastEvent.source}</p>
+                            </>
+                          ) : (
+                            <p className="text-sm text-muted-foreground">No consent events</p>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })()}
 
                   {/* Subscriptions table */}
                   <div>
