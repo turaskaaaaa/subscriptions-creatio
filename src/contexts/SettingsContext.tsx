@@ -1,6 +1,25 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import type { LegalBasis } from "@/data/contactsData";
 
+export interface SubscriptionTypeConfig {
+  name: string;
+  channel: "Email" | "SMS";
+  visibleInPreferenceCenter: boolean;
+}
+
+export interface PreferenceCenterConfig {
+  title: string;
+  logoUrl: string;
+  welcomeMessage: string;
+  footerText: string;
+  subscriptionTypes: SubscriptionTypeConfig[];
+  primaryColor: string;
+  darkModeEnabled: boolean;
+  requireReconfirmation: boolean;
+  showLegalBasis: boolean;
+  privacyPolicyUrl: string;
+}
+
 interface SettingsContextType {
   // Marketing consent
   marketingConsentDefault: boolean;
@@ -37,7 +56,32 @@ interface SettingsContextType {
   setAutoSuppressHardBounce: (value: boolean) => void;
   autoSuppressSpamComplaint: boolean;
   setAutoSuppressSpamComplaint: (value: boolean) => void;
+
+  // Preference Center
+  preferenceCenterConfig: PreferenceCenterConfig;
+  setPreferenceCenterConfig: (value: PreferenceCenterConfig) => void;
+  updatePreferenceCenterField: <K extends keyof PreferenceCenterConfig>(key: K, value: PreferenceCenterConfig[K]) => void;
 }
+
+const defaultPreferenceCenterConfig: PreferenceCenterConfig = {
+  title: "Manage Your Preferences",
+  logoUrl: "",
+  welcomeMessage: "Choose which communications you'd like to receive from us.",
+  footerText: "© 2026 Your Company. All rights reserved.",
+  subscriptionTypes: [
+    { name: "Newsletter", channel: "Email", visibleInPreferenceCenter: true },
+    { name: "Promotions", channel: "Email", visibleInPreferenceCenter: true },
+    { name: "Information material", channel: "Email", visibleInPreferenceCenter: true },
+    { name: "Security alerts", channel: "SMS", visibleInPreferenceCenter: true },
+    { name: "Account alerts", channel: "SMS", visibleInPreferenceCenter: true },
+    { name: "Appointment reminders", channel: "SMS", visibleInPreferenceCenter: true },
+  ],
+  primaryColor: "214 80% 52%",
+  darkModeEnabled: false,
+  requireReconfirmation: true,
+  showLegalBasis: false,
+  privacyPolicyUrl: "",
+};
 
 const SettingsContext = createContext<SettingsContextType>({
   marketingConsentDefault: true,
@@ -64,6 +108,9 @@ const SettingsContext = createContext<SettingsContextType>({
   setAutoSuppressHardBounce: () => {},
   autoSuppressSpamComplaint: true,
   setAutoSuppressSpamComplaint: () => {},
+  preferenceCenterConfig: defaultPreferenceCenterConfig,
+  setPreferenceCenterConfig: () => {},
+  updatePreferenceCenterField: () => {},
 });
 
 export const useSettings = () => useContext(SettingsContext);
@@ -83,6 +130,11 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
   const [spamComplaintThreshold, setSpamComplaintThreshold] = useState(1);
   const [autoSuppressHardBounce, setAutoSuppressHardBounce] = useState(true);
   const [autoSuppressSpamComplaint, setAutoSuppressSpamComplaint] = useState(true);
+  const [preferenceCenterConfig, setPreferenceCenterConfig] = useState<PreferenceCenterConfig>(defaultPreferenceCenterConfig);
+
+  const updatePreferenceCenterField = <K extends keyof PreferenceCenterConfig>(key: K, value: PreferenceCenterConfig[K]) => {
+    setPreferenceCenterConfig(prev => ({ ...prev, [key]: value }));
+  };
 
   return (
     <SettingsContext.Provider value={{
@@ -98,6 +150,8 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
       spamComplaintThreshold, setSpamComplaintThreshold,
       autoSuppressHardBounce, setAutoSuppressHardBounce,
       autoSuppressSpamComplaint, setAutoSuppressSpamComplaint,
+      preferenceCenterConfig, setPreferenceCenterConfig,
+      updatePreferenceCenterField,
     }}>
       {children}
     </SettingsContext.Provider>
