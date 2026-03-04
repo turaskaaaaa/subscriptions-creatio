@@ -136,6 +136,21 @@ const ContactDetail = () => {
 
                 <TabsContent value="subscriptions" className="p-6 space-y-6">
 
+                  {/* Email delivery routing - primary address */}
+                  <div className="border-2 border-primary/40 bg-primary/5 rounded-lg p-5 space-y-4">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Email delivery routing</p>
+                    <p className="text-xs text-muted-foreground -mt-2">Emails will be sent to the primary address unless a different one is selected for a specific subscription type.</p>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-primary">
+                        <Mail className="w-5 h-5 text-primary-foreground" />
+                      </div>
+                      <p className="text-sm font-semibold text-foreground">{contact.email}</p>
+                      <span className="inline-flex items-center gap-1.5 text-[10px] font-medium bg-primary/10 text-primary border border-primary/30 rounded-full px-2 py-0.5 shrink-0">
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                        Primary
+                      </span>
+                    </div>
+                  </div>
 
 
                   {/* Subscriptions table */}
