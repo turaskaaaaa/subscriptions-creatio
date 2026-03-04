@@ -176,24 +176,38 @@ const ContactDetail = () => {
                   {/* Compliance summary cards */}
                   {(() => {
                     const emailSubs = contact.subscriptions.filter(s => s.channel === "Email");
-                    const subscribedCount = emailSubs.filter(s => s.status === "Subscribed").length;
-                    const totalCount = emailSubs.length;
-                    const optedOutCount = emailSubs.filter(s => s.status === "Unsubscribed").length;
+                    const emailSubscribed = emailSubs.filter(s => s.status === "Subscribed").length;
+                    const emailTotal = emailSubs.length;
+                    const emailOptedOut = emailSubs.filter(s => s.status === "Unsubscribed").length;
+                    const smsSubs = contact.subscriptions.filter(s => s.channel === "SMS");
+                    const smsSubscribed = smsSubs.filter(s => s.status === "Subscribed").length;
+                    const smsTotal = smsSubs.length;
+                    const smsOptedOut = smsSubs.filter(s => s.status === "Unsubscribed").length;
                     const activeSuppressions = contact.suppressions.length;
                     const hardBounces = contact.suppressions.filter(s => s.reason === "Hard bounce").length;
                     const spamComplaints = contact.suppressions.filter(s => s.reason === "Spam complaint").length;
                     const lastEvent = contact.consentTimeline.length > 0 ? contact.consentTimeline[0] : null;
 
                     return (
-                      <div className="grid grid-cols-3 gap-4">
+                      <div className="grid grid-cols-4 gap-4">
                         {/* Marketing Email Status */}
                         <div className="border border-border rounded-lg p-5 space-y-3">
                           <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Marketing Email Status</p>
-                          <p className="text-3xl font-bold text-foreground">{subscribedCount} <span className="text-sm font-normal text-muted-foreground">of {totalCount}</span></p>
+                          <p className="text-3xl font-bold text-foreground">{emailSubscribed} <span className="text-sm font-normal text-muted-foreground">of {emailTotal}</span></p>
                           <div className="w-full bg-muted rounded-full h-2">
-                            <div className="bg-primary h-2 rounded-full" style={{ width: totalCount > 0 ? `${(subscribedCount / totalCount) * 100}%` : '0%' }} />
+                            <div className="bg-primary h-2 rounded-full" style={{ width: emailTotal > 0 ? `${(emailSubscribed / emailTotal) * 100}%` : '0%' }} />
                           </div>
-                          <p className="text-xs text-muted-foreground">{optedOutCount} opted out</p>
+                          <p className="text-xs text-muted-foreground">{emailOptedOut} opted out</p>
+                        </div>
+
+                        {/* SMS Status */}
+                        <div className="border border-border rounded-lg p-5 space-y-3">
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">SMS Status</p>
+                          <p className="text-3xl font-bold text-foreground">{smsSubscribed} <span className="text-sm font-normal text-muted-foreground">of {smsTotal}</span></p>
+                          <div className="w-full bg-muted rounded-full h-2">
+                            <div className="bg-primary h-2 rounded-full" style={{ width: smsTotal > 0 ? `${(smsSubscribed / smsTotal) * 100}%` : '0%' }} />
+                          </div>
+                          <p className="text-xs text-muted-foreground">{smsOptedOut} opted out</p>
                         </div>
 
                         {/* Active Suppressions */}
