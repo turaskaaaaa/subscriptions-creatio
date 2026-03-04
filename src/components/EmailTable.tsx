@@ -22,7 +22,7 @@ const EmailTable = () => {
             onClick={() => setSettingsOpen(true)}
           >
             <Settings className="w-4 h-4" />
-            Bulk email settings
+            B
           </button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
