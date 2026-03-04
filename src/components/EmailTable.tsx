@@ -17,6 +17,13 @@ const EmailTable = () => {
             <Plus className="w-4 h-4" />
             Create email
           </button>
+          <button
+            className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium border border-border text-foreground hover:bg-secondary transition-colors"
+            onClick={() => setSettingsOpen(true)}
+          >
+            <SettingsIcon className="w-4 h-4" />
+            Bulk email settings
+          </button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className="p-2 text-muted-foreground hover:text-foreground">
@@ -31,10 +38,6 @@ const EmailTable = () => {
               <DropdownMenuItem className="flex items-center gap-3 cursor-pointer">
                 <ClipboardCheck className="w-4 h-4 text-primary" />
                 Progress check
-              </DropdownMenuItem>
-              <DropdownMenuItem className="flex items-center gap-3 cursor-pointer" onClick={() => setSettingsOpen(true)}>
-                <SettingsIcon className="w-4 h-4 text-primary" />
-                Bulk email settings
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
