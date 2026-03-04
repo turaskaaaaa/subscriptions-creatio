@@ -156,8 +156,8 @@ const ContactDetail = () => {
                   <div className="flex items-center gap-3">
                     <button
                       onClick={() => toast.info("Re-consent email sent", { description: `Sent to ${contact.email}` })}
-                      className="flex items-center gap-2 border border-destructive/40 text-destructive px-4 py-2 rounded-md text-sm font-medium hover:bg-destructive/5 transition-colors"
-                    >
+                      className="flex items-center gap-2 border border-destructive/40 px-4 py-2 rounded-md text-sm font-medium transition-colors text-primary bg-primary-foreground">
+                      
                       <Send className="w-4 h-4" />
                       Send Re-consent Email
                     </button>
@@ -166,8 +166,8 @@ const ContactDetail = () => {
                         navigator.clipboard.writeText(`https://preferences.example.com/${contact.id}`);
                         toast.success("Preference center link copied to clipboard");
                       }}
-                      className="flex items-center gap-2 border border-border text-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-secondary transition-colors"
-                    >
+                      className="flex items-center gap-2 border border-border text-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-secondary transition-colors">
+                      
                       <ExternalLink className="w-4 h-4" />
                       Copy Preference Center Link
                     </button>
@@ -175,17 +175,17 @@ const ContactDetail = () => {
 
                   {/* Compliance summary cards */}
                   {(() => {
-                    const emailSubs = contact.subscriptions.filter(s => s.channel === "Email");
-                    const emailSubscribed = emailSubs.filter(s => s.status === "Subscribed").length;
+                    const emailSubs = contact.subscriptions.filter((s) => s.channel === "Email");
+                    const emailSubscribed = emailSubs.filter((s) => s.status === "Subscribed").length;
                     const emailTotal = emailSubs.length;
-                    const emailOptedOut = emailSubs.filter(s => s.status === "Unsubscribed").length;
-                    const smsSubs = contact.subscriptions.filter(s => s.channel === "SMS");
-                    const smsSubscribed = smsSubs.filter(s => s.status === "Subscribed").length;
+                    const emailOptedOut = emailSubs.filter((s) => s.status === "Unsubscribed").length;
+                    const smsSubs = contact.subscriptions.filter((s) => s.channel === "SMS");
+                    const smsSubscribed = smsSubs.filter((s) => s.status === "Subscribed").length;
                     const smsTotal = smsSubs.length;
-                    const smsOptedOut = smsSubs.filter(s => s.status === "Unsubscribed").length;
+                    const smsOptedOut = smsSubs.filter((s) => s.status === "Unsubscribed").length;
                     const activeSuppressions = contact.suppressions.length;
-                    const hardBounces = contact.suppressions.filter(s => s.reason === "Hard bounce").length;
-                    const spamComplaints = contact.suppressions.filter(s => s.reason === "Spam complaint").length;
+                    const hardBounces = contact.suppressions.filter((s) => s.reason === "Hard bounce").length;
+                    const spamComplaints = contact.suppressions.filter((s) => s.reason === "Spam complaint").length;
                     const lastEvent = contact.consentTimeline.length > 0 ? contact.consentTimeline[0] : null;
 
                     return (
@@ -195,7 +195,7 @@ const ContactDetail = () => {
                           <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Marketing Email Status</p>
                           <p className="text-3xl font-bold text-foreground">{emailSubscribed} <span className="text-sm font-normal text-muted-foreground">of {emailTotal}</span></p>
                           <div className="w-full bg-muted rounded-full h-2">
-                            <div className="bg-primary h-2 rounded-full" style={{ width: emailTotal > 0 ? `${(emailSubscribed / emailTotal) * 100}%` : '0%' }} />
+                            <div className="bg-primary h-2 rounded-full" style={{ width: emailTotal > 0 ? `${emailSubscribed / emailTotal * 100}%` : '0%' }} />
                           </div>
                           <p className="text-xs text-muted-foreground">{emailOptedOut} opted out</p>
                         </div>
@@ -205,7 +205,7 @@ const ContactDetail = () => {
                           <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">SMS Status</p>
                           <p className="text-3xl font-bold text-foreground">{smsSubscribed} <span className="text-sm font-normal text-muted-foreground">of {smsTotal}</span></p>
                           <div className="w-full bg-muted rounded-full h-2">
-                            <div className="bg-primary h-2 rounded-full" style={{ width: smsTotal > 0 ? `${(smsSubscribed / smsTotal) * 100}%` : '0%' }} />
+                            <div className="bg-primary h-2 rounded-full" style={{ width: smsTotal > 0 ? `${smsSubscribed / smsTotal * 100}%` : '0%' }} />
                           </div>
                           <p className="text-xs text-muted-foreground">{smsOptedOut} opted out</p>
                         </div>
@@ -214,47 +214,47 @@ const ContactDetail = () => {
                         <div className={`border rounded-lg p-5 space-y-3 ${activeSuppressions > 0 ? 'border-destructive/30 bg-destructive/5' : 'border-border'}`}>
                           <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Active Suppressions</p>
                           <p className={`text-3xl font-bold ${activeSuppressions > 0 ? 'text-destructive' : 'text-foreground'}`}>{activeSuppressions}</p>
-                          {activeSuppressions > 0 && (
-                            <>
+                          {activeSuppressions > 0 &&
+                          <>
                               <p className="text-xs text-destructive flex items-center gap-1.5">
                                 <Ban className="w-3 h-3" /> Delivery affected
                               </p>
                               <p className="text-xs text-muted-foreground">{hardBounces} hard bounce · {spamComplaints} spam complaint</p>
                             </>
-                          )}
+                          }
                         </div>
 
                         {/* Last Consent Change */}
                         <div className="border border-border rounded-lg p-5 space-y-3">
                           <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Last Consent Change</p>
-                          {lastEvent ? (
-                            <>
+                          {lastEvent ?
+                          <>
                               <p className="text-sm font-semibold text-foreground flex items-center gap-1.5">
                                 <Clock className="w-4 h-4 text-muted-foreground" />
                                 {lastEvent.date}
                               </p>
                               <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${
-                                lastEvent.action === "Opted In" || lastEvent.action === "Re-subscribed" || lastEvent.action === "Consent given" || lastEvent.action === "Double opt-in confirmed"
-                                  ? "bg-primary/10 text-primary"
-                                  : lastEvent.action === "Double opt-in sent"
-                                  ? "bg-destructive/10 text-destructive"
-                                  : "bg-destructive/10 text-destructive"
-                              }`}>
+                            lastEvent.action === "Opted In" || lastEvent.action === "Re-subscribed" || lastEvent.action === "Consent given" || lastEvent.action === "Double opt-in confirmed" ?
+                            "bg-primary/10 text-primary" :
+                            lastEvent.action === "Double opt-in sent" ?
+                            "bg-destructive/10 text-destructive" :
+                            "bg-destructive/10 text-destructive"}`
+                            }>
                                 <span className={`w-1.5 h-1.5 rounded-full ${
-                                  lastEvent.action === "Opted In" || lastEvent.action === "Re-subscribed" || lastEvent.action === "Consent given" || lastEvent.action === "Double opt-in confirmed"
-                                    ? "bg-primary"
-                                    : "bg-destructive"
-                                }`} />
+                              lastEvent.action === "Opted In" || lastEvent.action === "Re-subscribed" || lastEvent.action === "Consent given" || lastEvent.action === "Double opt-in confirmed" ?
+                              "bg-primary" :
+                              "bg-destructive"}`
+                              } />
                                 {lastEvent.action} — {lastEvent.subscriptionType}
                               </span>
                               <p className="text-xs text-muted-foreground">via {lastEvent.source}</p>
-                            </>
-                          ) : (
-                            <p className="text-sm text-muted-foreground">No consent events</p>
-                          )}
+                            </> :
+
+                          <p className="text-sm text-muted-foreground">No consent events</p>
+                          }
                         </div>
-                      </div>
-                    );
+                      </div>);
+
                   })()}
 
                   {/* Subscriptions table */}
