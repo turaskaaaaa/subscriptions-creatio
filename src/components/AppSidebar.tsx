@@ -1,9 +1,10 @@
-import { Mail, Megaphone, Globe, HeartPulse, ChevronLeft, Search, Users } from "lucide-react";
+import { Mail, Megaphone, Globe, HeartPulse, ChevronLeft, Search, Users, SlidersHorizontal } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const navItems = [
   { icon: Mail, label: "Bulk emails", path: "/", color: "text-blue-400" },
   { icon: Users, label: "Contacts", path: "/contacts", color: "text-violet-400" },
+  { icon: SlidersHorizontal, label: "Preference Center", path: "/preference-center", color: "text-amber-400" },
   { icon: Megaphone, label: "Campaigns", path: "#", color: "text-blue-500" },
   { icon: Globe, label: "Sender domains", path: "#", color: "text-emerald-400" },
   { icon: HeartPulse, label: "Email audience health", path: "#", color: "text-teal-400" },
