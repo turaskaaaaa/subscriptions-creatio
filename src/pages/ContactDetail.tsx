@@ -155,7 +155,7 @@ const ContactDetail = () => {
 
                   {/* Subscriptions table */}
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">SUBSCRIPTION TYPES</p>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">SUBSCRIPTIONS</p>
                     <div className="border border-border rounded-lg overflow-hidden">
                       <table className="w-full text-sm">
                         <thead>
