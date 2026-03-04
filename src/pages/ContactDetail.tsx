@@ -280,7 +280,7 @@ const ContactDetail = () => {
                               <td className="py-3 px-4 text-foreground">
                                 <span className="inline-flex items-center gap-1.5">
                                   {sub.channel === "SMS" ? <Phone className="w-3.5 h-3.5 text-muted-foreground" /> : <Mail className="w-3.5 h-3.5 text-muted-foreground" />}
-                                  {sub.channel}
+                                  {sub.channel === "Email" ? "Bulk Email" : sub.channel}
                                 </span>
                               </td>
                               <td className="py-3 px-4">
