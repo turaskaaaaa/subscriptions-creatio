@@ -18,11 +18,10 @@ const EmailTable = () => {
             Create email
           </button>
           <button
-            className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium border border-border text-foreground hover:bg-secondary transition-colors"
+            className="flex items-center p-2 rounded-md border border-border text-foreground hover:bg-secondary transition-colors"
             onClick={() => setSettingsOpen(true)}
           >
             <Settings className="w-4 h-4" />
-            B
           </button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
