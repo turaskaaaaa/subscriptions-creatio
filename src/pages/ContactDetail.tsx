@@ -153,11 +153,10 @@ const ContactDetail = () => {
                   </div>
 
                   {/* Re-consent action bar */}
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 flex-wrap">
                     <button
                       onClick={() => toast.info("Re-consent email sent", { description: `Sent to ${contact.email}` })}
                       className="flex items-center gap-2 border border-destructive/40 px-4 py-2 rounded-md text-sm font-medium transition-colors text-primary bg-primary-foreground">
-                      
                       <Send className="w-4 h-4" />
                       Send Re-consent Email
                     </button>
@@ -167,10 +166,36 @@ const ContactDetail = () => {
                         toast.success("Preference center link copied to clipboard");
                       }}
                       className="flex items-center gap-2 border border-border text-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-secondary transition-colors">
-                      
                       <ExternalLink className="w-4 h-4" />
                       Copy Preference Center Link
                     </button>
+
+                    <div className="h-6 w-px bg-border mx-1" />
+
+                    {/* Bulk email subscription actions */}
+                    {(() => {
+                      const emailSubs = contact.subscriptions.filter((s) => s.channel === "Email");
+                      const allEmailSubscribed = emailSubs.length > 0 && emailSubs.every((s) => s.status === "Subscribed");
+                      const allEmailUnsubscribed = emailSubs.length > 0 && emailSubs.every((s) => s.status === "Unsubscribed");
+                      return (
+                        <>
+                          <button
+                            disabled={allEmailSubscribed}
+                            onClick={() => toast.success("Subscribed to all email lists", { description: `${emailSubs.length} email subscriptions activated` })}
+                            className="flex items-center gap-2 border border-primary/30 bg-primary/5 text-primary px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                            <Mail className="w-4 h-4" />
+                            Subscribe All Email
+                          </button>
+                          <button
+                            disabled={allEmailUnsubscribed}
+                            onClick={() => toast.warning("Unsubscribed from all email lists", { description: `${emailSubs.length} email subscriptions deactivated` })}
+                            className="flex items-center gap-2 border border-destructive/30 text-destructive px-4 py-2 rounded-md text-sm font-medium hover:bg-destructive/5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                            <X className="w-4 h-4" />
+                            Unsubscribe All Email
+                          </button>
+                        </>
+                      );
+                    })()}
                   </div>
 
                   {/* Compliance summary cards */}
