@@ -183,8 +183,8 @@ const PreferenceCenter = () => {
                               </div>
                               <div className="flex items-center justify-between">
                                 <div>
-                                  <Label>Show "Manage Preferences" Link</Label>
-                                  <p className="text-xs text-muted-foreground mt-0.5">Display a link to manage preferences instead of fully unsubscribing</p>
+                                  <Label>Show "Manage Preferences" options</Label>
+                                  <p className="text-xs text-muted-foreground mt-0.5">Allow contacts to update their email preferences instead of unsubscribing completely.</p>
                                 </div>
                                 <Switch checked={unsub.showManagePreferencesLink} onCheckedChange={(v) => updateUnsubField("showManagePreferencesLink", v)} />
                               </div>
@@ -193,13 +193,13 @@ const PreferenceCenter = () => {
 
                           <Card>
                             <CardHeader className="pb-4">
-                              <CardTitle className="text-base">Compliance</CardTitle>
-                              <CardDescription>Legal and compliance settings for the unsubscribe page</CardDescription>
+                              <CardTitle className="text-base">Compliance & Legal</CardTitle>
+                              <CardDescription>Display the legal reason you are allowed to send emails (for example, explicit consent).</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
                               <div className="flex items-center justify-between">
                                 <div>
-                                  <Label>Show Legal Basis to Contacts</Label>
+                                  <Label>Show legal basis for communication</Label>
                                   <p className="text-xs text-muted-foreground mt-0.5">Display the legal basis for data processing</p>
                                 </div>
                                 <Switch checked={config.showLegalBasis} onCheckedChange={(v) => updatePreferenceCenterField("showLegalBasis", v)} />
