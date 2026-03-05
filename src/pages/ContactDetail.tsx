@@ -206,7 +206,7 @@ const ContactDetail = () => {
                               className="gap-2"
                             >
                               <Mail className="w-3.5 h-3.5" />
-                              Subscribe
+                              Subscribe to All
                             </Button>
                             <Button
                               variant="ghost"
@@ -216,7 +216,7 @@ const ContactDetail = () => {
                               className="gap-2 text-destructive hover:text-destructive hover:bg-destructive/10"
                             >
                               <X className="w-3.5 h-3.5" />
-                              Unsubscribe All Email
+                              Unsubscribe from All
                             </Button>
                           </div>
                         );
@@ -256,7 +256,7 @@ const ContactDetail = () => {
 
                         {/* SMS Status */}
                         <div className="border border-border rounded-lg p-5 space-y-3">
-                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">SMS Status</p>
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">SMS Subscriptions</p>
                           <p className="text-3xl font-bold text-foreground">{smsSubscribed} <span className="text-sm font-normal text-muted-foreground">of {smsTotal}</span></p>
                           <div className="w-full bg-muted rounded-full h-2">
                             <div className="bg-primary h-2 rounded-full" style={{ width: smsTotal > 0 ? `${smsSubscribed / smsTotal * 100}%` : '0%' }} />
@@ -266,7 +266,7 @@ const ContactDetail = () => {
 
                         {/* Active Suppressions */}
                         <div className={`border rounded-lg p-5 space-y-3 ${activeSuppressions > 0 ? 'border-destructive/30 bg-destructive/5' : 'border-border'}`}>
-                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Active Suppressions</p>
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Suppression Status</p>
                           <p className={`text-3xl font-bold ${activeSuppressions > 0 ? 'text-destructive' : 'text-foreground'}`}>{activeSuppressions}</p>
                           {activeSuppressions > 0 &&
                           <>
