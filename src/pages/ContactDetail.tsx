@@ -593,6 +593,46 @@ const ContactDetail = () => {
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Subscribe All Email Dialog */}
+      <Dialog open={subscribeAllOpen} onOpenChange={setSubscribeAllOpen}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Subscribe All Email</DialogTitle>
+            <DialogDescription>
+              Select the legal basis that will be applied to all email subscriptions for this contact.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-2">
+            <Label htmlFor="legal-basis" className="text-sm font-medium">Legal Basis</Label>
+            <Select value={selectedLegalBasis} onValueChange={setSelectedLegalBasis}>
+              <SelectTrigger id="legal-basis" className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Explicit consent">Explicit consent</SelectItem>
+                <SelectItem value="Legitimate interest">Legitimate interest</SelectItem>
+                <SelectItem value="Contract necessity">Contract necessity</SelectItem>
+                <SelectItem value="Legal obligation">Legal obligation</SelectItem>
+                <SelectItem value="Vital interest">Vital interest</SelectItem>
+                <SelectItem value="Public task">Public task</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button variant="outline" onClick={() => setSubscribeAllOpen(false)}>Cancel</Button>
+            <Button onClick={() => {
+              const emailSubs = contact.subscriptions.filter((s) => s.channel === "Email");
+              toast.success("Subscribed to all email lists", {
+                description: `${emailSubs.length} subscriptions activated with "${selectedLegalBasis}"`
+              });
+              setSubscribeAllOpen(false);
+            }}>
+              Confirm
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>);
 
 };
