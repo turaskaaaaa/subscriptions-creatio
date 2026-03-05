@@ -22,130 +22,92 @@ interface ImportContactsDialogProps {
 const ImportContactsDialog = ({ open, onOpenChange }: ImportContactsDialogProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [optIn, setOptIn] = useState(true);
-  const [step, setStep] = useState<"pick" | "review">("pick");
+  const [step, setStep] = useState<"settings" | "pick">("settings");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];
     if (selected) {
       setFile(selected);
-      setStep("review");
+      toast.success(`Imported contacts from "${selected.name}"${optIn ? " with opt-in status" : ""}`);
+      handleClose();
     }
-  };
-
-  const handleImport = () => {
-    toast.success(`Imported contacts from "${file?.name}"${optIn ? " with opt-in status" : ""}`);
-    handleClose();
   };
 
   const handleClose = () => {
     setFile(null);
     setOptIn(true);
-    setStep("pick");
+    setStep("settings");
     onOpenChange(false);
   };
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md">
-        {step === "pick" ? (
-          <>
-            <DialogHeader>
-              <DialogTitle>Import Contacts</DialogTitle>
-              <DialogDescription>
-                Upload an Excel or CSV file to import contacts.
-              </DialogDescription>
-            </DialogHeader>
-            <div
-              className="flex flex-col items-center justify-center gap-3 border-2 border-dashed border-border rounded-lg p-8 cursor-pointer hover:border-primary/50 hover:bg-secondary/30 transition-colors"
-              onClick={() => inputRef.current?.click()}
-            >
-              <Upload className="w-8 h-8 text-muted-foreground" />
-              <p className="text-sm text-muted-foreground">
-                Click to select a file
-              </p>
-              <p className="text-xs text-muted-foreground">
-                .xlsx, .xls, .csv supported
-              </p>
-            </div>
-            <input
-              ref={inputRef}
-              type="file"
-              accept=".xlsx,.xls,.csv"
-              className="hidden"
-              onChange={handleFileChange}
+        <DialogHeader>
+          <DialogTitle>Import Contacts</DialogTitle>
+          <DialogDescription>
+            Review subscription settings before selecting your file.
+          </DialogDescription>
+        </DialogHeader>
+
+        {/* Opt-in setting */}
+        <div className="space-y-3">
+          <div className="flex items-start gap-3 rounded-lg border border-border p-4">
+            <Checkbox
+              id="opt-in"
+              checked={optIn}
+              onCheckedChange={(checked) => setOptIn(checked === true)}
+              className="mt-0.5"
             />
-          </>
-        ) : (
-          <>
-            <DialogHeader>
-              <DialogTitle>Review Import Settings</DialogTitle>
-              <DialogDescription>
-                Configure how imported contacts will be handled.
-              </DialogDescription>
-            </DialogHeader>
-
-            {/* File info */}
-            <div className="flex items-center gap-3 rounded-lg border border-border bg-secondary/30 p-3">
-              <FileSpreadsheet className="w-5 h-5 text-primary shrink-0" />
-              <div className="min-w-0">
-                <p className="text-sm font-medium text-foreground truncate">{file?.name}</p>
-                <p className="text-xs text-muted-foreground">
-                  {file ? `${(file.size / 1024).toFixed(1)} KB` : ""}
-                </p>
-              </div>
+            <div className="space-y-1">
+              <Label htmlFor="opt-in" className="text-sm font-medium text-foreground cursor-pointer">
+                Assign opt-in status to imported contacts
+              </Label>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                All imported contacts will receive an <strong>opted-in</strong> subscription status for email communications. Uncheck this if you want to manually manage their consent later.
+              </p>
             </div>
+          </div>
 
-            <Separator />
-
-            {/* Opt-in setting */}
-            <div className="space-y-3">
-              <div className="flex items-start gap-3 rounded-lg border border-border p-4">
-                <Checkbox
-                  id="opt-in"
-                  checked={optIn}
-                  onCheckedChange={(checked) => setOptIn(checked === true)}
-                  className="mt-0.5"
-                />
-                <div className="space-y-1">
-                  <Label htmlFor="opt-in" className="text-sm font-medium text-foreground cursor-pointer">
-                    Assign opt-in status to imported contacts
-                  </Label>
-                  <p className="text-xs text-muted-foreground leading-relaxed">
-                    All imported contacts will receive an <strong>opted-in</strong> subscription status for email communications. Uncheck this if you want to manually manage their consent later.
-                  </p>
-                </div>
-              </div>
-
-              {!optIn && (
-                <div className="flex items-start gap-2 rounded-md bg-amber-500/10 border border-amber-500/20 p-3">
-                  <AlertTriangle className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-                  <p className="text-xs text-amber-700 dark:text-amber-400 leading-relaxed">
-                    Without opt-in status, imported contacts will not receive any marketing emails until their consent is explicitly recorded.
-                  </p>
-                </div>
-              )}
-
-              {optIn && (
-                <div className="flex items-start gap-2 rounded-md bg-emerald-500/10 border border-emerald-500/20 p-3">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                  <p className="text-xs text-emerald-700 dark:text-emerald-400 leading-relaxed">
-                    Contacts will be marked as opted-in and eligible for email communications immediately after import.
-                  </p>
-                </div>
-              )}
+          {!optIn && (
+            <div className="flex items-start gap-2 rounded-md bg-amber-500/10 border border-amber-500/20 p-3">
+              <AlertTriangle className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+              <p className="text-xs text-amber-700 dark:text-amber-400 leading-relaxed">
+                Without opt-in status, imported contacts will not receive any marketing emails until their consent is explicitly recorded.
+              </p>
             </div>
+          )}
 
-            <DialogFooter className="gap-2 sm:gap-0">
-              <Button variant="outline" onClick={() => { setFile(null); setStep("pick"); }}>
-                Back
-              </Button>
-              <Button onClick={handleImport}>
-                Import Contacts
-              </Button>
-            </DialogFooter>
-          </>
-        )}
+          {optIn && (
+            <div className="flex items-start gap-2 rounded-md bg-emerald-500/10 border border-emerald-500/20 p-3">
+              <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+              <p className="text-xs text-emerald-700 dark:text-emerald-400 leading-relaxed">
+                Contacts will be marked as opted-in and eligible for email communications immediately after import.
+              </p>
+            </div>
+          )}
+        </div>
+
+        <Separator />
+
+        <DialogFooter className="gap-2 sm:gap-0">
+          <Button variant="outline" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button onClick={() => inputRef.current?.click()}>
+            <Upload className="w-4 h-4" />
+            Select File & Import
+          </Button>
+        </DialogFooter>
+
+        <input
+          ref={inputRef}
+          type="file"
+          accept=".xlsx,.xls,.csv"
+          className="hidden"
+          onChange={handleFileChange}
+        />
       </DialogContent>
     </Dialog>
   );
