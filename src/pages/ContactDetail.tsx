@@ -539,6 +539,57 @@ const ContactDetail = () => {
           </div>
         </div>
       </div>
+    </div>
+
+      {/* Verification Dialog */}
+      <Dialog open={!!verificationProof} onOpenChange={(open) => !open && setVerificationProof(null)}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="text-base uppercase tracking-wider">Verification</DialogTitle>
+          </DialogHeader>
+          {verificationProof && (
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-5 h-5 text-primary" />
+                <span className="text-sm font-semibold text-primary">Verified</span>
+              </div>
+              <Separator />
+              <div className="space-y-3 text-sm text-muted-foreground">
+                <div className="flex items-center gap-3">
+                  <Clock className="w-4 h-4 shrink-0" />
+                  <div>
+                    <p className="text-xs text-muted-foreground">Confirmed on</p>
+                    <p className="text-sm text-foreground">{verificationProof.confirmationDate}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Globe className="w-4 h-4 shrink-0" />
+                  <div>
+                    <p className="text-xs text-muted-foreground">IP Address</p>
+                    <p className="text-sm text-foreground">{verificationProof.ipAddress}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Mail className="w-4 h-4 shrink-0" />
+                  <div>
+                    <p className="text-xs text-muted-foreground">Method</p>
+                    <p className="text-sm text-foreground">{verificationProof.method}</p>
+                  </div>
+                </div>
+                {verificationProof.userAgent && (
+                  <div className="flex items-center gap-3">
+                    <Monitor className="w-4 h-4 shrink-0" />
+                    <div>
+                      <p className="text-xs text-muted-foreground">User Agent</p>
+                      <p className="text-sm text-foreground truncate max-w-[250px]" title={verificationProof.userAgent}>{verificationProof.userAgent}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>);
 
 };
