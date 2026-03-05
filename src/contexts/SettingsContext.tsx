@@ -3,7 +3,7 @@ import type { LegalBasis } from "@/data/contactsData";
 
 export interface SubscriptionTypeConfig {
   name: string;
-  channel: "Email" | "SMS";
+  channel: "Email" | "WhatsApp" | "SMS";
   visibleInPreferenceCenter: boolean;
 }
 
