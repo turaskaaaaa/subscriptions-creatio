@@ -202,7 +202,7 @@ const ContactDetail = () => {
                               variant="secondary"
                               size="sm"
                               disabled={allEmailSubscribed}
-                              onClick={() => toast.success("Subscribed to all email lists", { description: `${emailSubs.length} email subscriptions activated` })}
+                              onClick={() => setSubscribeAllOpen(true)}
                               className="gap-2"
                             >
                               <Mail className="w-3.5 h-3.5" />
