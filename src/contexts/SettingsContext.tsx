@@ -100,6 +100,18 @@ const defaultPreferenceCenterConfig: PreferenceCenterConfig = {
   requireReconfirmation: true,
   showLegalBasis: false,
   privacyPolicyUrl: "",
+  emailPageName: "Email Preferences",
+  unsubscribePage: {
+    pageName: "Unsubscribe",
+    confirmationMessage: "We're sorry to see you go. You will no longer receive emails from us.",
+    showReasonSelection: true,
+    reasons: ["Too many emails", "Content not relevant", "I never signed up", "Other"],
+  },
+  managePreferencesPage: {
+    pageName: "Manage Preferences",
+    showContentCategories: true,
+    contentCategories: ["Product Updates", "Industry News", "Tips & Tutorials"],
+  },
 };
 
 const SettingsContext = createContext<SettingsContextType>({
