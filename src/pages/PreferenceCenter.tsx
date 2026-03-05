@@ -155,8 +155,8 @@ const PreferenceCenter = () => {
                         <TabsContent value="unsubscribe" className="space-y-6">
                           <Card>
                             <CardHeader className="pb-4">
-                              <CardTitle className="text-base">Unsubscribe Page</CardTitle>
-                              <CardDescription>Configure the page contacts see when unsubscribing</CardDescription>
+                              <CardTitle className="text-base">Unsubscribe Page Settings</CardTitle>
+                              <CardDescription>Customize the page contacts see when they unsubscribe from your emails</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
                               <div className="space-y-2">
