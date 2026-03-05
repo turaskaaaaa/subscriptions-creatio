@@ -351,7 +351,7 @@ const ContactDetail = () => {
                                   {sub.legalBasis}
                                 </span>
                               </td>
-                              <td className="py-3 px-4">
+                              {doubleOptInEnabled && <td className="py-3 px-4">
                                 {sub.doubleOptIn ?
                               <div className="space-y-1">
                                     <span className="inline-flex items-center gap-1.5 text-xs font-medium text-primary">
@@ -388,7 +388,7 @@ const ContactDetail = () => {
 
                               <span className="text-xs text-muted-foreground">—</span>
                               }
-                              </td>
+                              </td>}
                             </tr>
                           )}
                         </tbody>
