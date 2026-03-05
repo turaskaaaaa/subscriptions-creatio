@@ -26,24 +26,6 @@ const PreferenceCenterPreview = ({ activeTab }: PreferenceCenterPreviewProps) =>
 
   return (
     <div className="w-full max-w-sm">
-      {/* Tab indicators (read-only, synced) */}
-      <div className="w-full grid grid-cols-3 mb-3 bg-muted rounded-lg p-1">
-        {[
-          { value: "unsubscribe", label: "Unsub", icon: MailX },
-          { value: "feedback", label: "Feedback", icon: MessageSquareMore },
-          { value: "preferences", label: "Prefs", icon: ClipboardList },
-        ].map(({ value, label, icon: Icon }) => (
-          <div
-            key={value}
-            className={`flex items-center justify-center gap-1 text-xs py-1.5 rounded-md transition-colors ${
-              activeTab === value ? "bg-background shadow-sm font-medium text-foreground" : "text-muted-foreground"
-            }`}
-          >
-            <Icon className="w-3 h-3" />
-            {label}
-          </div>
-        ))}
-      </div>
 
       {/* Unsubscribe Page */}
       {activeTab === "unsubscribe" && (
