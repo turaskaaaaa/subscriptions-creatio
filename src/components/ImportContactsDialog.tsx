@@ -62,7 +62,7 @@ const ImportContactsDialog = ({ open, onOpenChange }: ImportContactsDialogProps)
             />
             <div className="space-y-1">
               <Label htmlFor="opt-in" className="text-sm font-medium text-foreground cursor-pointer">
-                Assign opt-in status to imported contacts
+                Mark imported contacts as opted in
               </Label>
               <p className="text-xs text-muted-foreground leading-relaxed">
                 All imported contacts will receive an <strong>opted-in</strong> subscription status for email communications. Uncheck this if you want to manually manage their consent later.
