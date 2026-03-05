@@ -10,11 +10,13 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useSettings } from "@/contexts/SettingsContext";
+import type { DoubleOptInProof } from "@/data/contactsData";
 
 const ContactDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { doubleOptInEnabled } = useSettings();
+  const [verificationProof, setVerificationProof] = useState<DoubleOptInProof | null>(null);
   const contact = contactsData.find((c) => c.id === Number(id));
 
   if (!contact) {
