@@ -13,29 +13,29 @@ interface BulkEmailSettingsDialogProps {
 }
 
 const SUBSCRIPTION_TYPE_OPTIONS = [
-  "Information material",
-  "Newsletter",
-  "Promotions",
-  "Account alerts",
-  "Appointment reminders",
-  "Security alerts",
-];
+"Information material",
+"Newsletter",
+"Promotions",
+"Account alerts",
+"Appointment reminders",
+"Security alerts"];
 
-const LEGAL_BASIS_OPTIONS: { value: LegalBasis; label: string; description: string }[] = [
-  { value: "Explicit consent", label: "Explicit consent", description: "User actively opted in (GDPR Art. 6(1)(a))" },
-  { value: "Legitimate interest", label: "Legitimate interest", description: "Reasonable business interest (GDPR Art. 6(1)(f))" },
-  { value: "Contract necessity", label: "Contract necessity", description: "Required for contract fulfillment (GDPR Art. 6(1)(b))" },
-  { value: "Legal obligation", label: "Legal obligation", description: "Required by law (GDPR Art. 6(1)(c))" },
-  { value: "Vital interest", label: "Vital interest", description: "Protecting vital interests (GDPR Art. 6(1)(d))" },
-  { value: "Public task", label: "Public task", description: "Public interest or official authority (GDPR Art. 6(1)(e))" },
-];
 
-const Toggle = ({ checked, onChange }: { checked: boolean; onChange: (val: boolean) => void }) => (
-  <label className="relative inline-flex items-center cursor-pointer shrink-0">
+const LEGAL_BASIS_OPTIONS: {value: LegalBasis;label: string;description: string;}[] = [
+{ value: "Explicit consent", label: "Explicit consent", description: "User actively opted in (GDPR Art. 6(1)(a))" },
+{ value: "Legitimate interest", label: "Legitimate interest", description: "Reasonable business interest (GDPR Art. 6(1)(f))" },
+{ value: "Contract necessity", label: "Contract necessity", description: "Required for contract fulfillment (GDPR Art. 6(1)(b))" },
+{ value: "Legal obligation", label: "Legal obligation", description: "Required by law (GDPR Art. 6(1)(c))" },
+{ value: "Vital interest", label: "Vital interest", description: "Protecting vital interests (GDPR Art. 6(1)(d))" },
+{ value: "Public task", label: "Public task", description: "Public interest or official authority (GDPR Art. 6(1)(e))" }];
+
+
+const Toggle = ({ checked, onChange }: {checked: boolean;onChange: (val: boolean) => void;}) =>
+<label className="relative inline-flex items-center cursor-pointer shrink-0">
     <input type="checkbox" className="sr-only peer" checked={checked} onChange={(e) => onChange(e.target.checked)} />
     <div className="w-9 h-5 bg-muted-foreground/30 peer-checked:bg-primary rounded-full peer-focus:ring-2 peer-focus:ring-ring transition-colors after:content-[''] after:absolute after:top-0.5 after:left-[2px] peer-checked:after:translate-x-full after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
-  </label>
-);
+  </label>;
+
 
 const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialogProps) => {
   const {
@@ -50,7 +50,7 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
     softBounceThreshold, setSoftBounceThreshold,
     spamComplaintThreshold, setSpamComplaintThreshold,
     autoSuppressHardBounce, setAutoSuppressHardBounce,
-    autoSuppressSpamComplaint, setAutoSuppressSpamComplaint,
+    autoSuppressSpamComplaint, setAutoSuppressSpamComplaint
   } = useSettings();
 
   const [domains, setDomains] = useState(
@@ -64,9 +64,9 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
 
   const toggleSubscriptionType = (type: string) => {
     setDoubleOptInSubscriptionTypes(
-      doubleOptInSubscriptionTypes.includes(type)
-        ? doubleOptInSubscriptionTypes.filter(t => t !== type)
-        : [...doubleOptInSubscriptionTypes, type]
+      doubleOptInSubscriptionTypes.includes(type) ?
+      doubleOptInSubscriptionTypes.filter((t) => t !== type) :
+      [...doubleOptInSubscriptionTypes, type]
     );
   };
 
@@ -151,8 +151,8 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                 <Toggle checked={doubleOptInEnabled} onChange={setDoubleOptInEnabled} />
               </div>
 
-              {doubleOptInEnabled && (
-                <div className="border-t border-border bg-muted/30 p-4 space-y-4">
+              {doubleOptInEnabled &&
+              <div className="border-t border-border bg-muted/30 p-4 space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
@@ -160,13 +160,13 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                       </label>
                       <div className="flex items-center gap-2">
                         <Input
-                          type="number"
-                          min={1}
-                          max={168}
-                          value={doubleOptInExpiryHours}
-                          onChange={(e) => setDoubleOptInExpiryHours(Number(e.target.value))}
-                          className="w-20 h-8 text-sm"
-                        />
+                        type="number"
+                        min={1}
+                        max={168}
+                        value={doubleOptInExpiryHours}
+                        onChange={(e) => setDoubleOptInExpiryHours(Number(e.target.value))}
+                        className="w-20 h-8 text-sm" />
+                      
                         <span className="text-xs text-muted-foreground">hours</span>
                       </div>
                       <p className="text-[10px] text-muted-foreground">Confirmation link expires after this period</p>
@@ -178,13 +178,13 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                       </label>
                       <div className="flex items-center gap-2">
                         <Input
-                          type="number"
-                          min={1}
-                          max={10}
-                          value={doubleOptInMaxResends}
-                          onChange={(e) => setDoubleOptInMaxResends(Number(e.target.value))}
-                          className="w-20 h-8 text-sm"
-                        />
+                        type="number"
+                        min={1}
+                        max={10}
+                        value={doubleOptInMaxResends}
+                        onChange={(e) => setDoubleOptInMaxResends(Number(e.target.value))}
+                        className="w-20 h-8 text-sm" />
+                      
                         <span className="text-xs text-muted-foreground">times</span>
                       </div>
                       <p className="text-[10px] text-muted-foreground">Maximum number of confirmation resends per contact</p>
@@ -195,44 +195,44 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                     <label className="text-xs font-medium text-muted-foreground">Require double opt-in for:</label>
                     <div className="flex flex-wrap gap-2">
                       {SUBSCRIPTION_TYPE_OPTIONS.map((type) => {
-                        const isActive = doubleOptInSubscriptionTypes.includes(type);
-                        return (
-                          <button
-                            key={type}
-                            onClick={() => toggleSubscriptionType(type)}
-                            className={`text-xs px-3 py-1.5 rounded-full border transition-colors font-medium ${
-                              isActive
-                                ? "bg-primary/10 text-primary border-primary/30"
-                                : "bg-muted text-muted-foreground border-border hover:border-primary/30"
-                            }`}
-                          >
+                      const isActive = doubleOptInSubscriptionTypes.includes(type);
+                      return (
+                        <button
+                          key={type}
+                          onClick={() => toggleSubscriptionType(type)}
+                          className={`text-xs px-3 py-1.5 rounded-full border transition-colors font-medium ${
+                          isActive ?
+                          "bg-primary/10 text-primary border-primary/30" :
+                          "bg-muted text-muted-foreground border-border hover:border-primary/30"}`
+                          }>
+                          
                             {type}
-                          </button>
-                        );
-                      })}
+                          </button>);
+
+                    })}
                     </div>
                     <p className="text-[10px] text-muted-foreground">
                       Only selected subscription types will require double opt-in confirmation
                     </p>
                   </div>
                 </div>
-              )}
+              }
             </div>
 
-            <div className="flex items-center justify-between p-4 border border-border rounded-lg">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center shrink-0">
-                  <RefreshCw className="w-4 h-4 text-muted-foreground" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-foreground">Re-subscription</p>
-                  <p className="text-xs text-muted-foreground">
-                    Allow previously unsubscribed contacts to re-subscribe
-                  </p>
-                </div>
-              </div>
-              <Toggle checked={reSubscriptionEnabled} onChange={setReSubscriptionEnabled} />
-            </div>
+            
+
+
+
+
+
+
+
+
+
+
+
+
+            
 
 
             <Separator />
@@ -247,22 +247,22 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                 Select the default GDPR legal basis assigned to new subscriptions. This can be overridden per subscription.
               </p>
               <div className="grid grid-cols-1 gap-2">
-                {LEGAL_BASIS_OPTIONS.map((option) => (
-                  <button
-                    key={option.value}
-                    onClick={() => setDefaultLegalBasis(option.value)}
-                    className={`flex items-start gap-3 p-3 rounded-lg border text-left transition-colors ${
-                      defaultLegalBasis === option.value
-                        ? "border-primary/50 bg-primary/5"
-                        : "border-border hover:border-primary/30"
-                    }`}
-                  >
+                {LEGAL_BASIS_OPTIONS.map((option) =>
+                <button
+                  key={option.value}
+                  onClick={() => setDefaultLegalBasis(option.value)}
+                  className={`flex items-start gap-3 p-3 rounded-lg border text-left transition-colors ${
+                  defaultLegalBasis === option.value ?
+                  "border-primary/50 bg-primary/5" :
+                  "border-border hover:border-primary/30"}`
+                  }>
+                  
                     <div className={`w-4 h-4 rounded-full border-2 mt-0.5 shrink-0 flex items-center justify-center ${
-                      defaultLegalBasis === option.value ? "border-primary" : "border-muted-foreground/40"
-                    }`}>
-                      {defaultLegalBasis === option.value && (
-                        <div className="w-2 h-2 rounded-full bg-primary" />
-                      )}
+                  defaultLegalBasis === option.value ? "border-primary" : "border-muted-foreground/40"}`
+                  }>
+                      {defaultLegalBasis === option.value &&
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                    }
                     </div>
                     <div>
                       <p className={`text-sm font-medium ${defaultLegalBasis === option.value ? "text-primary" : "text-foreground"}`}>
@@ -271,7 +271,7 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                       <p className="text-[10px] text-muted-foreground">{option.description}</p>
                     </div>
                   </button>
-                ))}
+                )}
               </div>
             </div>
 
@@ -318,8 +318,8 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                         max={20}
                         value={softBounceThreshold}
                         onChange={(e) => setSoftBounceThreshold(Number(e.target.value))}
-                        className="w-20 h-8 text-sm"
-                      />
+                        className="w-20 h-8 text-sm" />
+                      
                       <span className="text-xs text-muted-foreground">consecutive soft bounces before auto-suppression</span>
                     </div>
                     <p className="text-[10px] text-muted-foreground">
@@ -336,8 +336,8 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                         max={10}
                         value={spamComplaintThreshold}
                         onChange={(e) => setSpamComplaintThreshold(Number(e.target.value))}
-                        className="w-20 h-8 text-sm"
-                      />
+                        className="w-20 h-8 text-sm" />
+                      
                       <span className="text-xs text-muted-foreground">complaints before permanent block</span>
                     </div>
                     <p className="text-[10px] text-muted-foreground">
@@ -351,14 +351,14 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
             <div className="flex justify-end gap-3 pt-4">
               <button
                 onClick={() => onOpenChange(false)}
-                className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
+                className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+                
                 Cancel
               </button>
               <button
                 onClick={() => onOpenChange(false)}
-                className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
-              >
+                className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">
+                
                 Save
               </button>
             </div>
@@ -419,8 +419,8 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
           </TabsContent>
         </Tabs>
       </DialogContent>
-    </Dialog>
-  );
+    </Dialog>);
+
 };
 
 export default BulkEmailSettingsDialog;
