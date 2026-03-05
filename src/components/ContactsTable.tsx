@@ -103,6 +103,7 @@ const ContactsTable = () => {
       </div>
 
       <NewContactDialog open={newContactOpen} onOpenChange={setNewContactOpen} />
+      <ImportContactsDialog open={importOpen} onOpenChange={setImportOpen} />
     </div>
   );
 };
