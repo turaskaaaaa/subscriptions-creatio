@@ -206,7 +206,7 @@ const ContactDetail = () => {
                               className="gap-2"
                             >
                               <Mail className="w-3.5 h-3.5" />
-                              Subscribe to All Email
+                              Subscribe
                             </Button>
                             <Button
                               variant="ghost"
@@ -246,7 +246,7 @@ const ContactDetail = () => {
                       <div className="grid grid-cols-4 gap-4">
                         {/* Marketing Email Status */}
                         <div className="border border-border rounded-lg p-5 space-y-3">
-                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Marketing Email Status</p>
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Marketing Email Subscriptions</p>
                           <p className="text-3xl font-bold text-foreground">{emailSubscribed} <span className="text-sm font-normal text-muted-foreground">of {emailTotal}</span></p>
                           <div className="w-full bg-muted rounded-full h-2">
                             <div className="bg-primary h-2 rounded-full" style={{ width: emailTotal > 0 ? `${emailSubscribed / emailTotal * 100}%` : '0%' }} />
