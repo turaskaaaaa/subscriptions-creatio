@@ -206,7 +206,7 @@ const ContactDetail = () => {
                               className="gap-2"
                             >
                               <Mail className="w-3.5 h-3.5" />
-                              Subscribe to All Email
+                              Subscribe
                             </Button>
                             <Button
                               variant="ghost"
