@@ -1,21 +1,27 @@
 
 
-## Add sample email indicator to live preview
+## Preference Center Configuration Page
 
-Add a placeholder email address (e.g. `john@example.com`) near the top of each preview tab so users can see which contact's email is affected.
+A new admin-facing page where CRM administrators can configure the Preference Center settings that contacts will see when managing their subscriptions.
 
-### Changes
+### What it includes
 
-**`src/components/PreferenceCenterPreview.tsx`**
+1. **New route `/preference-center`** added to the router and sidebar navigation (between "Contacts" and "Campaigns")
 
-Add a small email indicator below the Header in all three tabs (unsubscribe, feedback, preferences). It will show a sample/placeholder email styled as a muted pill or text line, like:
+2. **Page sections:**
+   - **General Settings** -- Preference center name/title, company logo URL, welcome message text, footer text
+   - **Subscription Types** -- Table listing all available subscription types (e.g. Newsletter, Promotions, Information material) with toggles to show/hide each in the preference center, grouped by channel (Email / SMS)
+   - **Appearance** -- Primary color picker, toggle for dark/light mode support
+   - **Compliance** -- Toggle to require re-confirmation on re-subscribe, toggle to show legal basis info to contacts, custom privacy policy URL
+   - **Preview panel** -- A live card preview on the right side showing how the preference center will look to contacts, updating as the admin changes settings
 
-```
-📧 john@example.com
-```
+3. **State management** -- Settings stored in a new `PreferenceCenterContext` (or extend existing `SettingsContext`) so values persist across the app session. The "Copy Preference Center Link" button on contact detail pages already generates URLs pointing to this.
 
-Specifically:
-- Below each `<Header />`, add a small centered line showing a sample email: `<div className="text-center py-2 bg-muted/20 border-b"><span className="text-xs text-muted-foreground">john@example.com</span></div>`
-- This appears in all three tabs (unsubscribe, feedback, preferences) to indicate which email address the action applies to
-- Uses a hardcoded placeholder since this is a preview/demo component
+### Files to create/modify
+
+- **Create** `src/pages/PreferenceCenter.tsx` -- Main config page with form sections
+- **Create** `src/components/PreferenceCenterPreview.tsx` -- Live preview card component
+- **Modify** `src/App.tsx` -- Add `/preference-center` route
+- **Modify** `src/components/AppSidebar.tsx` -- Add nav item with `Settings2` or `SlidersHorizontal` icon
+- **Modify** `src/contexts/SettingsContext.tsx` -- Add preference center config fields (title, welcome message, visible subscription types, colors, compliance toggles)
 
