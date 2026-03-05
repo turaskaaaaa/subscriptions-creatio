@@ -5,10 +5,7 @@ import { Mail, MessageSquare, Phone, Shield } from "lucide-react";
 const PreferenceCenterPreview = () => {
   const { preferenceCenterConfig: config } = useSettings();
 
-  const visibleSubs = config.subscriptionTypes.filter(s => s.visibleInPreferenceCenter);
-  const emailSubs = visibleSubs.filter(s => s.channel === "Email");
-  const whatsappSubs = visibleSubs.filter(s => s.channel === "WhatsApp");
-  const smsSubs = visibleSubs.filter(s => s.channel === "SMS");
+  const visibleSubs = config.subscriptionTypes.filter(s => s.visibleInPreferenceCenter && s.channel === "Email");
 
   return (
     <div className="rounded-lg border bg-card shadow-sm overflow-hidden max-w-sm w-full">
