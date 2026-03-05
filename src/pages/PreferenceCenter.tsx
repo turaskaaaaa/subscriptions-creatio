@@ -8,6 +8,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import PreferenceCenterPreview from "@/components/PreferenceCenterPreview";
+import UnsubscribePageSection from "@/components/UnsubscribePageSection";
+import ManagePreferencesSection from "@/components/ManagePreferencesSection";
 import { Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -148,7 +150,27 @@ const PreferenceCenter = () => {
                         </CardContent>
                       </Card>
 
-                      {/* Appearance */}
+                      {/* Email-specific: Page Name, Unsubscribe & Manage Preferences */}
+                      {channel === "Email" && (
+                        <>
+                          <Card>
+                            <CardHeader className="pb-4">
+                              <CardTitle className="text-base">Email Page Name</CardTitle>
+                              <CardDescription>The name displayed for this channel's preference page</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                              <Input
+                                value={config.emailPageName}
+                                onChange={e => updatePreferenceCenterField("emailPageName", e.target.value)}
+                                placeholder="Email Preferences"
+                              />
+                            </CardContent>
+                          </Card>
+                          <UnsubscribePageSection />
+                          <ManagePreferencesSection />
+                        </>
+                      )}
+
                       <Card>
                         <CardHeader className="pb-4">
                           <CardTitle className="text-base">Appearance</CardTitle>

@@ -7,6 +7,19 @@ export interface SubscriptionTypeConfig {
   visibleInPreferenceCenter: boolean;
 }
 
+export interface UnsubscribePageConfig {
+  pageName: string;
+  confirmationMessage: string;
+  showReasonSelection: boolean;
+  reasons: string[];
+}
+
+export interface ManagePreferencesPageConfig {
+  pageName: string;
+  showContentCategories: boolean;
+  contentCategories: string[];
+}
+
 export interface PreferenceCenterConfig {
   title: string;
   logoUrl: string;
@@ -18,6 +31,9 @@ export interface PreferenceCenterConfig {
   requireReconfirmation: boolean;
   showLegalBasis: boolean;
   privacyPolicyUrl: string;
+  emailPageName: string;
+  unsubscribePage: UnsubscribePageConfig;
+  managePreferencesPage: ManagePreferencesPageConfig;
 }
 
 interface SettingsContextType {
@@ -84,6 +100,18 @@ const defaultPreferenceCenterConfig: PreferenceCenterConfig = {
   requireReconfirmation: true,
   showLegalBasis: false,
   privacyPolicyUrl: "",
+  emailPageName: "Email Preferences",
+  unsubscribePage: {
+    pageName: "Unsubscribe",
+    confirmationMessage: "We're sorry to see you go. You will no longer receive emails from us.",
+    showReasonSelection: true,
+    reasons: ["Too many emails", "Content not relevant", "I never signed up", "Other"],
+  },
+  managePreferencesPage: {
+    pageName: "Manage Preferences",
+    showContentCategories: true,
+    contentCategories: ["Product Updates", "Industry News", "Tips & Tutorials"],
+  },
 };
 
 const SettingsContext = createContext<SettingsContextType>({
