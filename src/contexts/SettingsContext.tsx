@@ -3,7 +3,7 @@ import type { LegalBasis } from "@/data/contactsData";
 
 export interface SubscriptionTypeConfig {
   name: string;
-  channel: "Email" | "SMS";
+  channel: "Email" | "WhatsApp" | "SMS";
   visibleInPreferenceCenter: boolean;
 }
 
@@ -72,6 +72,9 @@ const defaultPreferenceCenterConfig: PreferenceCenterConfig = {
     { name: "Newsletter", channel: "Email", visibleInPreferenceCenter: true },
     { name: "Promotions", channel: "Email", visibleInPreferenceCenter: true },
     { name: "Information material", channel: "Email", visibleInPreferenceCenter: true },
+    { name: "Order updates", channel: "WhatsApp", visibleInPreferenceCenter: true },
+    { name: "Promotional messages", channel: "WhatsApp", visibleInPreferenceCenter: true },
+    { name: "Support notifications", channel: "WhatsApp", visibleInPreferenceCenter: true },
     { name: "Security alerts", channel: "SMS", visibleInPreferenceCenter: true },
     { name: "Account alerts", channel: "SMS", visibleInPreferenceCenter: true },
     { name: "Appointment reminders", channel: "SMS", visibleInPreferenceCenter: true },
