@@ -7,7 +7,7 @@ interface PreferenceCenterPreviewProps {
 }
 
 const PreferenceCenterPreview = ({ activeTab }: PreferenceCenterPreviewProps) => {
-  const { preferenceCenterConfig: config } = useSettings();
+  const { preferenceCenterConfig: config, selfServiceLegalBasis } = useSettings();
 
   const visibleSubs = config.subscriptionTypes.filter(s => s.visibleInPreferenceCenter && s.channel === "Email");
   const unsub = config.unsubscribePage;
