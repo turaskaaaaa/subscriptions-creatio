@@ -256,7 +256,7 @@ const ContactDetail = () => {
 
                         {/* SMS Status */}
                         <div className="border border-border rounded-lg p-5 space-y-3">
-                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">SMS Status</p>
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">SMS Subscriptions</p>
                           <p className="text-3xl font-bold text-foreground">{smsSubscribed} <span className="text-sm font-normal text-muted-foreground">of {smsTotal}</span></p>
                           <div className="w-full bg-muted rounded-full h-2">
                             <div className="bg-primary h-2 rounded-full" style={{ width: smsTotal > 0 ? `${smsSubscribed / smsTotal * 100}%` : '0%' }} />
