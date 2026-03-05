@@ -539,7 +539,6 @@ const ContactDetail = () => {
           </div>
         </div>
       </div>
-    </div>
 
       {/* Verification Dialog */}
       <Dialog open={!!verificationProof} onOpenChange={(open) => !open && setVerificationProof(null)}>
