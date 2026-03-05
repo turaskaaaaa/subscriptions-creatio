@@ -166,15 +166,6 @@ const PreferenceCenter = () => {
                             onCheckedChange={(v) => updatePreferenceCenterField("showLegalBasis", v)} />
                           
                           </div>
-                          <div className="space-y-2">
-                            <Label htmlFor={`pc-privacy-${channel}`}>Privacy Policy URL</Label>
-                            
-
-
-
-
-                          
-                          </div>
                         </CardContent>
                       </Card>
                     </div>
