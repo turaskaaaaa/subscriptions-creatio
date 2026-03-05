@@ -125,19 +125,6 @@ const PreferenceCenterPreview = ({ activeTab }: PreferenceCenterPreviewProps) =>
               </div>
             )}
 
-            {manage.showContentCategories && manage.contentCategories.filter(Boolean).length > 0 && (
-              <div>
-                <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Content Categories</span>
-                <div className="space-y-2 mt-2">
-                  {manage.contentCategories.filter(Boolean).map((cat, i) => (
-                    <label key={i} className="flex items-center gap-2.5 text-sm text-foreground">
-                      <input type="checkbox" checked disabled className="accent-primary" />
-                      {cat}
-                    </label>
-                  ))}
-                </div>
-              </div>
-            )}
 
             {config.showLegalBasis && (
               <div className="flex items-start gap-2 pt-2 border-t">
