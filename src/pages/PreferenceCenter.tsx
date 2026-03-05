@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import PreferenceCenterPreview from "@/components/PreferenceCenterPreview";
-import { Save, MailX, MessageSquareMore, ClipboardList, Plus, X, Shield } from "lucide-react";
+import { Save, MailX, MessageSquareMore, ClipboardList, Plus, X, Shield, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
