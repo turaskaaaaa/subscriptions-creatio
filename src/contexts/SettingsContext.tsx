@@ -162,7 +162,8 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
   ]);
   const [unsubscribeLinkEnabled, setUnsubscribeLinkEnabled] = useState(true);
   const [reSubscriptionEnabled, setReSubscriptionEnabled] = useState(false);
-  const [defaultLegalBasis, setDefaultLegalBasis] = useState<LegalBasis>("Explicit consent");
+  const [manualLegalBasis, setManualLegalBasis] = useState<LegalBasis>("Legitimate interest");
+  const [selfServiceLegalBasis, setSelfServiceLegalBasis] = useState<LegalBasis>("Explicit consent");
   const [softBounceThreshold, setSoftBounceThreshold] = useState(3);
   const [spamComplaintThreshold, setSpamComplaintThreshold] = useState(1);
   const [autoSuppressHardBounce, setAutoSuppressHardBounce] = useState(true);
