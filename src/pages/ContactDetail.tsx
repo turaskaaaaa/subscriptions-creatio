@@ -19,6 +19,8 @@ const ContactDetail = () => {
   const navigate = useNavigate();
   const { doubleOptInEnabled } = useSettings();
   const [verificationProof, setVerificationProof] = useState<DoubleOptInProof | null>(null);
+  const [subscribeAllOpen, setSubscribeAllOpen] = useState(false);
+  const [selectedLegalBasis, setSelectedLegalBasis] = useState<string>("Explicit consent");
   const contact = contactsData.find((c) => c.id === Number(id));
 
   if (!contact) {
