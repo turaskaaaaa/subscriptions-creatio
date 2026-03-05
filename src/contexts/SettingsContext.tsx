@@ -11,6 +11,7 @@ export interface UnsubscribePageConfig {
   pageName: string;
   confirmationMessage: string;
   showReasonSelection: boolean;
+  showManagePreferencesLink: boolean;
   reasons: string[];
 }
 
