@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { useState } from "react";
+import { useSettings } from "@/contexts/SettingsContext";
 
 const ContactDetail = () => {
   const { id } = useParams();
