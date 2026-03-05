@@ -136,6 +136,63 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
               <Toggle checked={marketingConsentDefault} onChange={setMarketingConsentDefault} />
             </div>
 
+            {/* --- Legal Basis Default --- */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <Scale className="w-4 h-4 text-primary" />
+                <h4 className="text-sm font-semibold text-foreground">Default legal basis</h4>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Select the GDPR legal basis assigned based on how consent is acquired. This can be overridden per subscription.
+              </p>
+
+              <div className="grid grid-cols-2 gap-6">
+                {/* Manual creation */}
+                <div className="space-y-2">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">When created by admin</p>
+                  <p className="text-[10px] text-muted-foreground">Applied when a contact is manually added or edited by an admin</p>
+                  <Select value={manualLegalBasis} onValueChange={(val) => setManualLegalBasis(val as LegalBasis)}>
+                    <SelectTrigger className="h-9 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {LEGAL_BASIS_OPTIONS.map((option) => (
+                        <SelectItem key={option.value} value={option.value} className="text-xs">
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <p className="text-[10px] text-muted-foreground">
+                    {LEGAL_BASIS_OPTIONS.find(o => o.value === manualLegalBasis)?.description}
+                  </p>
+                </div>
+
+                {/* Self-service */}
+                <div className="space-y-2">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">When updated via preference center</p>
+                  <p className="text-[10px] text-muted-foreground">Applied when a contact opts in through the preference center</p>
+                  <Select value={selfServiceLegalBasis} onValueChange={(val) => setSelfServiceLegalBasis(val as LegalBasis)}>
+                    <SelectTrigger className="h-9 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {LEGAL_BASIS_OPTIONS.map((option) => (
+                        <SelectItem key={option.value} value={option.value} className="text-xs">
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <p className="text-[10px] text-muted-foreground">
+                    {LEGAL_BASIS_OPTIONS.find(o => o.value === selfServiceLegalBasis)?.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <Separator />
+
             {/* --- Double Opt-In Section --- */}
             <div className="border border-border rounded-lg overflow-hidden">
               <div className="flex items-center justify-between p-4">
@@ -219,63 +276,6 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                   </div>
                 </div>
               }
-            </div>
-
-            <Separator />
-
-            {/* --- Legal Basis Default --- */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <Scale className="w-4 h-4 text-primary" />
-                <h4 className="text-sm font-semibold text-foreground">Default legal basis</h4>
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Select the GDPR legal basis assigned based on how consent is acquired. This can be overridden per subscription.
-              </p>
-
-              <div className="grid grid-cols-2 gap-6">
-                {/* Manual creation */}
-                <div className="space-y-2">
-                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">When created by admin</p>
-                  <p className="text-[10px] text-muted-foreground">Applied when a contact is manually added or edited by an admin</p>
-                  <Select value={manualLegalBasis} onValueChange={(val) => setManualLegalBasis(val as LegalBasis)}>
-                    <SelectTrigger className="h-9 text-xs">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {LEGAL_BASIS_OPTIONS.map((option) => (
-                        <SelectItem key={option.value} value={option.value} className="text-xs">
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <p className="text-[10px] text-muted-foreground">
-                    {LEGAL_BASIS_OPTIONS.find(o => o.value === manualLegalBasis)?.description}
-                  </p>
-                </div>
-
-                {/* Self-service */}
-                <div className="space-y-2">
-                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">When updated via preference center</p>
-                  <p className="text-[10px] text-muted-foreground">Applied when a contact opts in through the preference center</p>
-                  <Select value={selfServiceLegalBasis} onValueChange={(val) => setSelfServiceLegalBasis(val as LegalBasis)}>
-                    <SelectTrigger className="h-9 text-xs">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {LEGAL_BASIS_OPTIONS.map((option) => (
-                        <SelectItem key={option.value} value={option.value} className="text-xs">
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <p className="text-[10px] text-muted-foreground">
-                    {LEGAL_BASIS_OPTIONS.find(o => o.value === selfServiceLegalBasis)?.description}
-                  </p>
-                </div>
-              </div>
             </div>
 
             <Separator />
