@@ -1,27 +1,24 @@
 
 
-## Preference Center Configuration Page
+## Add Primary Color Picker to Preference Center
 
-A new admin-facing page where CRM administrators can configure the Preference Center settings that contacts will see when managing their subscriptions.
+The `primaryColor` field already exists in `SettingsContext` and is consumed by the preview component. We just need to add a UI control.
 
-### What it includes
+### Changes
 
-1. **New route `/preference-center`** added to the router and sidebar navigation (between "Contacts" and "Campaigns")
+**`src/pages/PreferenceCenter.tsx`**
 
-2. **Page sections:**
-   - **General Settings** -- Preference center name/title, company logo URL, welcome message text, footer text
-   - **Subscription Types** -- Table listing all available subscription types (e.g. Newsletter, Promotions, Information material) with toggles to show/hide each in the preference center, grouped by channel (Email / SMS)
-   - **Appearance** -- Primary color picker, toggle for dark/light mode support
-   - **Compliance** -- Toggle to require re-confirmation on re-subscribe, toggle to show legal basis info to contacts, custom privacy policy URL
-   - **Preview panel** -- A live card preview on the right side showing how the preference center will look to contacts, updating as the admin changes settings
+Add an "Appearance" card (or a color input field) in each of the three sub-tabs (or better, as a shared section outside the sub-tabs so it applies globally). The simplest approach: add a color picker input inside the **Unsubscribe** tab's first card (since logo/footer are already there as "shared" settings), or create a small shared "Appearance" section above the sub-tabs.
 
-3. **State management** -- Settings stored in a new `PreferenceCenterContext` (or extend existing `SettingsContext`) so values persist across the app session. The "Copy Preference Center Link" button on contact detail pages already generates URLs pointing to this.
+Best placement: Add a small "Appearance" card **above the sub-tabs** (after the channel tabs header, before the unsubscribe/feedback/preferences tabs) so it's always visible regardless of which sub-tab is active. This card will contain:
 
-### Files to create/modify
+- A **color input** (`<input type="color">`) paired with a text input showing the current HSL value
+- Label: "Primary Color" with description "Used for buttons, links, and header background"
+- Convert between hex (for the native color picker) and HSL (stored in config) on change
 
-- **Create** `src/pages/PreferenceCenter.tsx` -- Main config page with form sections
-- **Create** `src/components/PreferenceCenterPreview.tsx` -- Live preview card component
-- **Modify** `src/App.tsx` -- Add `/preference-center` route
-- **Modify** `src/components/AppSidebar.tsx` -- Add nav item with `Settings2` or `SlidersHorizontal` icon
-- **Modify** `src/contexts/SettingsContext.tsx` -- Add preference center config fields (title, welcome message, visible subscription types, colors, compliance toggles)
+The conversion logic:
+- HSL string like `"214 80% 52%"` → hex for the `<input type="color">` display
+- Hex from color picker → HSL string to store back via `updatePreferenceCenterField("primaryColor", hslString)`
+
+Helper functions `hslToHex` and `hexToHsl` will be defined inline in the component.
 
