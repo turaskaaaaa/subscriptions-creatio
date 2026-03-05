@@ -4,7 +4,7 @@ import TopBar from "@/components/TopBar";
 import AppSidebar from "@/components/AppSidebar";
 import { ArrowLeft, Tag, Lock, MessageSquare, Paperclip, Plus, RefreshCw, MoreVertical, Search, ChevronUp, User, Mail, Phone, X, ShieldAlert, Ban, Clock, Send, ExternalLink, Scale, CheckCircle2, AlertCircle, Globe, Monitor } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
