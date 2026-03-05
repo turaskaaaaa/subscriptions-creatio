@@ -1,21 +1,27 @@
 
 
-## Plan: Redesign Re-consent Action Bar
+## Preference Center Configuration Page
 
-The current action bar has 4 buttons wrapping awkwardly across two rows with inconsistent border colors and spacing. We'll consolidate into a clean, contained toolbar.
+A new admin-facing page where CRM administrators can configure the Preference Center settings that contacts will see when managing their subscriptions.
 
-### Changes
+### What it includes
 
-**`src/pages/ContactDetail.tsx` (lines 157-201)**
+1. **New route `/preference-center`** added to the router and sidebar navigation (between "Contacts" and "Campaigns")
 
-Replace the loose `flex-wrap` button group with a single bordered toolbar card:
+2. **Page sections:**
+   - **General Settings** -- Preference center name/title, company logo URL, welcome message text, footer text
+   - **Subscription Types** -- Table listing all available subscription types (e.g. Newsletter, Promotions, Information material) with toggles to show/hide each in the preference center, grouped by channel (Email / SMS)
+   - **Appearance** -- Primary color picker, toggle for dark/light mode support
+   - **Compliance** -- Toggle to require re-confirmation on re-subscribe, toggle to show legal basis info to contacts, custom privacy policy URL
+   - **Preview panel** -- A live card preview on the right side showing how the preference center will look to contacts, updating as the admin changes settings
 
-- **Row 1:** "Send Re-consent Email" and "Copy Preference Center Link" side by side as ghost-style buttons with subtle hover states, no colored borders
-- **Row 2:** A horizontal separator, then "Subscribe All Email" and "Unsubscribe All Email" as smaller, secondary-styled buttons aligned right
-- Wrap everything in a `border border-border rounded-lg` container with consistent padding
-- Use `Button` component variants (`outline`, `ghost`) instead of raw `<button>` elements with inline classes
-- Add a small section label "Actions" above like the other sections use
-- Remove the vertical divider pipe — use the container's structure for visual separation instead
+3. **State management** -- Settings stored in a new `PreferenceCenterContext` (or extend existing `SettingsContext`) so values persist across the app session. The "Copy Preference Center Link" button on contact detail pages already generates URLs pointing to this.
 
-This turns the scattered buttons into a tidy, card-like action panel matching the rest of the page's design language.
+### Files to create/modify
+
+- **Create** `src/pages/PreferenceCenter.tsx` -- Main config page with form sections
+- **Create** `src/components/PreferenceCenterPreview.tsx` -- Live preview card component
+- **Modify** `src/App.tsx` -- Add `/preference-center` route
+- **Modify** `src/components/AppSidebar.tsx` -- Add nav item with `Settings2` or `SlidersHorizontal` icon
+- **Modify** `src/contexts/SettingsContext.tsx` -- Add preference center config fields (title, welcome message, visible subscription types, colors, compliance toggles)
 

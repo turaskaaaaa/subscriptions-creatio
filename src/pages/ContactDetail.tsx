@@ -5,6 +5,7 @@ import AppSidebar from "@/components/AppSidebar";
 import { ArrowLeft, Tag, Lock, MessageSquare, Paperclip, Plus, RefreshCw, MoreVertical, Search, ChevronUp, User, Mail, Phone, X, ShieldAlert, Ban, Clock, Send, ExternalLink, Scale, CheckCircle2, AlertCircle, Globe, Monitor } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useSettings } from "@/contexts/SettingsContext";
@@ -155,49 +156,65 @@ const ContactDetail = () => {
                   </div>
 
                   {/* Re-consent action bar */}
-                  <div className="flex items-center gap-3 flex-wrap">
-                    <button
-                      onClick={() => toast.info("Re-consent email sent", { description: `Sent to ${contact.email}` })}
-                      className="flex items-center gap-2 border border-destructive/40 px-4 py-2 rounded-md text-sm font-medium transition-colors text-primary bg-primary-foreground">
-                      <Send className="w-4 h-4" />
-                      Send Re-consent Email
-                    </button>
-                    <button
-                      onClick={() => {
-                        navigator.clipboard.writeText(`https://preferences.example.com/${contact.id}`);
-                        toast.success("Preference center link copied to clipboard");
-                      }}
-                      className="flex items-center gap-2 border border-border text-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-secondary transition-colors">
-                      <ExternalLink className="w-4 h-4" />
-                      Copy Preference Center Link
-                    </button>
-
-                    <div className="h-6 w-px bg-border mx-1" />
-
-                    {/* Bulk email subscription actions */}
-                    {(() => {
-                      const emailSubs = contact.subscriptions.filter((s) => s.channel === "Email");
-                      const allEmailSubscribed = emailSubs.length > 0 && emailSubs.every((s) => s.status === "Subscribed");
-                      const allEmailUnsubscribed = emailSubs.length > 0 && emailSubs.every((s) => s.status === "Unsubscribed");
-                      return (
-                        <>
-                          <button
-                            disabled={allEmailSubscribed}
-                            onClick={() => toast.success("Subscribed to all email lists", { description: `${emailSubs.length} email subscriptions activated` })}
-                            className="flex items-center gap-2 border border-primary/30 bg-primary/5 text-primary px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
-                            <Mail className="w-4 h-4" />
-                            Subscribe All Email
-                          </button>
-                          <button
-                            disabled={allEmailUnsubscribed}
-                            onClick={() => toast.warning("Unsubscribed from all email lists", { description: `${emailSubs.length} email subscriptions deactivated` })}
-                            className="flex items-center gap-2 border border-destructive/30 text-destructive px-4 py-2 rounded-md text-sm font-medium hover:bg-destructive/5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
-                            <X className="w-4 h-4" />
-                            Unsubscribe All Email
-                          </button>
-                        </>
-                      );
-                    })()}
+                  <div className="border border-border rounded-lg overflow-hidden">
+                    <div className="px-4 py-2.5 bg-muted/30 border-b border-border">
+                      <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Actions</span>
+                    </div>
+                    <div className="p-3 flex flex-col gap-3">
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => toast.info("Re-consent email sent", { description: `Sent to ${contact.email}` })}
+                          className="gap-2"
+                        >
+                          <Send className="w-3.5 h-3.5" />
+                          Send Re-consent Email
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            navigator.clipboard.writeText(`https://preferences.example.com/${contact.id}`);
+                            toast.success("Preference center link copied to clipboard");
+                          }}
+                          className="gap-2"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          Copy Preference Center Link
+                        </Button>
+                      </div>
+                      <Separator />
+                      {(() => {
+                        const emailSubs = contact.subscriptions.filter((s) => s.channel === "Email");
+                        const allEmailSubscribed = emailSubs.length > 0 && emailSubs.every((s) => s.status === "Subscribed");
+                        const allEmailUnsubscribed = emailSubs.length > 0 && emailSubs.every((s) => s.status === "Unsubscribed");
+                        return (
+                          <div className="flex items-center gap-2">
+                            <Button
+                              variant="secondary"
+                              size="sm"
+                              disabled={allEmailSubscribed}
+                              onClick={() => toast.success("Subscribed to all email lists", { description: `${emailSubs.length} email subscriptions activated` })}
+                              className="gap-2"
+                            >
+                              <Mail className="w-3.5 h-3.5" />
+                              Subscribe All Email
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              disabled={allEmailUnsubscribed}
+                              onClick={() => toast.warning("Unsubscribed from all email lists", { description: `${emailSubs.length} email subscriptions deactivated` })}
+                              className="gap-2 text-destructive hover:text-destructive hover:bg-destructive/10"
+                            >
+                              <X className="w-3.5 h-3.5" />
+                              Unsubscribe All Email
+                            </Button>
+                          </div>
+                        );
+                      })()}
+                    </div>
                   </div>
 
                   {/* Compliance summary cards */}
