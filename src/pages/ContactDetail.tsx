@@ -376,41 +376,11 @@ const ContactDetail = () => {
                               </td>
                               <td className="py-3 px-4">
                                 {sub.doubleOptIn ?
-                                  <Popover>
-                                    <PopoverTrigger asChild>
-                                      <Button variant="outline" size="sm" className="gap-1.5 text-xs text-primary border-primary/30 hover:bg-primary/5">
-                                        <CheckCircle2 className="w-3.5 h-3.5" />
-                                        Verified
-                                      </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-64 p-4 space-y-3" align="start">
-                                      <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Verification</p>
-                                      <div className="space-y-2 text-xs text-muted-foreground">
-                                        <div className="flex items-center gap-2">
-                                          <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0" />
-                                          <span className="font-medium text-primary">Verified</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                          <Clock className="w-3.5 h-3.5 shrink-0" />
-                                          <span>{sub.doubleOptIn.confirmationDate}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                          <Globe className="w-3.5 h-3.5 shrink-0" />
-                                          <span>{sub.doubleOptIn.ipAddress}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                          <Mail className="w-3.5 h-3.5 shrink-0" />
-                                          <span>{sub.doubleOptIn.method}</span>
-                                        </div>
-                                        {sub.doubleOptIn.userAgent && (
-                                          <div className="flex items-center gap-2">
-                                            <Monitor className="w-3.5 h-3.5 shrink-0" />
-                                            <span className="truncate" title={sub.doubleOptIn.userAgent}>{sub.doubleOptIn.userAgent.split('(')[0].trim()}</span>
-                                          </div>
-                                        )}
-                                      </div>
-                                    </PopoverContent>
-                                  </Popover> :
+                                  <Button variant="outline" size="sm" className="gap-1.5 text-xs text-primary border-primary/30 hover:bg-primary/5"
+                                    onClick={() => setVerificationProof(sub.doubleOptIn!)}>
+                                    <CheckCircle2 className="w-3.5 h-3.5" />
+                                    Verified
+                                  </Button> :
                               sub.status === "Pending" && doubleOptInEnabled ?
                                   <Button variant="outline" size="sm" className="gap-1.5 text-xs"
                                     onClick={() => {
