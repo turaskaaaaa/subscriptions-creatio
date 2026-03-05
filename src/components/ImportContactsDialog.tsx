@@ -98,7 +98,7 @@ const ImportContactsDialog = ({ open, onOpenChange }: ImportContactsDialogProps)
           </Button>
           <Button onClick={() => inputRef.current?.click()}>
             <Upload className="w-4 h-4" />
-            Select File & Import
+            Upload File & Import Contacts
           </Button>
         </DialogFooter>
 
