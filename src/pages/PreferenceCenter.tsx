@@ -234,38 +234,6 @@ const PreferenceCenter = () => {
                             </CardContent>
                           </Card>
 
-                          {/* Content categories */}
-                          <Card>
-                            <CardHeader className="pb-4">
-                              <CardTitle className="text-base">Content Categories</CardTitle>
-                              <CardDescription>Let contacts pick topics they're interested in</CardDescription>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                              <div className="flex items-center justify-between">
-                                <div>
-                                  <Label>Show Content Categories</Label>
-                                  <p className="text-xs text-muted-foreground mt-0.5">Display topic selection on the preferences page</p>
-                                </div>
-                                <Switch checked={prefs.showContentCategories} onCheckedChange={v => updatePrefsField("showContentCategories", v)} />
-                              </div>
-                              {prefs.showContentCategories && (
-                                <div className="space-y-2 pl-1">
-                                  <Label className="text-sm">Categories</Label>
-                                  {prefs.contentCategories.map((cat, i) => (
-                                    <div key={i} className="flex items-center gap-2">
-                                      <Input value={cat} onChange={e => updateCategory(i, e.target.value)} placeholder="e.g. Product Updates" className="flex-1" />
-                                      <Button variant="ghost" size="icon" className="shrink-0 h-8 w-8" onClick={() => removeCategory(i)}>
-                                        <X className="w-4 h-4" />
-                                      </Button>
-                                    </div>
-                                  ))}
-                                  <Button variant="outline" size="sm" onClick={addCategory} className="mt-1">
-                                    <Plus className="w-4 h-4 mr-1" /> Add Category
-                                  </Button>
-                                </div>
-                              )}
-                            </CardContent>
-                          </Card>
 
                           {/* Compliance */}
                           <Card>
