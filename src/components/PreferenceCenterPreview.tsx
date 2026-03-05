@@ -54,6 +54,13 @@ const PreferenceCenterPreview = () => {
             </p>
           </div>
         )}
+
+        <button
+          className="w-full text-sm font-medium py-2 rounded-md border border-destructive text-destructive hover:bg-destructive/10 transition-colors"
+          disabled
+        >
+          Unsubscribe from All
+        </button>
       </div>
 
       {/* Footer */}
