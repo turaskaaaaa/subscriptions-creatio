@@ -113,8 +113,7 @@ const PreferenceCenter = () => {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h1 className="text-xl font-semibold text-foreground">Preference Center</h1>
-                <p className="text-sm text-muted-foreground mt-1">
-</p>
+                <p className="text-sm text-muted-foreground mt-1">Customize the experience contacts see when managing their communication preferences.</p>
               </div>
               <Button onClick={() => toast.success("Preference center settings saved")} size="sm">
                 <Save className="w-4 h-4" />
