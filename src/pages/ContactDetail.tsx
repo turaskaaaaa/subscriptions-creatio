@@ -266,7 +266,7 @@ const ContactDetail = () => {
 
                         {/* Active Suppressions */}
                         <div className={`border rounded-lg p-5 space-y-3 ${activeSuppressions > 0 ? 'border-destructive/30 bg-destructive/5' : 'border-border'}`}>
-                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Active Suppressions</p>
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Suppression Status</p>
                           <p className={`text-3xl font-bold ${activeSuppressions > 0 ? 'text-destructive' : 'text-foreground'}`}>{activeSuppressions}</p>
                           {activeSuppressions > 0 &&
                           <>
