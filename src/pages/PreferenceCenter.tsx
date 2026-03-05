@@ -8,17 +8,28 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import PreferenceCenterPreview from "@/components/PreferenceCenterPreview";
-import UnsubscribePageSection from "@/components/UnsubscribePageSection";
-import ManagePreferencesSection from "@/components/ManagePreferencesSection";
-import { Save } from "lucide-react";
+import { Save, MailX, MessageSquareMore, ClipboardList, Plus, X, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { useState } from "react";
 
 const channels = ["Email", "WhatsApp", "SMS"] as const;
 
 const PreferenceCenter = () => {
   const { preferenceCenterConfig: config, updatePreferenceCenterField } = useSettings();
+  const [activePreviewTab, setActivePreviewTab] = useState("unsubscribe");
+
+  const unsub = config.unsubscribePage;
+  const prefs = config.managePreferencesPage;
+
+  const updateUnsubField = <K extends keyof typeof unsub>(key: K, value: (typeof unsub)[K]) => {
+    updatePreferenceCenterField("unsubscribePage", { ...unsub, [key]: value });
+  };
+
+  const updatePrefsField = <K extends keyof typeof prefs>(key: K, value: (typeof prefs)[K]) => {
+    updatePreferenceCenterField("managePreferencesPage", { ...prefs, [key]: value });
+  };
 
   const toggleSubscriptionVisibility = (index: number) => {
     const updated = [...config.subscriptionTypes];
@@ -27,9 +38,27 @@ const PreferenceCenter = () => {
   };
 
   const getSubsByChannel = (channel: string) =>
-  config.subscriptionTypes.
-  map((sub, i) => ({ sub, originalIndex: i })).
-  filter(({ sub }) => sub.channel === channel);
+    config.subscriptionTypes
+      .map((sub, i) => ({ sub, originalIndex: i }))
+      .filter(({ sub }) => sub.channel === channel);
+
+  // Feedback reason helpers
+  const addReason = () => updateUnsubField("reasons", [...unsub.reasons, ""]);
+  const updateReason = (index: number, value: string) => {
+    const updated = [...unsub.reasons];
+    updated[index] = value;
+    updateUnsubField("reasons", updated);
+  };
+  const removeReason = (index: number) => updateUnsubField("reasons", unsub.reasons.filter((_, i) => i !== index));
+
+  // Content category helpers
+  const addCategory = () => updatePrefsField("contentCategories", [...prefs.contentCategories, ""]);
+  const updateCategory = (index: number, value: string) => {
+    const updated = [...prefs.contentCategories];
+    updated[index] = value;
+    updatePrefsField("contentCategories", updated);
+  };
+  const removeCategory = (index: number) => updatePrefsField("contentCategories", prefs.contentCategories.filter((_, i) => i !== index));
 
   return (
     <div className="flex h-screen bg-background">
@@ -51,149 +80,222 @@ const PreferenceCenter = () => {
 
             <Tabs defaultValue="Email">
               <TabsList className="w-full justify-start border-b rounded-none bg-transparent p-0 h-auto">
-                {channels.map((ch) =>
-                <TabsTrigger
-                  key={ch}
-                  value={ch}
-                  className="uppercase tracking-wide text-xs font-semibold rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-6 py-3">
-                  
+                {channels.map((ch) => (
+                  <TabsTrigger
+                    key={ch}
+                    value={ch}
+                    className="uppercase tracking-wide text-xs font-semibold rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-6 py-3"
+                  >
                     {ch}
                   </TabsTrigger>
-                )}
+                ))}
               </TabsList>
 
-              {channels.map((channel) =>
-              <TabsContent key={channel} value={channel}>
+              {channels.map((channel) => (
+                <TabsContent key={channel} value={channel}>
                   <div className="flex gap-8 mt-6">
-                    <div className="flex-1 space-y-6 min-w-0">
-                      {/* General Settings */}
-                      <Card>
-                        <CardHeader className="pb-4">
-                          <CardTitle className="text-base">General Settings</CardTitle>
-                          <CardDescription>Basic information displayed in the preference center</CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                          <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                              <Label htmlFor={`pc-title-${channel}`}>Page Title</Label>
-                              <Input
-                              id={`pc-title-${channel}`}
-                              value={config.title}
-                              onChange={(e) => updatePreferenceCenterField("title", e.target.value)} />
-                            
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor={`pc-logo-${channel}`}>Logo URL</Label>
-                              <Input
-                              id={`pc-logo-${channel}`}
-                              placeholder="https://example.com/logo.png"
-                              value={config.logoUrl}
-                              onChange={(e) => updatePreferenceCenterField("logoUrl", e.target.value)} />
-                            
-                            </div>
-                          </div>
-                          <div className="space-y-2">
-                            <Label htmlFor={`pc-welcome-${channel}`}>Welcome Message</Label>
-                            <Textarea
-                            id={`pc-welcome-${channel}`}
-                            rows={2}
-                            value={config.welcomeMessage}
-                            onChange={(e) => updatePreferenceCenterField("welcomeMessage", e.target.value)} />
-                          
-                          </div>
-                          <div className="space-y-2">
-                            <Label htmlFor={`pc-footer-${channel}`}>Footer Text</Label>
-                            <Input
-                            id={`pc-footer-${channel}`}
-                            value={config.footerText}
-                            onChange={(e) => updatePreferenceCenterField("footerText", e.target.value)} />
-                          
-                          </div>
-                        </CardContent>
-                      </Card>
+                    {/* Left column — Config tabs synced with preview */}
+                    <div className="flex-1 min-w-0">
+                      <Tabs value={activePreviewTab} onValueChange={setActivePreviewTab}>
+                        <TabsList className="w-full grid grid-cols-3 mb-4">
+                          <TabsTrigger value="unsubscribe" className="text-xs gap-1.5">
+                            <MailX className="w-3.5 h-3.5" /> Unsubscribe
+                          </TabsTrigger>
+                          <TabsTrigger value="feedback" className="text-xs gap-1.5">
+                            <MessageSquareMore className="w-3.5 h-3.5" /> Feedback
+                          </TabsTrigger>
+                          <TabsTrigger value="preferences" className="text-xs gap-1.5">
+                            <ClipboardList className="w-3.5 h-3.5" /> Preferences
+                          </TabsTrigger>
+                        </TabsList>
 
-                      {/* Channel Subscription Types */}
-                      <Card>
-                        <CardHeader className="pb-4">
-                          <CardTitle className="text-base">{channel} Subscription Types</CardTitle>
-                          <CardDescription>Toggle which {channel.toLowerCase()} subscriptions are visible to contacts</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <Table>
-                            <TableHeader>
-                              <TableRow>
-                                <TableHead>Subscription</TableHead>
-                                <TableHead className="text-right">Visible</TableHead>
-                              </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                              {getSubsByChannel(channel).map(({ sub, originalIndex }) =>
-                            <TableRow key={sub.name}>
-                                  <TableCell className="font-medium">{sub.name}</TableCell>
-                                  <TableCell className="text-right">
-                                    <Switch
-                                  checked={sub.visibleInPreferenceCenter}
-                                  onCheckedChange={() => toggleSubscriptionVisibility(originalIndex)} />
-                                
-                                  </TableCell>
-                                </TableRow>
-                            )}
-                              {getSubsByChannel(channel).length === 0 &&
-                            <TableRow>
-                                  <TableCell colSpan={2} className="text-center text-muted-foreground py-6">
-                                    No {channel} subscription types configured
-                                  </TableCell>
-                                </TableRow>
-                            }
-                            </TableBody>
-                          </Table>
-                        </CardContent>
-                      </Card>
+                        {/* Tab 1 — Unsubscribe Page */}
+                        <TabsContent value="unsubscribe" className="space-y-6">
+                          <Card>
+                            <CardHeader className="pb-4">
+                              <CardTitle className="text-base">Unsubscribe Page</CardTitle>
+                              <CardDescription>Configure the page contacts see when unsubscribing</CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                              <div className="space-y-2">
+                                <Label>Page Name</Label>
+                                <Input value={unsub.pageName} onChange={e => updateUnsubField("pageName", e.target.value)} placeholder="Unsubscribe" />
+                              </div>
+                              <div className="space-y-2">
+                                <Label>Confirmation Message</Label>
+                                <Textarea rows={2} value={unsub.confirmationMessage} onChange={e => updateUnsubField("confirmationMessage", e.target.value)} />
+                              </div>
+                              <div className="space-y-2">
+                                <Label>Logo URL</Label>
+                                <Input placeholder="https://example.com/logo.png" value={config.logoUrl} onChange={e => updatePreferenceCenterField("logoUrl", e.target.value)} />
+                              </div>
+                              <div className="space-y-2">
+                                <Label>Footer Text</Label>
+                                <Input value={config.footerText} onChange={e => updatePreferenceCenterField("footerText", e.target.value)} />
+                              </div>
+                            </CardContent>
+                          </Card>
+                        </TabsContent>
 
+                        {/* Tab 2 — Feedback Page */}
+                        <TabsContent value="feedback" className="space-y-6">
+                          <Card>
+                            <CardHeader className="pb-4">
+                              <CardTitle className="text-base">Feedback Page</CardTitle>
+                              <CardDescription>Configure the feedback form shown before confirming unsubscribe</CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                              <div className="flex items-center justify-between">
+                                <div>
+                                  <Label>Ask Reason for Unsubscribing</Label>
+                                  <p className="text-xs text-muted-foreground mt-0.5">Show a reason selector before confirming</p>
+                                </div>
+                                <Switch checked={unsub.showReasonSelection} onCheckedChange={v => updateUnsubField("showReasonSelection", v)} />
+                              </div>
+                              {unsub.showReasonSelection && (
+                                <div className="space-y-2 pl-1">
+                                  <Label className="text-sm">Reasons</Label>
+                                  {unsub.reasons.map((reason, i) => (
+                                    <div key={i} className="flex items-center gap-2">
+                                      <Input value={reason} onChange={e => updateReason(i, e.target.value)} placeholder="e.g. Too many emails" className="flex-1" />
+                                      <Button variant="ghost" size="icon" className="shrink-0 h-8 w-8" onClick={() => removeReason(i)}>
+                                        <X className="w-4 h-4" />
+                                      </Button>
+                                    </div>
+                                  ))}
+                                  <Button variant="outline" size="sm" onClick={addReason} className="mt-1">
+                                    <Plus className="w-4 h-4 mr-1" /> Add Reason
+                                  </Button>
+                                </div>
+                              )}
+                            </CardContent>
+                          </Card>
+                        </TabsContent>
 
-                      {/* Unsubscribe Page */}
-                      <UnsubscribePageSection />
+                        {/* Tab 3 — Manage Preferences */}
+                        <TabsContent value="preferences" className="space-y-6">
+                          {/* General info */}
+                          <Card>
+                            <CardHeader className="pb-4">
+                              <CardTitle className="text-base">General Settings</CardTitle>
+                              <CardDescription>Title and message displayed on the preferences page</CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                              <div className="space-y-2">
+                                <Label>Page Title</Label>
+                                <Input value={config.title} onChange={e => updatePreferenceCenterField("title", e.target.value)} />
+                              </div>
+                              <div className="space-y-2">
+                                <Label>Welcome Message</Label>
+                                <Textarea rows={2} value={config.welcomeMessage} onChange={e => updatePreferenceCenterField("welcomeMessage", e.target.value)} />
+                              </div>
+                            </CardContent>
+                          </Card>
 
-                      {/* Manage Preferences Page */}
-                      <ManagePreferencesSection />
+                          {/* Subscription types */}
+                          <Card>
+                            <CardHeader className="pb-4">
+                              <CardTitle className="text-base">{channel} Subscription Types</CardTitle>
+                              <CardDescription>Toggle which subscriptions are visible to contacts</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                              <Table>
+                                <TableHeader>
+                                  <TableRow>
+                                    <TableHead>Subscription</TableHead>
+                                    <TableHead className="text-right">Visible</TableHead>
+                                  </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                  {getSubsByChannel(channel).map(({ sub, originalIndex }) => (
+                                    <TableRow key={sub.name}>
+                                      <TableCell className="font-medium">{sub.name}</TableCell>
+                                      <TableCell className="text-right">
+                                        <Switch checked={sub.visibleInPreferenceCenter} onCheckedChange={() => toggleSubscriptionVisibility(originalIndex)} />
+                                      </TableCell>
+                                    </TableRow>
+                                  ))}
+                                  {getSubsByChannel(channel).length === 0 && (
+                                    <TableRow>
+                                      <TableCell colSpan={2} className="text-center text-muted-foreground py-6">
+                                        No {channel} subscription types configured
+                                      </TableCell>
+                                    </TableRow>
+                                  )}
+                                </TableBody>
+                              </Table>
+                            </CardContent>
+                          </Card>
 
-                      {/* Compliance */}
-                      <Card>
-                        <CardHeader className="pb-4">
-                          <CardTitle className="text-base">Compliance</CardTitle>
-                          <CardDescription>Legal and compliance settings for the preference center</CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                          <div className="flex items-center justify-between">
-                            <div>
-                              <Label>Show Legal Basis to Contacts</Label>
-                              <p className="text-xs text-muted-foreground mt-0.5">Display the legal basis for data processing</p>
-                            </div>
-                            <Switch
-                            checked={config.showLegalBasis}
-                            onCheckedChange={(v) => updatePreferenceCenterField("showLegalBasis", v)} />
-                          
-                          </div>
-                        </CardContent>
-                      </Card>
+                          {/* Content categories */}
+                          <Card>
+                            <CardHeader className="pb-4">
+                              <CardTitle className="text-base">Content Categories</CardTitle>
+                              <CardDescription>Let contacts pick topics they're interested in</CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                              <div className="flex items-center justify-between">
+                                <div>
+                                  <Label>Show Content Categories</Label>
+                                  <p className="text-xs text-muted-foreground mt-0.5">Display topic selection on the preferences page</p>
+                                </div>
+                                <Switch checked={prefs.showContentCategories} onCheckedChange={v => updatePrefsField("showContentCategories", v)} />
+                              </div>
+                              {prefs.showContentCategories && (
+                                <div className="space-y-2 pl-1">
+                                  <Label className="text-sm">Categories</Label>
+                                  {prefs.contentCategories.map((cat, i) => (
+                                    <div key={i} className="flex items-center gap-2">
+                                      <Input value={cat} onChange={e => updateCategory(i, e.target.value)} placeholder="e.g. Product Updates" className="flex-1" />
+                                      <Button variant="ghost" size="icon" className="shrink-0 h-8 w-8" onClick={() => removeCategory(i)}>
+                                        <X className="w-4 h-4" />
+                                      </Button>
+                                    </div>
+                                  ))}
+                                  <Button variant="outline" size="sm" onClick={addCategory} className="mt-1">
+                                    <Plus className="w-4 h-4 mr-1" /> Add Category
+                                  </Button>
+                                </div>
+                              )}
+                            </CardContent>
+                          </Card>
+
+                          {/* Compliance */}
+                          <Card>
+                            <CardHeader className="pb-4">
+                              <CardTitle className="text-base">Compliance</CardTitle>
+                              <CardDescription>Legal and compliance settings</CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                              <div className="flex items-center justify-between">
+                                <div>
+                                  <Label>Show Legal Basis to Contacts</Label>
+                                  <p className="text-xs text-muted-foreground mt-0.5">Display the legal basis for data processing</p>
+                                </div>
+                                <Switch checked={config.showLegalBasis} onCheckedChange={v => updatePreferenceCenterField("showLegalBasis", v)} />
+                              </div>
+                            </CardContent>
+                          </Card>
+                        </TabsContent>
+                      </Tabs>
                     </div>
 
                     {/* Right column — Live preview */}
                     <div className="w-[380px] shrink-0">
                       <div className="sticky top-6">
                         <h3 className="text-sm font-medium text-muted-foreground mb-3">Live Preview</h3>
-                        <PreferenceCenterPreview />
+                        <PreferenceCenterPreview activeTab={activePreviewTab} />
                       </div>
                     </div>
                   </div>
                 </TabsContent>
-              )}
+              ))}
             </Tabs>
           </div>
         </main>
       </div>
-    </div>);
-
+    </div>
+  );
 };
 
 export default PreferenceCenter;
