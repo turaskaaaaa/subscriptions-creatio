@@ -305,15 +305,14 @@ const PreferenceCenter = () => {
                                 <Label>Welcome Message</Label>
                                 <Textarea rows={2} value={config.welcomeMessage} onChange={e => updatePreferenceCenterField("welcomeMessage", e.target.value)} />
                               </div>
-                              <div className="space-y-2">
-                                <Label>Logo URL</Label>
-                                <Input placeholder="https://example.com/logo.png" value={config.logoUrl} onChange={e => updatePreferenceCenterField("logoUrl", e.target.value)} />
-                              </div>
-                              <div className="space-y-2">
-                                <Label>Primary Color</Label>
-                                <div className="flex items-center gap-2">
-                                  <input type="color" value={hslToHex(config.primaryColor)} onChange={e => updatePreferenceCenterField("primaryColor", hexToHsl(e.target.value))} className="w-9 h-9 rounded-md border border-input cursor-pointer p-0.5" />
-                                  <span className="text-xs text-muted-foreground font-mono">{config.primaryColor}</span>
+                              <div className="grid grid-cols-[1fr_auto] gap-3 items-end">
+                                <div className="space-y-2">
+                                  <Label>Logo URL</Label>
+                                  <Input placeholder="https://example.com/logo.png" value={config.logoUrl} onChange={e => updatePreferenceCenterField("logoUrl", e.target.value)} />
+                                </div>
+                                <div className="space-y-2">
+                                  <Label>Primary Color</Label>
+                                  <input type="color" value={hslToHex(config.primaryColor)} onChange={e => updatePreferenceCenterField("primaryColor", hexToHsl(e.target.value))} className="w-10 h-10 rounded-md border border-input cursor-pointer p-0.5" />
                                 </div>
                               </div>
                             </CardContent>
