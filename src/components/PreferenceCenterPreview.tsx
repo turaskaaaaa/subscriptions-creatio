@@ -7,6 +7,7 @@ const PreferenceCenterPreview = () => {
 
   const visibleSubs = config.subscriptionTypes.filter(s => s.visibleInPreferenceCenter);
   const emailSubs = visibleSubs.filter(s => s.channel === "Email");
+  const whatsappSubs = visibleSubs.filter(s => s.channel === "WhatsApp");
   const smsSubs = visibleSubs.filter(s => s.channel === "SMS");
 
   return (
