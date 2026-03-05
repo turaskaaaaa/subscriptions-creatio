@@ -173,6 +173,13 @@ const PreferenceCenter = () => {
                                 <Input placeholder="https://example.com/logo.png" value={config.logoUrl} onChange={e => updatePreferenceCenterField("logoUrl", e.target.value)} />
                               </div>
                               <div className="space-y-2">
+                                <Label>Primary Color</Label>
+                                <div className="flex items-center gap-2">
+                                  <input type="color" value={hslToHex(config.primaryColor)} onChange={e => updatePreferenceCenterField("primaryColor", hexToHsl(e.target.value))} className="w-9 h-9 rounded-md border border-input cursor-pointer p-0.5" />
+                                  <span className="text-xs text-muted-foreground font-mono">{config.primaryColor}</span>
+                                </div>
+                              </div>
+                              <div className="space-y-2">
                                 <Label>Footer Text</Label>
                                 <Input value={config.footerText} onChange={e => updatePreferenceCenterField("footerText", e.target.value)} />
                               </div>
