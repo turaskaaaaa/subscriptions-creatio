@@ -468,7 +468,9 @@ const ContactDetail = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {contact.consentTimeline.map((evt, idx) =>
+                            {contact.consentTimeline
+                            .filter((evt) => doubleOptInEnabled || (evt.action !== "Double opt-in sent" && evt.action !== "Double opt-in confirmed"))
+                            .map((evt, idx) =>
                           <tr key={idx} className="border-t border-border hover:bg-secondary/30 transition-colors">
                                 <td className="py-3 px-4 text-muted-foreground whitespace-nowrap">
                                   <span className="inline-flex items-center gap-1.5">
