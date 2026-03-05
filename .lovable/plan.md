@@ -1,27 +1,30 @@
 
 
-## Preference Center Configuration Page
+## Plan: Context-Specific Legal Basis Settings
 
-A new admin-facing page where CRM administrators can configure the Preference Center settings that contacts will see when managing their subscriptions.
+**Problem:** Currently there is a single `defaultLegalBasis` setting. But the legal basis should differ depending on *how* consent was acquired -- e.g., "Legitimate interest" when an admin manually adds a contact vs. "Explicit consent" when a contact updates their own preferences via the preference center.
 
-### What it includes
+**Solution:** Replace the single `defaultLegalBasis` with two separate settings:
 
-1. **New route `/preference-center`** added to the router and sidebar navigation (between "Contacts" and "Campaigns")
+1. **"Manual creation" legal basis** -- applied when an admin creates/edits a contact manually (e.g., via New Contact dialog or CRM import)
+2. **"Self-service" legal basis** -- applied when a contact opts in through the preference center or unsubscribe/feedback pages
 
-2. **Page sections:**
-   - **General Settings** -- Preference center name/title, company logo URL, welcome message text, footer text
-   - **Subscription Types** -- Table listing all available subscription types (e.g. Newsletter, Promotions, Information material) with toggles to show/hide each in the preference center, grouped by channel (Email / SMS)
-   - **Appearance** -- Primary color picker, toggle for dark/light mode support
-   - **Compliance** -- Toggle to require re-confirmation on re-subscribe, toggle to show legal basis info to contacts, custom privacy policy URL
-   - **Preview panel** -- A live card preview on the right side showing how the preference center will look to contacts, updating as the admin changes settings
+### Changes
 
-3. **State management** -- Settings stored in a new `PreferenceCenterContext` (or extend existing `SettingsContext`) so values persist across the app session. The "Copy Preference Center Link" button on contact detail pages already generates URLs pointing to this.
+**`src/contexts/SettingsContext.tsx`**
+- Replace `defaultLegalBasis` / `setDefaultLegalBasis` with:
+  - `manualLegalBasis` / `setManualLegalBasis` (default: "Legitimate interest")
+  - `selfServiceLegalBasis` / `setSelfServiceLegalBasis` (default: "Explicit consent")
 
-### Files to create/modify
+**`src/components/BulkEmailSettingsDialog.tsx`**
+- Replace the single "Default legal basis" radio group with two side-by-side sections:
+  - "When contact is created/edited by admin" → selects `manualLegalBasis`
+  - "When contact updates via preference center" → selects `selfServiceLegalBasis`
+- Reuse the existing `LEGAL_BASIS_OPTIONS` list for both selectors.
 
-- **Create** `src/pages/PreferenceCenter.tsx` -- Main config page with form sections
-- **Create** `src/components/PreferenceCenterPreview.tsx` -- Live preview card component
-- **Modify** `src/App.tsx` -- Add `/preference-center` route
-- **Modify** `src/components/AppSidebar.tsx` -- Add nav item with `Settings2` or `SlidersHorizontal` icon
-- **Modify** `src/contexts/SettingsContext.tsx` -- Add preference center config fields (title, welcome message, visible subscription types, colors, compliance toggles)
+**`src/pages/PreferenceCenter.tsx`**
+- In each tab's Compliance card, show the currently configured `selfServiceLegalBasis` value as read-only info text (e.g., "Legal basis for self-service changes: Explicit consent") with a note pointing to Bulk Email Settings for editing. This keeps the setting in one place but gives visibility in the preference center config.
+
+**`src/components/PreferenceCenterPreview.tsx`**
+- Update the legal basis display text to use `selfServiceLegalBasis` instead of the old single value.
 
