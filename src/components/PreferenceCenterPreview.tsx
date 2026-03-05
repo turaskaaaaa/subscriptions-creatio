@@ -1,6 +1,6 @@
 import { useSettings, type PreferenceCenterConfig } from "@/contexts/SettingsContext";
 import { Switch } from "@/components/ui/switch";
-import { Mail, MessageSquare, Phone, Shield } from "lucide-react";
+import { Mail, Shield } from "lucide-react";
 
 const PreferenceCenterPreview = () => {
   const { preferenceCenterConfig: config } = useSettings();
