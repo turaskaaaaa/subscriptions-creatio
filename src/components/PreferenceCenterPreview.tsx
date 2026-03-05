@@ -14,14 +14,19 @@ const PreferenceCenterPreview = ({ activeTab }: PreferenceCenterPreviewProps) =>
   const manage = config.managePreferencesPage;
 
   const Header = () => (
-    <div
-      className="px-6 py-5 text-center"
-      style={{ backgroundColor: `hsl(${config.primaryColor})` }}
-    >
-      {config.logoUrl && (
-        <img src={config.logoUrl} alt="Logo" className="h-8 mx-auto mb-3 object-contain" />
-      )}
-    </div>
+    <>
+      <div
+        className="px-6 py-5 text-center"
+        style={{ backgroundColor: `hsl(${config.primaryColor})` }}
+      >
+        {config.logoUrl && (
+          <img src={config.logoUrl} alt="Logo" className="h-8 mx-auto mb-3 object-contain" />
+        )}
+      </div>
+      <div className="text-center py-2 bg-muted/20 border-b">
+        <span className="text-xs text-muted-foreground">📧 john@example.com</span>
+      </div>
+    </>
   );
 
   return (
