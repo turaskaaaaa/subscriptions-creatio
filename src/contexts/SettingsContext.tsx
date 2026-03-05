@@ -7,6 +7,19 @@ export interface SubscriptionTypeConfig {
   visibleInPreferenceCenter: boolean;
 }
 
+export interface UnsubscribePageConfig {
+  pageName: string;
+  confirmationMessage: string;
+  showReasonSelection: boolean;
+  reasons: string[];
+}
+
+export interface ManagePreferencesPageConfig {
+  pageName: string;
+  showContentCategories: boolean;
+  contentCategories: string[];
+}
+
 export interface PreferenceCenterConfig {
   title: string;
   logoUrl: string;
@@ -18,6 +31,9 @@ export interface PreferenceCenterConfig {
   requireReconfirmation: boolean;
   showLegalBasis: boolean;
   privacyPolicyUrl: string;
+  emailPageName: string;
+  unsubscribePage: UnsubscribePageConfig;
+  managePreferencesPage: ManagePreferencesPageConfig;
 }
 
 interface SettingsContextType {
