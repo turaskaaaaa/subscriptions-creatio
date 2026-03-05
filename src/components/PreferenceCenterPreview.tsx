@@ -146,7 +146,7 @@ const PreferenceCenterPreview = ({ activeTab }: PreferenceCenterPreviewProps) =>
               <div className="flex items-start gap-2 pt-2 border-t">
                 <Shield className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
                 <p className="text-xs text-muted-foreground">
-                  Your data is processed based on your explicit consent. You can withdraw consent at any time.
+                  Your data is processed based on {selfServiceLegalBasis.toLowerCase()}. You can withdraw consent at any time.
                 </p>
               </div>
             )}
