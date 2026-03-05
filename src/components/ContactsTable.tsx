@@ -4,9 +4,11 @@ import { Folder, Tag, Search, Plus, MoreHorizontal, RefreshCw, SlidersHorizontal
 import { contactsData } from "@/data/contactsData";
 import { Checkbox } from "@/components/ui/checkbox";
 import NewContactDialog from "./NewContactDialog";
+import ImportContactsDialog from "./ImportContactsDialog";
 
 const ContactsTable = () => {
   const [newContactOpen, setNewContactOpen] = useState(false);
+  const [importOpen, setImportOpen] = useState(false);
   const navigate = useNavigate();
   return (
     <div className="flex-1 flex flex-col overflow-hidden bg-background">
