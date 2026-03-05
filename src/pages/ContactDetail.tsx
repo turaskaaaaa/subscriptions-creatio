@@ -374,39 +374,51 @@ const ContactDetail = () => {
                               </td>
                               <td className="py-3 px-4">
                                 {sub.doubleOptIn ?
-                              <div className="space-y-1">
-                                    <span className="inline-flex items-center gap-1.5 text-xs font-medium text-primary">
-                                      <CheckCircle2 className="w-3.5 h-3.5" />
-                                      Verified
-                                    </span>
-                                    <div className="text-[10px] text-muted-foreground space-y-0.5">
-                                      <p className="flex items-center gap-1"><Clock className="w-2.5 h-2.5" /> {sub.doubleOptIn.confirmationDate}</p>
-                                      <p className="flex items-center gap-1"><Globe className="w-2.5 h-2.5" /> {sub.doubleOptIn.ipAddress}</p>
-                                      <p className="flex items-center gap-1"><Mail className="w-2.5 h-2.5" /> {sub.doubleOptIn.method}</p>
-                                      {sub.doubleOptIn.userAgent &&
-                                  <p className="flex items-center gap-1 truncate max-w-[180px]" title={sub.doubleOptIn.userAgent}><Monitor className="w-2.5 h-2.5" /> {sub.doubleOptIn.userAgent.split('(')[0].trim()}</p>
-                                  }
-                                    </div>
-                                  </div> :
+                                  <Popover>
+                                    <PopoverTrigger asChild>
+                                      <Button variant="outline" size="sm" className="gap-1.5 text-xs text-primary border-primary/30 hover:bg-primary/5">
+                                        <CheckCircle2 className="w-3.5 h-3.5" />
+                                        Verified
+                                      </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-64 p-4 space-y-3" align="start">
+                                      <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Verification</p>
+                                      <div className="space-y-2 text-xs text-muted-foreground">
+                                        <div className="flex items-center gap-2">
+                                          <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0" />
+                                          <span className="font-medium text-primary">Verified</span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                          <Clock className="w-3.5 h-3.5 shrink-0" />
+                                          <span>{sub.doubleOptIn.confirmationDate}</span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                          <Globe className="w-3.5 h-3.5 shrink-0" />
+                                          <span>{sub.doubleOptIn.ipAddress}</span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                          <Mail className="w-3.5 h-3.5 shrink-0" />
+                                          <span>{sub.doubleOptIn.method}</span>
+                                        </div>
+                                        {sub.doubleOptIn.userAgent && (
+                                          <div className="flex items-center gap-2">
+                                            <Monitor className="w-3.5 h-3.5 shrink-0" />
+                                            <span className="truncate" title={sub.doubleOptIn.userAgent}>{sub.doubleOptIn.userAgent.split('(')[0].trim()}</span>
+                                          </div>
+                                        )}
+                                      </div>
+                                    </PopoverContent>
+                                  </Popover> :
                               sub.status === "Pending" && doubleOptInEnabled ?
-                              <div className="space-y-1.5">
-                                    <span className="inline-flex items-center gap-1.5 text-xs font-medium text-accent-foreground">
-                                      <AlertCircle className="w-3.5 h-3.5" />
-                                      Awaiting
-                                    </span>
-                                    <button
-                                  onClick={() => {
-                                    toast.info("Confirmation resent", {
-                                      description: `Double opt-in ${sub.channel === "SMS" ? "code" : "email"} resent to ${sub.channel === "SMS" ? contact.mobilePhone : contact.email}`
-                                    });
-                                  }}
-                                  className="flex items-center gap-1 text-[10px] font-medium text-primary hover:underline">
-                                  
-                                      <RefreshCw className="w-2.5 h-2.5" />
-                                      Resend
-                                    </button>
-                                  </div> :
-
+                                  <Button variant="outline" size="sm" className="gap-1.5 text-xs"
+                                    onClick={() => {
+                                      toast.info("Confirmation resent", {
+                                        description: `Double opt-in ${sub.channel === "SMS" ? "code" : "email"} resent to ${sub.channel === "SMS" ? contact.mobilePhone : contact.email}`
+                                      });
+                                    }}>
+                                    <AlertCircle className="w-3.5 h-3.5" />
+                                    Awaiting — Resend
+                                  </Button> :
                               <span className="text-xs text-muted-foreground">—</span>
                               }
                               </td>
