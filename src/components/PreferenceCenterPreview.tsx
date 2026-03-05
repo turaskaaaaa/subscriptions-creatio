@@ -47,6 +47,14 @@ const PreferenceCenterPreview = ({ activeTab }: PreferenceCenterPreviewProps) =>
                 Or <span className="underline" style={{ color: `hsl(${config.primaryColor})` }}>manage your preferences</span> instead
               </p>
             )}
+            {config.showLegalBasis && (
+              <div className="flex items-start gap-2 text-left">
+                <Shield className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
+                <p className="text-xs text-muted-foreground">
+                  Your data is processed based on your explicit consent. You can withdraw consent at any time.
+                </p>
+              </div>
+            )}
           </div>
           <div className="px-6 py-3 border-t bg-muted/30">
             <p className="text-xs text-muted-foreground">{config.footerText}</p>
@@ -89,6 +97,14 @@ const PreferenceCenterPreview = ({ activeTab }: PreferenceCenterPreviewProps) =>
             >
               Skip
             </button>
+            {config.showLegalBasis && (
+              <div className="flex items-start gap-2">
+                <Shield className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
+                <p className="text-xs text-muted-foreground">
+                  Your data is processed based on your explicit consent. You can withdraw consent at any time.
+                </p>
+              </div>
+            )}
           </div>
           <div className="px-6 py-3 border-t bg-muted/30">
             <p className="text-xs text-muted-foreground">{config.footerText}</p>

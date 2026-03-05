@@ -142,6 +142,22 @@ const PreferenceCenter = () => {
                               </div>
                             </CardContent>
                           </Card>
+
+                          <Card>
+                            <CardHeader className="pb-4">
+                              <CardTitle className="text-base">Compliance</CardTitle>
+                              <CardDescription>Legal and compliance settings for the unsubscribe page</CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                              <div className="flex items-center justify-between">
+                                <div>
+                                  <Label>Show Legal Basis to Contacts</Label>
+                                  <p className="text-xs text-muted-foreground mt-0.5">Display the legal basis for data processing</p>
+                                </div>
+                                <Switch checked={config.showLegalBasis} onCheckedChange={v => updatePreferenceCenterField("showLegalBasis", v)} />
+                              </div>
+                            </CardContent>
+                          </Card>
                         </TabsContent>
 
                         {/* Tab 2 — Feedback Page */}
@@ -175,6 +191,22 @@ const PreferenceCenter = () => {
                                   </Button>
                                 </div>
                               )}
+                            </CardContent>
+                          </Card>
+
+                          <Card>
+                            <CardHeader className="pb-4">
+                              <CardTitle className="text-base">Compliance</CardTitle>
+                              <CardDescription>Legal and compliance settings for the feedback page</CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                              <div className="flex items-center justify-between">
+                                <div>
+                                  <Label>Show Legal Basis to Contacts</Label>
+                                  <p className="text-xs text-muted-foreground mt-0.5">Display the legal basis for data processing</p>
+                                </div>
+                                <Switch checked={config.showLegalBasis} onCheckedChange={v => updatePreferenceCenterField("showLegalBasis", v)} />
+                              </div>
                             </CardContent>
                           </Card>
                         </TabsContent>
