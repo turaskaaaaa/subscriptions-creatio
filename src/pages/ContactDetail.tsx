@@ -406,7 +406,8 @@ const ContactDetail = () => {
                   </div>
                   {/* Suppressions / Blocked List */}
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">SUPPRESSIONS (BLOCKED LIST)</p>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">SUPPRESSIONS (BLOCKED LIST)</p>
+                    <p className="text-xs text-muted-foreground mb-3">Emails on this list cannot receive messages through the specified channel.</p>
                     {contact.suppressions.length === 0 ?
                     <div className="border border-border rounded-lg p-6 flex flex-col items-center gap-2 text-muted-foreground">
                         <ShieldAlert className="w-6 h-6" />
