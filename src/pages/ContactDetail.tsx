@@ -4,17 +4,19 @@ import TopBar from "@/components/TopBar";
 import AppSidebar from "@/components/AppSidebar";
 import { ArrowLeft, Tag, Lock, MessageSquare, Paperclip, Plus, RefreshCw, MoreVertical, Search, ChevronUp, User, Mail, Phone, X, ShieldAlert, Ban, Clock, Send, ExternalLink, Scale, CheckCircle2, AlertCircle, Globe, Monitor } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useSettings } from "@/contexts/SettingsContext";
+import type { DoubleOptInProof } from "@/data/contactsData";
 
 const ContactDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { doubleOptInEnabled } = useSettings();
+  const [verificationProof, setVerificationProof] = useState<DoubleOptInProof | null>(null);
   const contact = contactsData.find((c) => c.id === Number(id));
 
   if (!contact) {
@@ -374,41 +376,11 @@ const ContactDetail = () => {
                               </td>
                               <td className="py-3 px-4">
                                 {sub.doubleOptIn ?
-                                  <Popover>
-                                    <PopoverTrigger asChild>
-                                      <Button variant="outline" size="sm" className="gap-1.5 text-xs text-primary border-primary/30 hover:bg-primary/5">
-                                        <CheckCircle2 className="w-3.5 h-3.5" />
-                                        Verified
-                                      </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-64 p-4 space-y-3" align="start">
-                                      <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Verification</p>
-                                      <div className="space-y-2 text-xs text-muted-foreground">
-                                        <div className="flex items-center gap-2">
-                                          <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0" />
-                                          <span className="font-medium text-primary">Verified</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                          <Clock className="w-3.5 h-3.5 shrink-0" />
-                                          <span>{sub.doubleOptIn.confirmationDate}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                          <Globe className="w-3.5 h-3.5 shrink-0" />
-                                          <span>{sub.doubleOptIn.ipAddress}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                          <Mail className="w-3.5 h-3.5 shrink-0" />
-                                          <span>{sub.doubleOptIn.method}</span>
-                                        </div>
-                                        {sub.doubleOptIn.userAgent && (
-                                          <div className="flex items-center gap-2">
-                                            <Monitor className="w-3.5 h-3.5 shrink-0" />
-                                            <span className="truncate" title={sub.doubleOptIn.userAgent}>{sub.doubleOptIn.userAgent.split('(')[0].trim()}</span>
-                                          </div>
-                                        )}
-                                      </div>
-                                    </PopoverContent>
-                                  </Popover> :
+                                  <Button variant="outline" size="sm" className="gap-1.5 text-xs text-primary border-primary/30 hover:bg-primary/5"
+                                    onClick={() => setVerificationProof(sub.doubleOptIn!)}>
+                                    <CheckCircle2 className="w-3.5 h-3.5" />
+                                    Verified
+                                  </Button> :
                               sub.status === "Pending" && doubleOptInEnabled ?
                                   <Button variant="outline" size="sm" className="gap-1.5 text-xs"
                                     onClick={() => {
@@ -567,6 +539,56 @@ const ContactDetail = () => {
           </div>
         </div>
       </div>
+
+      {/* Verification Dialog */}
+      <Dialog open={!!verificationProof} onOpenChange={(open) => !open && setVerificationProof(null)}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="text-base uppercase tracking-wider">Verification</DialogTitle>
+          </DialogHeader>
+          {verificationProof && (
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-5 h-5 text-primary" />
+                <span className="text-sm font-semibold text-primary">Verified</span>
+              </div>
+              <Separator />
+              <div className="space-y-3 text-sm text-muted-foreground">
+                <div className="flex items-center gap-3">
+                  <Clock className="w-4 h-4 shrink-0" />
+                  <div>
+                    <p className="text-xs text-muted-foreground">Confirmed on</p>
+                    <p className="text-sm text-foreground">{verificationProof.confirmationDate}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Globe className="w-4 h-4 shrink-0" />
+                  <div>
+                    <p className="text-xs text-muted-foreground">IP Address</p>
+                    <p className="text-sm text-foreground">{verificationProof.ipAddress}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Mail className="w-4 h-4 shrink-0" />
+                  <div>
+                    <p className="text-xs text-muted-foreground">Method</p>
+                    <p className="text-sm text-foreground">{verificationProof.method}</p>
+                  </div>
+                </div>
+                {verificationProof.userAgent && (
+                  <div className="flex items-center gap-3">
+                    <Monitor className="w-4 h-4 shrink-0" />
+                    <div>
+                      <p className="text-xs text-muted-foreground">User Agent</p>
+                      <p className="text-sm text-foreground truncate max-w-[250px]" title={verificationProof.userAgent}>{verificationProof.userAgent}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>);
 
 };
