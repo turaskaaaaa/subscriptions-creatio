@@ -139,27 +139,6 @@ const PreferenceCenter = () => {
                   <div className="flex gap-8 mt-6">
                     {/* Left column — Config tabs synced with preview */}
                     <div className="flex-1 min-w-0">
-                      {/* Appearance — shared across all sub-tabs */}
-                      <Card className="mb-4">
-                        <CardContent className="py-4 px-5">
-                          <div className="flex items-center gap-6">
-                            <div className="flex items-center gap-2">
-                              <Palette className="w-4 h-4 text-muted-foreground" />
-                              <Label className="whitespace-nowrap">Primary Color</Label>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <input
-                                type="color"
-                                value={hslToHex(config.primaryColor)}
-                                onChange={e => updatePreferenceCenterField("primaryColor", hexToHsl(e.target.value))}
-                                className="w-9 h-9 rounded-md border border-input cursor-pointer p-0.5"
-                              />
-                              <span className="text-xs text-muted-foreground font-mono">{config.primaryColor}</span>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-
                       <Tabs value={activePreviewTab} onValueChange={setActivePreviewTab}>
                         <TabsList className="w-full grid grid-cols-3 mb-4">
                           <TabsTrigger value="unsubscribe" className="text-xs gap-1.5">
@@ -192,6 +171,13 @@ const PreferenceCenter = () => {
                               <div className="space-y-2">
                                 <Label>Logo URL</Label>
                                 <Input placeholder="https://example.com/logo.png" value={config.logoUrl} onChange={e => updatePreferenceCenterField("logoUrl", e.target.value)} />
+                              </div>
+                              <div className="space-y-2">
+                                <Label>Primary Color</Label>
+                                <div className="flex items-center gap-2">
+                                  <input type="color" value={hslToHex(config.primaryColor)} onChange={e => updatePreferenceCenterField("primaryColor", hexToHsl(e.target.value))} className="w-9 h-9 rounded-md border border-input cursor-pointer p-0.5" />
+                                  <span className="text-xs text-muted-foreground font-mono">{config.primaryColor}</span>
+                                </div>
                               </div>
                               <div className="space-y-2">
                                 <Label>Footer Text</Label>
@@ -241,6 +227,17 @@ const PreferenceCenter = () => {
                               <CardDescription>Configure the feedback form shown before confirming unsubscribe</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
+                              <div className="space-y-2">
+                                <Label>Logo URL</Label>
+                                <Input placeholder="https://example.com/logo.png" value={config.logoUrl} onChange={e => updatePreferenceCenterField("logoUrl", e.target.value)} />
+                              </div>
+                              <div className="space-y-2">
+                                <Label>Primary Color</Label>
+                                <div className="flex items-center gap-2">
+                                  <input type="color" value={hslToHex(config.primaryColor)} onChange={e => updatePreferenceCenterField("primaryColor", hexToHsl(e.target.value))} className="w-9 h-9 rounded-md border border-input cursor-pointer p-0.5" />
+                                  <span className="text-xs text-muted-foreground font-mono">{config.primaryColor}</span>
+                                </div>
+                              </div>
                               <div className="flex items-center justify-between">
                                 <div>
                                   <Label>Ask Reason for Unsubscribing</Label>
@@ -309,6 +306,17 @@ const PreferenceCenter = () => {
                               <div className="space-y-2">
                                 <Label>Welcome Message</Label>
                                 <Textarea rows={2} value={config.welcomeMessage} onChange={e => updatePreferenceCenterField("welcomeMessage", e.target.value)} />
+                              </div>
+                              <div className="space-y-2">
+                                <Label>Logo URL</Label>
+                                <Input placeholder="https://example.com/logo.png" value={config.logoUrl} onChange={e => updatePreferenceCenterField("logoUrl", e.target.value)} />
+                              </div>
+                              <div className="space-y-2">
+                                <Label>Primary Color</Label>
+                                <div className="flex items-center gap-2">
+                                  <input type="color" value={hslToHex(config.primaryColor)} onChange={e => updatePreferenceCenterField("primaryColor", hexToHsl(e.target.value))} className="w-9 h-9 rounded-md border border-input cursor-pointer p-0.5" />
+                                  <span className="text-xs text-muted-foreground font-mono">{config.primaryColor}</span>
+                                </div>
                               </div>
                             </CardContent>
                           </Card>
