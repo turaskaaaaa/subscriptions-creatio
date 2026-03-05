@@ -61,8 +61,10 @@ interface SettingsContextType {
   setReSubscriptionEnabled: (value: boolean) => void;
 
   // Legal basis
-  defaultLegalBasis: LegalBasis;
-  setDefaultLegalBasis: (value: LegalBasis) => void;
+  manualLegalBasis: LegalBasis;
+  setManualLegalBasis: (value: LegalBasis) => void;
+  selfServiceLegalBasis: LegalBasis;
+  setSelfServiceLegalBasis: (value: LegalBasis) => void;
 
   // Suppression rules
   softBounceThreshold: number;
