@@ -8,8 +8,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import PreferenceCenterPreview from "@/components/PreferenceCenterPreview";
-import UnsubscribePageSection from "@/components/UnsubscribePageSection";
-import ManagePreferencesSection from "@/components/ManagePreferencesSection";
 import { Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -27,9 +25,9 @@ const PreferenceCenter = () => {
   };
 
   const getSubsByChannel = (channel: string) =>
-    config.subscriptionTypes
-      .map((sub, i) => ({ sub, originalIndex: i }))
-      .filter(({ sub }) => sub.channel === channel);
+  config.subscriptionTypes.
+  map((sub, i) => ({ sub, originalIndex: i })).
+  filter(({ sub }) => sub.channel === channel);
 
   return (
     <div className="flex h-screen bg-background">
@@ -51,19 +49,19 @@ const PreferenceCenter = () => {
 
             <Tabs defaultValue="Email">
               <TabsList className="w-full justify-start border-b rounded-none bg-transparent p-0 h-auto">
-                {channels.map(ch => (
-                  <TabsTrigger
-                    key={ch}
-                    value={ch}
-                    className="uppercase tracking-wide text-xs font-semibold rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-6 py-3"
-                  >
+                {channels.map((ch) =>
+                <TabsTrigger
+                  key={ch}
+                  value={ch}
+                  className="uppercase tracking-wide text-xs font-semibold rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-6 py-3">
+                  
                     {ch}
                   </TabsTrigger>
-                ))}
+                )}
               </TabsList>
 
-              {channels.map(channel => (
-                <TabsContent key={channel} value={channel}>
+              {channels.map((channel) =>
+              <TabsContent key={channel} value={channel}>
                   <div className="flex gap-8 mt-6">
                     <div className="flex-1 space-y-6 min-w-0">
                       {/* General Settings */}
@@ -77,37 +75,37 @@ const PreferenceCenter = () => {
                             <div className="space-y-2">
                               <Label htmlFor={`pc-title-${channel}`}>Page Title</Label>
                               <Input
-                                id={`pc-title-${channel}`}
-                                value={config.title}
-                                onChange={e => updatePreferenceCenterField("title", e.target.value)}
-                              />
+                              id={`pc-title-${channel}`}
+                              value={config.title}
+                              onChange={(e) => updatePreferenceCenterField("title", e.target.value)} />
+                            
                             </div>
                             <div className="space-y-2">
                               <Label htmlFor={`pc-logo-${channel}`}>Logo URL</Label>
                               <Input
-                                id={`pc-logo-${channel}`}
-                                placeholder="https://example.com/logo.png"
-                                value={config.logoUrl}
-                                onChange={e => updatePreferenceCenterField("logoUrl", e.target.value)}
-                              />
+                              id={`pc-logo-${channel}`}
+                              placeholder="https://example.com/logo.png"
+                              value={config.logoUrl}
+                              onChange={(e) => updatePreferenceCenterField("logoUrl", e.target.value)} />
+                            
                             </div>
                           </div>
                           <div className="space-y-2">
                             <Label htmlFor={`pc-welcome-${channel}`}>Welcome Message</Label>
                             <Textarea
-                              id={`pc-welcome-${channel}`}
-                              rows={2}
-                              value={config.welcomeMessage}
-                              onChange={e => updatePreferenceCenterField("welcomeMessage", e.target.value)}
-                            />
+                            id={`pc-welcome-${channel}`}
+                            rows={2}
+                            value={config.welcomeMessage}
+                            onChange={(e) => updatePreferenceCenterField("welcomeMessage", e.target.value)} />
+                          
                           </div>
                           <div className="space-y-2">
                             <Label htmlFor={`pc-footer-${channel}`}>Footer Text</Label>
                             <Input
-                              id={`pc-footer-${channel}`}
-                              value={config.footerText}
-                              onChange={e => updatePreferenceCenterField("footerText", e.target.value)}
-                            />
+                            id={`pc-footer-${channel}`}
+                            value={config.footerText}
+                            onChange={(e) => updatePreferenceCenterField("footerText", e.target.value)} />
+                          
                           </div>
                         </CardContent>
                       </Card>
@@ -127,50 +125,30 @@ const PreferenceCenter = () => {
                               </TableRow>
                             </TableHeader>
                             <TableBody>
-                              {getSubsByChannel(channel).map(({ sub, originalIndex }) => (
-                                <TableRow key={sub.name}>
+                              {getSubsByChannel(channel).map(({ sub, originalIndex }) =>
+                            <TableRow key={sub.name}>
                                   <TableCell className="font-medium">{sub.name}</TableCell>
                                   <TableCell className="text-right">
                                     <Switch
-                                      checked={sub.visibleInPreferenceCenter}
-                                      onCheckedChange={() => toggleSubscriptionVisibility(originalIndex)}
-                                    />
+                                  checked={sub.visibleInPreferenceCenter}
+                                  onCheckedChange={() => toggleSubscriptionVisibility(originalIndex)} />
+                                
                                   </TableCell>
                                 </TableRow>
-                              ))}
-                              {getSubsByChannel(channel).length === 0 && (
-                                <TableRow>
+                            )}
+                              {getSubsByChannel(channel).length === 0 &&
+                            <TableRow>
                                   <TableCell colSpan={2} className="text-center text-muted-foreground py-6">
                                     No {channel} subscription types configured
                                   </TableCell>
                                 </TableRow>
-                              )}
+                            }
                             </TableBody>
                           </Table>
                         </CardContent>
                       </Card>
 
-                      {/* Email-specific: Page Name, Unsubscribe & Manage Preferences */}
-                      {channel === "Email" && (
-                        <>
-                          <Card>
-                            <CardHeader className="pb-4">
-                              <CardTitle className="text-base">Email Page Name</CardTitle>
-                              <CardDescription>The name displayed for this channel's preference page</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                              <Input
-                                value={config.emailPageName}
-                                onChange={e => updatePreferenceCenterField("emailPageName", e.target.value)}
-                                placeholder="Email Preferences"
-                              />
-                            </CardContent>
-                          </Card>
-                          <UnsubscribePageSection />
-                          <ManagePreferencesSection />
-                        </>
-                      )}
-
+                      {/* Appearance */}
                       <Card>
                         <CardHeader className="pb-4">
                           <CardTitle className="text-base">Appearance</CardTitle>
@@ -181,15 +159,15 @@ const PreferenceCenter = () => {
                             <Label htmlFor={`pc-color-${channel}`}>Primary Color (HSL)</Label>
                             <div className="flex items-center gap-3">
                               <Input
-                                id={`pc-color-${channel}`}
-                                value={config.primaryColor}
-                                onChange={e => updatePreferenceCenterField("primaryColor", e.target.value)}
-                                className="flex-1"
-                              />
+                              id={`pc-color-${channel}`}
+                              value={config.primaryColor}
+                              onChange={(e) => updatePreferenceCenterField("primaryColor", e.target.value)}
+                              className="flex-1" />
+                            
                               <div
-                                className="w-10 h-10 rounded-md border shrink-0"
-                                style={{ backgroundColor: `hsl(${config.primaryColor})` }}
-                              />
+                              className="w-10 h-10 rounded-md border shrink-0"
+                              style={{ backgroundColor: `hsl(${config.primaryColor})` }} />
+                            
                             </div>
                           </div>
                           <div className="flex items-center justify-between">
@@ -198,9 +176,9 @@ const PreferenceCenter = () => {
                               <p className="text-xs text-muted-foreground mt-0.5">Allow contacts to view in dark mode</p>
                             </div>
                             <Switch
-                              checked={config.darkModeEnabled}
-                              onCheckedChange={v => updatePreferenceCenterField("darkModeEnabled", v)}
-                            />
+                            checked={config.darkModeEnabled}
+                            onCheckedChange={(v) => updatePreferenceCenterField("darkModeEnabled", v)} />
+                          
                           </div>
                         </CardContent>
                       </Card>
@@ -218,9 +196,9 @@ const PreferenceCenter = () => {
                               <p className="text-xs text-muted-foreground mt-0.5">Contacts must confirm again when re-subscribing</p>
                             </div>
                             <Switch
-                              checked={config.requireReconfirmation}
-                              onCheckedChange={v => updatePreferenceCenterField("requireReconfirmation", v)}
-                            />
+                            checked={config.requireReconfirmation}
+                            onCheckedChange={(v) => updatePreferenceCenterField("requireReconfirmation", v)} />
+                          
                           </div>
                           <div className="flex items-center justify-between">
                             <div>
@@ -228,18 +206,18 @@ const PreferenceCenter = () => {
                               <p className="text-xs text-muted-foreground mt-0.5">Display the legal basis for data processing</p>
                             </div>
                             <Switch
-                              checked={config.showLegalBasis}
-                              onCheckedChange={v => updatePreferenceCenterField("showLegalBasis", v)}
-                            />
+                            checked={config.showLegalBasis}
+                            onCheckedChange={(v) => updatePreferenceCenterField("showLegalBasis", v)} />
+                          
                           </div>
                           <div className="space-y-2">
                             <Label htmlFor={`pc-privacy-${channel}`}>Privacy Policy URL</Label>
-                            <Input
-                              id={`pc-privacy-${channel}`}
-                              placeholder="https://example.com/privacy"
-                              value={config.privacyPolicyUrl}
-                              onChange={e => updatePreferenceCenterField("privacyPolicyUrl", e.target.value)}
-                            />
+                            
+
+
+
+
+                          
                           </div>
                         </CardContent>
                       </Card>
@@ -254,13 +232,13 @@ const PreferenceCenter = () => {
                     </div>
                   </div>
                 </TabsContent>
-              ))}
+              )}
             </Tabs>
           </div>
         </main>
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 export default PreferenceCenter;
