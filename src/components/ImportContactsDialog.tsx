@@ -47,7 +47,7 @@ const ImportContactsDialog = ({ open, onOpenChange }: ImportContactsDialogProps)
         <DialogHeader>
           <DialogTitle>Import Contacts</DialogTitle>
           <DialogDescription>
-            Review subscription settings before selecting your file.
+            Choose how imported contacts should be subscribed before uploading your file.
           </DialogDescription>
         </DialogHeader>
 
