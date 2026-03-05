@@ -1,25 +1,27 @@
 
 
-## Plan: Split Live Preview into 3 Separate Page Previews
+## Preference Center Configuration Page
 
-The user wants the live preview area to show 3 distinct pages instead of one combined view:
+A new admin-facing page where CRM administrators can configure the Preference Center settings that contacts will see when managing their subscriptions.
 
-1. **Unsubscribe Page** — One-click unsubscribe button, simple and direct
-2. **Questionnaire Page** — Short survey asking why the user decided to unsubscribe (using the existing reasons config)
-3. **Manage Preferences Page** — Subscription toggles, content categories, save button
+### What it includes
 
-### Implementation
+1. **New route `/preference-center`** added to the router and sidebar navigation (between "Contacts" and "Campaigns")
 
-**1. Replace `PreferenceCenterPreview.tsx`** with a tabbed/stepped preview showing all 3 pages:
+2. **Page sections:**
+   - **General Settings** -- Preference center name/title, company logo URL, welcome message text, footer text
+   - **Subscription Types** -- Table listing all available subscription types (e.g. Newsletter, Promotions, Information material) with toggles to show/hide each in the preference center, grouped by channel (Email / SMS)
+   - **Appearance** -- Primary color picker, toggle for dark/light mode support
+   - **Compliance** -- Toggle to require re-confirmation on re-subscribe, toggle to show legal basis info to contacts, custom privacy policy URL
+   - **Preview panel** -- A live card preview on the right side showing how the preference center will look to contacts, updating as the admin changes settings
 
-- **Tab 1 — "Unsubscribe"**: Shows the page title, a brief message, and a single prominent "Unsubscribe" button. Clean, one-click experience.
-- **Tab 2 — "Feedback"**: Shows a questionnaire with radio buttons for unsubscribe reasons (pulled from `config.unsubscribePage.reasons`), plus a "Submit" button. This is the "why are you leaving?" step.
-- **Tab 3 — "Manage Preferences"**: Shows email subscription toggles (from visible subscription types), content categories (from `config.managePreferencesPage`), and a "Save Preferences" button. This is the alternative to unsubscribing — the user can fine-tune what they receive.
+3. **State management** -- Settings stored in a new `PreferenceCenterContext` (or extend existing `SettingsContext`) so values persist across the app session. The "Copy Preference Center Link" button on contact detail pages already generates URLs pointing to this.
 
-Each tab will be rendered as a mini preview card within the sticky sidebar, using small `Tabs` to switch between the 3 views.
+### Files to create/modify
 
-**2. Update `PreferenceCenter.tsx`**: No structural changes needed — the preview component swap handles everything. The existing config sections (UnsubscribePageSection, ManagePreferencesSection) already provide the data.
-
-### Files to modify
-- `src/components/PreferenceCenterPreview.tsx` — Rewrite to show 3 tabbed preview pages
+- **Create** `src/pages/PreferenceCenter.tsx` -- Main config page with form sections
+- **Create** `src/components/PreferenceCenterPreview.tsx` -- Live preview card component
+- **Modify** `src/App.tsx` -- Add `/preference-center` route
+- **Modify** `src/components/AppSidebar.tsx` -- Add nav item with `Settings2` or `SlidersHorizontal` icon
+- **Modify** `src/contexts/SettingsContext.tsx` -- Add preference center config fields (title, welcome message, visible subscription types, colors, compliance toggles)
 
