@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useSettings } from "@/contexts/SettingsContext";
 import { Scale, ShieldAlert, CalendarClock, RefreshCw, Mail, CheckCircle2 } from "lucide-react";
 import type { LegalBasis } from "@/data/contactsData";
