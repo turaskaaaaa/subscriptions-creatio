@@ -178,7 +178,7 @@ const PreferenceCenter = () => {
                                 </div>
                               </div>
                               <div className="space-y-2">
-                                <Label>Footer Text</Label>
+                                <Label>Footer Message</Label>
                                 <Input value={config.footerText} onChange={(e) => updatePreferenceCenterField("footerText", e.target.value)} />
                               </div>
                               <div className="flex items-center justify-between">
