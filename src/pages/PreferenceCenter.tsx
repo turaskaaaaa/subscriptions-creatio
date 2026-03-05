@@ -266,10 +266,11 @@ const PreferenceCenter = () => {
                                   </Button>
                                 </div>
                             }
+                              </>}
                             </CardContent>
                           </Card>
 
-                          <Card>
+                          {unsub.showFeedbackPage && <Card>
                             <CardHeader className="pb-4">
                               <CardTitle className="text-base">Compliance</CardTitle>
                               <CardDescription>Legal and compliance settings for the feedback page</CardDescription>
