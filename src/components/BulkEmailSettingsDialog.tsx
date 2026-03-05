@@ -46,8 +46,7 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
     doubleOptInSubscriptionTypes, setDoubleOptInSubscriptionTypes,
     unsubscribeLinkEnabled, setUnsubscribeLinkEnabled,
     reSubscriptionEnabled, setReSubscriptionEnabled,
-    manualLegalBasis, setManualLegalBasis,
-    selfServiceLegalBasis, setSelfServiceLegalBasis,
+    defaultLegalBasis, setDefaultLegalBasis,
     softBounceThreshold, setSoftBounceThreshold,
     spamComplaintThreshold, setSpamComplaintThreshold,
     autoSuppressHardBounce, setAutoSuppressHardBounce,
@@ -98,8 +97,8 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
           <TabsContent value="optin" className="mt-6 space-y-6">
             <div>
               <h3 className="text-base font-semibold text-foreground mb-1">Opt-in / Opt-out settings</h3>
-              <p className="text-sm text-muted-foreground">
-                Configure how contacts subscribe and unsubscribe from your bulk emails
+              <p className="text-sm text-muted-foreground">Subscription settings
+
               </p>
             </div>
 
@@ -245,67 +244,34 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                 <h4 className="text-sm font-semibold text-foreground">Default legal basis</h4>
               </div>
               <p className="text-xs text-muted-foreground">
-                Select the GDPR legal basis assigned based on how consent is acquired. This can be overridden per subscription.
+                Select the default GDPR legal basis assigned to new subscriptions. This can be overridden per subscription.
               </p>
-
-              <div className="grid grid-cols-2 gap-6">
-                {/* Manual creation */}
-                <div className="space-y-2">
-                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">When created by admin</p>
-                  <p className="text-[10px] text-muted-foreground">Applied when a contact is manually added or edited by an admin</p>
-                  <div className="space-y-1.5">
-                    {LEGAL_BASIS_OPTIONS.map((option) =>
-                      <button
-                        key={option.value}
-                        onClick={() => setManualLegalBasis(option.value)}
-                        className={`flex items-start gap-3 p-2.5 rounded-lg border text-left transition-colors w-full ${
-                          manualLegalBasis === option.value ?
-                          "border-primary/50 bg-primary/5" :
-                          "border-border hover:border-primary/30"}`}
-                      >
-                        <div className={`w-3.5 h-3.5 rounded-full border-2 mt-0.5 shrink-0 flex items-center justify-center ${
-                          manualLegalBasis === option.value ? "border-primary" : "border-muted-foreground/40"}`}>
-                          {manualLegalBasis === option.value && <div className="w-1.5 h-1.5 rounded-full bg-primary" />}
-                        </div>
-                        <div>
-                          <p className={`text-xs font-medium ${manualLegalBasis === option.value ? "text-primary" : "text-foreground"}`}>
-                            {option.label}
-                          </p>
-                          <p className="text-[10px] text-muted-foreground">{option.description}</p>
-                        </div>
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-                {/* Self-service */}
-                <div className="space-y-2">
-                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">When updated via preference center</p>
-                  <p className="text-[10px] text-muted-foreground">Applied when a contact opts in through the preference center</p>
-                  <div className="space-y-1.5">
-                    {LEGAL_BASIS_OPTIONS.map((option) =>
-                      <button
-                        key={option.value}
-                        onClick={() => setSelfServiceLegalBasis(option.value)}
-                        className={`flex items-start gap-3 p-2.5 rounded-lg border text-left transition-colors w-full ${
-                          selfServiceLegalBasis === option.value ?
-                          "border-primary/50 bg-primary/5" :
-                          "border-border hover:border-primary/30"}`}
-                      >
-                        <div className={`w-3.5 h-3.5 rounded-full border-2 mt-0.5 shrink-0 flex items-center justify-center ${
-                          selfServiceLegalBasis === option.value ? "border-primary" : "border-muted-foreground/40"}`}>
-                          {selfServiceLegalBasis === option.value && <div className="w-1.5 h-1.5 rounded-full bg-primary" />}
-                        </div>
-                        <div>
-                          <p className={`text-xs font-medium ${selfServiceLegalBasis === option.value ? "text-primary" : "text-foreground"}`}>
-                            {option.label}
-                          </p>
-                          <p className="text-[10px] text-muted-foreground">{option.description}</p>
-                        </div>
-                      </button>
-                    )}
-                  </div>
-                </div>
+              <div className="grid grid-cols-1 gap-2">
+                {LEGAL_BASIS_OPTIONS.map((option) =>
+                <button
+                  key={option.value}
+                  onClick={() => setDefaultLegalBasis(option.value)}
+                  className={`flex items-start gap-3 p-3 rounded-lg border text-left transition-colors ${
+                  defaultLegalBasis === option.value ?
+                  "border-primary/50 bg-primary/5" :
+                  "border-border hover:border-primary/30"}`
+                  }>
+                  
+                    <div className={`w-4 h-4 rounded-full border-2 mt-0.5 shrink-0 flex items-center justify-center ${
+                  defaultLegalBasis === option.value ? "border-primary" : "border-muted-foreground/40"}`
+                  }>
+                      {defaultLegalBasis === option.value &&
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                    }
+                    </div>
+                    <div>
+                      <p className={`text-sm font-medium ${defaultLegalBasis === option.value ? "text-primary" : "text-foreground"}`}>
+                        {option.label}
+                      </p>
+                      <p className="text-[10px] text-muted-foreground">{option.description}</p>
+                    </div>
+                  </button>
+                )}
               </div>
             </div>
 
