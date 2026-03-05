@@ -61,8 +61,10 @@ interface SettingsContextType {
   setReSubscriptionEnabled: (value: boolean) => void;
 
   // Legal basis
-  defaultLegalBasis: LegalBasis;
-  setDefaultLegalBasis: (value: LegalBasis) => void;
+  manualLegalBasis: LegalBasis;
+  setManualLegalBasis: (value: LegalBasis) => void;
+  selfServiceLegalBasis: LegalBasis;
+  setSelfServiceLegalBasis: (value: LegalBasis) => void;
 
   // Suppression rules
   softBounceThreshold: number;
@@ -131,8 +133,10 @@ const SettingsContext = createContext<SettingsContextType>({
   setUnsubscribeLinkEnabled: () => {},
   reSubscriptionEnabled: false,
   setReSubscriptionEnabled: () => {},
-  defaultLegalBasis: "Explicit consent",
-  setDefaultLegalBasis: () => {},
+  manualLegalBasis: "Legitimate interest",
+  setManualLegalBasis: () => {},
+  selfServiceLegalBasis: "Explicit consent",
+  setSelfServiceLegalBasis: () => {},
   softBounceThreshold: 3,
   setSoftBounceThreshold: () => {},
   spamComplaintThreshold: 1,
@@ -158,7 +162,8 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
   ]);
   const [unsubscribeLinkEnabled, setUnsubscribeLinkEnabled] = useState(true);
   const [reSubscriptionEnabled, setReSubscriptionEnabled] = useState(false);
-  const [defaultLegalBasis, setDefaultLegalBasis] = useState<LegalBasis>("Explicit consent");
+  const [manualLegalBasis, setManualLegalBasis] = useState<LegalBasis>("Legitimate interest");
+  const [selfServiceLegalBasis, setSelfServiceLegalBasis] = useState<LegalBasis>("Explicit consent");
   const [softBounceThreshold, setSoftBounceThreshold] = useState(3);
   const [spamComplaintThreshold, setSpamComplaintThreshold] = useState(1);
   const [autoSuppressHardBounce, setAutoSuppressHardBounce] = useState(true);
@@ -178,7 +183,8 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
       doubleOptInSubscriptionTypes, setDoubleOptInSubscriptionTypes,
       unsubscribeLinkEnabled, setUnsubscribeLinkEnabled,
       reSubscriptionEnabled, setReSubscriptionEnabled,
-      defaultLegalBasis, setDefaultLegalBasis,
+      manualLegalBasis, setManualLegalBasis,
+      selfServiceLegalBasis, setSelfServiceLegalBasis,
       softBounceThreshold, setSoftBounceThreshold,
       spamComplaintThreshold, setSpamComplaintThreshold,
       autoSuppressHardBounce, setAutoSuppressHardBounce,

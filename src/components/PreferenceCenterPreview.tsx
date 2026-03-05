@@ -7,7 +7,7 @@ interface PreferenceCenterPreviewProps {
 }
 
 const PreferenceCenterPreview = ({ activeTab }: PreferenceCenterPreviewProps) => {
-  const { preferenceCenterConfig: config } = useSettings();
+  const { preferenceCenterConfig: config, selfServiceLegalBasis } = useSettings();
 
   const visibleSubs = config.subscriptionTypes.filter(s => s.visibleInPreferenceCenter && s.channel === "Email");
   const unsub = config.unsubscribePage;
@@ -51,7 +51,7 @@ const PreferenceCenterPreview = ({ activeTab }: PreferenceCenterPreviewProps) =>
               <div className="flex items-start gap-2 text-left">
                 <Shield className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
                 <p className="text-xs text-muted-foreground">
-                  Your data is processed based on your explicit consent. You can withdraw consent at any time.
+                  Your data is processed based on {selfServiceLegalBasis.toLowerCase()}. You can withdraw consent at any time.
                 </p>
               </div>
             )}
@@ -101,7 +101,7 @@ const PreferenceCenterPreview = ({ activeTab }: PreferenceCenterPreviewProps) =>
               <div className="flex items-start gap-2">
                 <Shield className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
                 <p className="text-xs text-muted-foreground">
-                  Your data is processed based on your explicit consent. You can withdraw consent at any time.
+                  Your data is processed based on {selfServiceLegalBasis.toLowerCase()}. You can withdraw consent at any time.
                 </p>
               </div>
             )}
@@ -146,7 +146,7 @@ const PreferenceCenterPreview = ({ activeTab }: PreferenceCenterPreviewProps) =>
               <div className="flex items-start gap-2 pt-2 border-t">
                 <Shield className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
                 <p className="text-xs text-muted-foreground">
-                  Your data is processed based on your explicit consent. You can withdraw consent at any time.
+                  Your data is processed based on {selfServiceLegalBasis.toLowerCase()}. You can withdraw consent at any time.
                 </p>
               </div>
             )}

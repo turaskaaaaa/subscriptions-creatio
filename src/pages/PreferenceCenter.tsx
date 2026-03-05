@@ -17,7 +17,7 @@ import { useState } from "react";
 const channels = ["Email", "WhatsApp", "SMS"] as const;
 
 const PreferenceCenter = () => {
-  const { preferenceCenterConfig: config, updatePreferenceCenterField } = useSettings();
+  const { preferenceCenterConfig: config, updatePreferenceCenterField, selfServiceLegalBasis } = useSettings();
   const [activePreviewTab, setActivePreviewTab] = useState("unsubscribe");
 
   const unsub = config.unsubscribePage;
@@ -156,6 +156,15 @@ const PreferenceCenter = () => {
                                 </div>
                                 <Switch checked={config.showLegalBasis} onCheckedChange={v => updatePreferenceCenterField("showLegalBasis", v)} />
                               </div>
+                              <div className="flex items-start gap-2 p-3 rounded-lg bg-muted/40 border border-border">
+                                <Shield className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
+                                <div>
+                                  <p className="text-xs text-muted-foreground">
+                                    Self-service legal basis: <span className="font-medium text-foreground">{selfServiceLegalBasis}</span>
+                                  </p>
+                                  <p className="text-[10px] text-muted-foreground mt-0.5">Configured in Bulk Email Settings → Opt-in / Opt-out</p>
+                                </div>
+                              </div>
                             </CardContent>
                           </Card>
                         </TabsContent>
@@ -206,6 +215,15 @@ const PreferenceCenter = () => {
                                   <p className="text-xs text-muted-foreground mt-0.5">Display the legal basis for data processing</p>
                                 </div>
                                 <Switch checked={config.showLegalBasis} onCheckedChange={v => updatePreferenceCenterField("showLegalBasis", v)} />
+                              </div>
+                              <div className="flex items-start gap-2 p-3 rounded-lg bg-muted/40 border border-border">
+                                <Shield className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
+                                <div>
+                                  <p className="text-xs text-muted-foreground">
+                                    Self-service legal basis: <span className="font-medium text-foreground">{selfServiceLegalBasis}</span>
+                                  </p>
+                                  <p className="text-[10px] text-muted-foreground mt-0.5">Configured in Bulk Email Settings → Opt-in / Opt-out</p>
+                                </div>
                               </div>
                             </CardContent>
                           </Card>
@@ -280,6 +298,15 @@ const PreferenceCenter = () => {
                                   <p className="text-xs text-muted-foreground mt-0.5">Display the legal basis for data processing</p>
                                 </div>
                                 <Switch checked={config.showLegalBasis} onCheckedChange={v => updatePreferenceCenterField("showLegalBasis", v)} />
+                              </div>
+                              <div className="flex items-start gap-2 p-3 rounded-lg bg-muted/40 border border-border">
+                                <Shield className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
+                                <div>
+                                  <p className="text-xs text-muted-foreground">
+                                    Self-service legal basis: <span className="font-medium text-foreground">{selfServiceLegalBasis}</span>
+                                  </p>
+                                  <p className="text-[10px] text-muted-foreground mt-0.5">Configured in Bulk Email Settings → Opt-in / Opt-out</p>
+                                </div>
                               </div>
                             </CardContent>
                           </Card>
