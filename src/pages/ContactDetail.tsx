@@ -216,7 +216,7 @@ const ContactDetail = () => {
                               className="gap-2 text-destructive hover:text-destructive hover:bg-destructive/10"
                             >
                               <X className="w-3.5 h-3.5" />
-                              Unsubscribe All Email
+                              Unsubscribe from All
                             </Button>
                           </div>
                         );
