@@ -226,7 +226,6 @@ const PreferenceCenter = () => {
                                 </div>
                               </div>
                             </CardContent>
-                            </CardContent>
                           </Card>
                         </TabsContent>
 
