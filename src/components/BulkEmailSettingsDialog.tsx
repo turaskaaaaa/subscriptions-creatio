@@ -149,7 +149,7 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
               <div className="grid grid-cols-2 gap-6">
                 {/* Manual creation */}
                 <div className="space-y-2">
-                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">When created by admin</p>
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">When created by Creatio user</p>
                   <p className="text-[10px] text-muted-foreground">Applied when a contact is manually added or edited by an admin</p>
                   <Select value={manualLegalBasis} onValueChange={(val) => setManualLegalBasis(val as LegalBasis)}>
                     <SelectTrigger className="h-9 text-xs">
