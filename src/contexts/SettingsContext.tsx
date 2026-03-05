@@ -106,7 +106,7 @@ const defaultPreferenceCenterConfig: PreferenceCenterConfig = {
   emailPageName: "Email Preferences",
   unsubscribePage: {
     pageName: "Unsubscribe",
-    confirmationMessage: "We're sorry to see you go. You will no longer receive emails from us.",
+    confirmationMessage: "You are about to unsubscribe from our marketing emails. Click Unsubscribe to confirm.",
     showReasonSelection: true,
     showManagePreferencesLink: true,
     reasons: ["Too many emails", "Content not relevant", "I never signed up", "Other"],
