@@ -4,9 +4,11 @@ import { Folder, Tag, Search, Plus, MoreHorizontal, RefreshCw, SlidersHorizontal
 import { contactsData } from "@/data/contactsData";
 import { Checkbox } from "@/components/ui/checkbox";
 import NewContactDialog from "./NewContactDialog";
+import ImportContactsDialog from "./ImportContactsDialog";
 
 const ContactsTable = () => {
   const [newContactOpen, setNewContactOpen] = useState(false);
+  const [importOpen, setImportOpen] = useState(false);
   const navigate = useNavigate();
   return (
     <div className="flex-1 flex flex-col overflow-hidden bg-background">
@@ -18,7 +20,7 @@ const ContactsTable = () => {
             <Plus className="w-4 h-4" />
             New
           </button>
-          <button className="flex items-center gap-2 border border-border text-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-secondary transition-colors">
+          <button onClick={() => setImportOpen(true)} className="flex items-center gap-2 border border-border text-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-secondary transition-colors">
             <Download className="w-4 h-4" />
             Import
           </button>
@@ -101,6 +103,7 @@ const ContactsTable = () => {
       </div>
 
       <NewContactDialog open={newContactOpen} onOpenChange={setNewContactOpen} />
+      <ImportContactsDialog open={importOpen} onOpenChange={setImportOpen} />
     </div>
   );
 };
