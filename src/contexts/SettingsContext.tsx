@@ -10,6 +10,7 @@ export interface SubscriptionTypeConfig {
 export interface UnsubscribePageConfig {
   pageName: string;
   confirmationMessage: string;
+  showFeedbackPage: boolean;
   showReasonSelection: boolean;
   showManagePreferencesLink: boolean;
   reasons: string[];
