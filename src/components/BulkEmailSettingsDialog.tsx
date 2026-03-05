@@ -129,8 +129,8 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
             <div className="flex items-center justify-between p-4 border border-border rounded-lg">
               <div>
                 <p className="text-sm font-medium text-foreground">Marketing consent default</p>
-                <p className="text-xs text-muted-foreground">
-                  New contacts will have the "Allowed to receive marketing materials" checkbox active by default
+                <p className="text-xs text-muted-foreground">New contacts will have “Allow marketing emails” enabled by default
+
                 </p>
               </div>
               <Toggle checked={marketingConsentDefault} onChange={setMarketingConsentDefault} />
@@ -156,15 +156,15 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      {LEGAL_BASIS_OPTIONS.map((option) => (
-                        <SelectItem key={option.value} value={option.value} className="text-xs">
+                      {LEGAL_BASIS_OPTIONS.map((option) =>
+                      <SelectItem key={option.value} value={option.value} className="text-xs">
                           {option.label}
                         </SelectItem>
-                      ))}
+                      )}
                     </SelectContent>
                   </Select>
                   <p className="text-[10px] text-muted-foreground">
-                    {LEGAL_BASIS_OPTIONS.find(o => o.value === manualLegalBasis)?.description}
+                    {LEGAL_BASIS_OPTIONS.find((o) => o.value === manualLegalBasis)?.description}
                   </p>
                 </div>
 
@@ -177,15 +177,15 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      {LEGAL_BASIS_OPTIONS.map((option) => (
-                        <SelectItem key={option.value} value={option.value} className="text-xs">
+                      {LEGAL_BASIS_OPTIONS.map((option) =>
+                      <SelectItem key={option.value} value={option.value} className="text-xs">
                           {option.label}
                         </SelectItem>
-                      ))}
+                      )}
                     </SelectContent>
                   </Select>
                   <p className="text-[10px] text-muted-foreground">
-                    {LEGAL_BASIS_OPTIONS.find(o => o.value === selfServiceLegalBasis)?.description}
+                    {LEGAL_BASIS_OPTIONS.find((o) => o.value === selfServiceLegalBasis)?.description}
                   </p>
                 </div>
               </div>
