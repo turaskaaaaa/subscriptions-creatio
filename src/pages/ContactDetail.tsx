@@ -213,7 +213,10 @@ const ContactDetail = () => {
                     const activeSuppressions = contact.suppressions.length;
                     const hardBounces = contact.suppressions.filter((s) => s.reason === "Hard bounce").length;
                     const spamComplaints = contact.suppressions.filter((s) => s.reason === "Spam complaint").length;
-                    const lastEvent = contact.consentTimeline.length > 0 ? contact.consentTimeline[0] : null;
+                    const filteredTimeline = doubleOptInEnabled 
+                      ? contact.consentTimeline 
+                      : contact.consentTimeline.filter(e => e.action !== "Double opt-in sent" && e.action !== "Double opt-in confirmed");
+                    const lastEvent = filteredTimeline.length > 0 ? filteredTimeline[0] : null;
 
                     return (
                       <div className="grid grid-cols-4 gap-4">
