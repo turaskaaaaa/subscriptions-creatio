@@ -298,7 +298,7 @@ const ContactDetail = () => {
                             <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">DELIVERS TO (TARGET ADRESS)</th>
                             <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Status</th>
                             <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Legal Basis</th>
-                            <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Verification</th>
+                            {doubleOptInEnabled && <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Verification</th>}
                           </tr>
                         </thead>
                         <tbody>
