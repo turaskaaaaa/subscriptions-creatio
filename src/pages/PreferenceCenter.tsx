@@ -158,16 +158,6 @@ const PreferenceCenter = () => {
                         <CardContent className="space-y-4">
                           <div className="flex items-center justify-between">
                             <div>
-                              <Label>Require Re-confirmation on Re-subscribe</Label>
-                              <p className="text-xs text-muted-foreground mt-0.5">Contacts must confirm again when re-subscribing</p>
-                            </div>
-                            <Switch
-                            checked={config.requireReconfirmation}
-                            onCheckedChange={(v) => updatePreferenceCenterField("requireReconfirmation", v)} />
-                          
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <div>
                               <Label>Show Legal Basis to Contacts</Label>
                               <p className="text-xs text-muted-foreground mt-0.5">Display the legal basis for data processing</p>
                             </div>
