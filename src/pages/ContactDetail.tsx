@@ -12,6 +12,7 @@ import { useSettings } from "@/contexts/SettingsContext";
 const ContactDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { doubleOptInEnabled } = useSettings();
   const contact = contactsData.find((c) => c.id === Number(id));
 
   if (!contact) {
