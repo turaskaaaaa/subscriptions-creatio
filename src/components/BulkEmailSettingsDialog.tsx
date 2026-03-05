@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useSettings } from "@/contexts/SettingsContext";
 import { Scale, ShieldAlert, CalendarClock, RefreshCw, Mail, CheckCircle2 } from "lucide-react";
 import type { LegalBasis } from "@/data/contactsData";
@@ -220,22 +221,6 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
               }
             </div>
 
-            
-
-
-
-
-
-
-
-
-
-
-
-
-            
-
-
             <Separator />
 
             {/* --- Legal Basis Default --- */}
@@ -253,58 +238,42 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                 <div className="space-y-2">
                   <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">When created by admin</p>
                   <p className="text-[10px] text-muted-foreground">Applied when a contact is manually added or edited by an admin</p>
-                  <div className="space-y-1.5">
-                    {LEGAL_BASIS_OPTIONS.map((option) =>
-                      <button
-                        key={option.value}
-                        onClick={() => setManualLegalBasis(option.value)}
-                        className={`flex items-start gap-3 p-2.5 rounded-lg border text-left transition-colors w-full ${
-                          manualLegalBasis === option.value ?
-                          "border-primary/50 bg-primary/5" :
-                          "border-border hover:border-primary/30"}`}
-                      >
-                        <div className={`w-3.5 h-3.5 rounded-full border-2 mt-0.5 shrink-0 flex items-center justify-center ${
-                          manualLegalBasis === option.value ? "border-primary" : "border-muted-foreground/40"}`}>
-                          {manualLegalBasis === option.value && <div className="w-1.5 h-1.5 rounded-full bg-primary" />}
-                        </div>
-                        <div>
-                          <p className={`text-xs font-medium ${manualLegalBasis === option.value ? "text-primary" : "text-foreground"}`}>
-                            {option.label}
-                          </p>
-                          <p className="text-[10px] text-muted-foreground">{option.description}</p>
-                        </div>
-                      </button>
-                    )}
-                  </div>
+                  <Select value={manualLegalBasis} onValueChange={(val) => setManualLegalBasis(val as LegalBasis)}>
+                    <SelectTrigger className="h-9 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {LEGAL_BASIS_OPTIONS.map((option) => (
+                        <SelectItem key={option.value} value={option.value} className="text-xs">
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <p className="text-[10px] text-muted-foreground">
+                    {LEGAL_BASIS_OPTIONS.find(o => o.value === manualLegalBasis)?.description}
+                  </p>
                 </div>
 
                 {/* Self-service */}
                 <div className="space-y-2">
                   <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">When updated via preference center</p>
                   <p className="text-[10px] text-muted-foreground">Applied when a contact opts in through the preference center</p>
-                  <div className="space-y-1.5">
-                    {LEGAL_BASIS_OPTIONS.map((option) =>
-                      <button
-                        key={option.value}
-                        onClick={() => setSelfServiceLegalBasis(option.value)}
-                        className={`flex items-start gap-3 p-2.5 rounded-lg border text-left transition-colors w-full ${
-                          selfServiceLegalBasis === option.value ?
-                          "border-primary/50 bg-primary/5" :
-                          "border-border hover:border-primary/30"}`}
-                      >
-                        <div className={`w-3.5 h-3.5 rounded-full border-2 mt-0.5 shrink-0 flex items-center justify-center ${
-                          selfServiceLegalBasis === option.value ? "border-primary" : "border-muted-foreground/40"}`}>
-                          {selfServiceLegalBasis === option.value && <div className="w-1.5 h-1.5 rounded-full bg-primary" />}
-                        </div>
-                        <div>
-                          <p className={`text-xs font-medium ${selfServiceLegalBasis === option.value ? "text-primary" : "text-foreground"}`}>
-                            {option.label}
-                          </p>
-                          <p className="text-[10px] text-muted-foreground">{option.description}</p>
-                        </div>
-                      </button>
-                    )}
-                  </div>
+                  <Select value={selfServiceLegalBasis} onValueChange={(val) => setSelfServiceLegalBasis(val as LegalBasis)}>
+                    <SelectTrigger className="h-9 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {LEGAL_BASIS_OPTIONS.map((option) => (
+                        <SelectItem key={option.value} value={option.value} className="text-xs">
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <p className="text-[10px] text-muted-foreground">
+                    {LEGAL_BASIS_OPTIONS.find(o => o.value === selfServiceLegalBasis)?.description}
+                  </p>
                 </div>
               </div>
             </div>
