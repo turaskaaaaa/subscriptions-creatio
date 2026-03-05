@@ -45,17 +45,34 @@ const PreferenceCenterPreview = () => {
           </div>
         )}
 
-        {smsSubs.length > 0 && (
+        {whatsappSubs.length > 0 && (
           <div>
             <div className="flex items-center gap-2 mb-3">
               <MessageSquare className="w-4 h-4 text-muted-foreground" />
+              <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">WhatsApp</span>
+            </div>
+            <div className="space-y-3">
+              {whatsappSubs.map(sub => (
+                <div key={sub.name} className="flex items-center justify-between">
+                  <span className="text-sm text-foreground">{sub.name}</span>
+                  <Switch checked={true} disabled className="pointer-events-none" />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {smsSubs.length > 0 && (
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <Phone className="w-4 h-4 text-muted-foreground" />
               <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">SMS</span>
             </div>
             <div className="space-y-3">
               {smsSubs.map(sub => (
                 <div key={sub.name} className="flex items-center justify-between">
                   <span className="text-sm text-foreground">{sub.name}</span>
-                  <Switch checked={false} disabled className="pointer-events-none" />
+                  <Switch checked={true} disabled className="pointer-events-none" />
                 </div>
               ))}
             </div>
