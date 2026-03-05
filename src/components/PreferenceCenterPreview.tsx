@@ -1,14 +1,11 @@
 import { useSettings, type PreferenceCenterConfig } from "@/contexts/SettingsContext";
 import { Switch } from "@/components/ui/switch";
-import { Mail, MessageSquare, Phone, Shield } from "lucide-react";
+import { Mail, Shield } from "lucide-react";
 
 const PreferenceCenterPreview = () => {
   const { preferenceCenterConfig: config } = useSettings();
 
-  const visibleSubs = config.subscriptionTypes.filter(s => s.visibleInPreferenceCenter);
-  const emailSubs = visibleSubs.filter(s => s.channel === "Email");
-  const whatsappSubs = visibleSubs.filter(s => s.channel === "WhatsApp");
-  const smsSubs = visibleSubs.filter(s => s.channel === "SMS");
+  const visibleSubs = config.subscriptionTypes.filter(s => s.visibleInPreferenceCenter && s.channel === "Email");
 
   return (
     <div className="rounded-lg border bg-card shadow-sm overflow-hidden max-w-sm w-full">
@@ -28,48 +25,14 @@ const PreferenceCenterPreview = () => {
 
       {/* Subscription toggles */}
       <div className="p-5 space-y-5">
-        {emailSubs.length > 0 && (
+        {visibleSubs.length > 0 && (
           <div>
             <div className="flex items-center gap-2 mb-3">
               <Mail className="w-4 h-4 text-muted-foreground" />
               <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Email</span>
             </div>
             <div className="space-y-3">
-              {emailSubs.map(sub => (
-                <div key={sub.name} className="flex items-center justify-between">
-                  <span className="text-sm text-foreground">{sub.name}</span>
-                  <Switch checked={true} disabled className="pointer-events-none" />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {whatsappSubs.length > 0 && (
-          <div>
-            <div className="flex items-center gap-2 mb-3">
-              <MessageSquare className="w-4 h-4 text-muted-foreground" />
-              <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">WhatsApp</span>
-            </div>
-            <div className="space-y-3">
-              {whatsappSubs.map(sub => (
-                <div key={sub.name} className="flex items-center justify-between">
-                  <span className="text-sm text-foreground">{sub.name}</span>
-                  <Switch checked={true} disabled className="pointer-events-none" />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {smsSubs.length > 0 && (
-          <div>
-            <div className="flex items-center gap-2 mb-3">
-              <Phone className="w-4 h-4 text-muted-foreground" />
-              <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">SMS</span>
-            </div>
-            <div className="space-y-3">
-              {smsSubs.map(sub => (
+              {visibleSubs.map(sub => (
                 <div key={sub.name} className="flex items-center justify-between">
                   <span className="text-sm text-foreground">{sub.name}</span>
                   <Switch checked={true} disabled className="pointer-events-none" />
