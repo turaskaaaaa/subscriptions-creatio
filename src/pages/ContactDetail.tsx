@@ -458,7 +458,8 @@ const ContactDetail = () => {
 
                   {/* Consent Timeline */}
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">CONSENT TIMELINE</p>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">CONSENT TIMELINE</p>
+                    <p className="text-xs text-muted-foreground mb-3">Record of subscription and consent changes.</p>
                     {contact.consentTimeline.length === 0 ?
                     <div className="border border-border rounded-lg p-6 flex flex-col items-center gap-2 text-muted-foreground">
                         <Clock className="w-6 h-6" />
