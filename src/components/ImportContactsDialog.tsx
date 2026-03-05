@@ -84,7 +84,7 @@ const ImportContactsDialog = ({ open, onOpenChange }: ImportContactsDialogProps)
             <div className="flex items-start gap-2 rounded-md bg-emerald-500/10 border border-emerald-500/20 p-3">
               <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
               <p className="text-xs text-emerald-700 dark:text-emerald-400 leading-relaxed">
-                Contacts will be marked as opted-in and eligible for email communications immediately after import.
+                Imported contacts will be eligible to receive marketing emails immediately after the import is complete.
               </p>
             </div>
           )}
