@@ -68,7 +68,20 @@ const PreferenceCenterPreview = ({ activeTab }: PreferenceCenterPreviewProps) =>
       )}
 
       {/* Feedback Page */}
-      {activeTab === "feedback" && (
+      {activeTab === "feedback" && !unsub.showFeedbackPage && (
+        <div className="rounded-lg border bg-card shadow-sm overflow-hidden">
+          <Header />
+          <div className="p-6 text-center space-y-3">
+            <MessageSquareMore className="w-10 h-10 mx-auto text-muted-foreground/40" />
+            <h3 className="font-semibold text-muted-foreground">Feedback Page Disabled</h3>
+            <p className="text-sm text-muted-foreground">Enable the feedback page to collect reasons when contacts unsubscribe.</p>
+          </div>
+          <div className="px-6 py-3 border-t bg-muted/30">
+            <p className="text-xs text-muted-foreground">{config.footerText}</p>
+          </div>
+        </div>
+      )}
+      {activeTab === "feedback" && unsub.showFeedbackPage && (
         <div className="rounded-lg border bg-card shadow-sm overflow-hidden">
           <Header />
           <div className="p-6 space-y-4">

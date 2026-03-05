@@ -293,7 +293,7 @@ const PreferenceCenter = () => {
                                 </div>
                               </div>
                             </CardContent>
-                          </Card>
+                          </Card>}
                         </TabsContent>
 
                         {/* Tab 3 — Manage Preferences */}
