@@ -142,8 +142,8 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                 <Scale className="w-4 h-4 text-primary" />
                 <h4 className="text-sm font-semibold text-foreground">Default legal basis</h4>
               </div>
-              <p className="text-xs text-muted-foreground">
-                Select the GDPR legal basis assigned based on how consent is acquired. This can be overridden per subscription.
+              <p className="text-xs text-muted-foreground">Select the default GDPR legal basis used for marketing subscriptions. This can be overridden for individual subscriptions.
+
               </p>
 
               <div className="grid grid-cols-2 gap-6">
