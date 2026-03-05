@@ -148,40 +148,6 @@ const PreferenceCenter = () => {
                         </CardContent>
                       </Card>
 
-                      {/* Appearance */}
-                      <Card>
-                        <CardHeader className="pb-4">
-                          <CardTitle className="text-base">Appearance</CardTitle>
-                          <CardDescription>Customize the look of your preference center</CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                          <div className="space-y-2">
-                            <Label htmlFor={`pc-color-${channel}`}>Primary Color (HSL)</Label>
-                            <div className="flex items-center gap-3">
-                              <Input
-                              id={`pc-color-${channel}`}
-                              value={config.primaryColor}
-                              onChange={(e) => updatePreferenceCenterField("primaryColor", e.target.value)}
-                              className="flex-1" />
-                            
-                              <div
-                              className="w-10 h-10 rounded-md border shrink-0"
-                              style={{ backgroundColor: `hsl(${config.primaryColor})` }} />
-                            
-                            </div>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <div>
-                              <Label>Dark Mode Support</Label>
-                              <p className="text-xs text-muted-foreground mt-0.5">Allow contacts to view in dark mode</p>
-                            </div>
-                            <Switch
-                            checked={config.darkModeEnabled}
-                            onCheckedChange={(v) => updatePreferenceCenterField("darkModeEnabled", v)} />
-                          
-                          </div>
-                        </CardContent>
-                      </Card>
 
                       {/* Compliance */}
                       <Card>
