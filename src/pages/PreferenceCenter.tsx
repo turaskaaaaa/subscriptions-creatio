@@ -113,8 +113,7 @@ const PreferenceCenter = () => {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h1 className="text-xl font-semibold text-foreground">Preference Center</h1>
-                <p className="text-sm text-muted-foreground mt-1">
-</p>
+                <p className="text-sm text-muted-foreground mt-1">Customize the experience contacts see when managing their communication preferences.</p>
               </div>
               <Button onClick={() => toast.success("Preference center settings saved")} size="sm">
                 <Save className="w-4 h-4" />
@@ -156,8 +155,8 @@ const PreferenceCenter = () => {
                         <TabsContent value="unsubscribe" className="space-y-6">
                           <Card>
                             <CardHeader className="pb-4">
-                              <CardTitle className="text-base">Unsubscribe Page</CardTitle>
-                              <CardDescription>Configure the page contacts see when unsubscribing</CardDescription>
+                              <CardTitle className="text-base">Unsubscribe Page Settings</CardTitle>
+                              <CardDescription>Customize the page contacts see when they unsubscribe from your emails</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
                               <div className="space-y-2">
