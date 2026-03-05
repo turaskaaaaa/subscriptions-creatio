@@ -306,7 +306,7 @@ const PreferenceCenter = () => {
                               </div>
                               <div className="grid grid-cols-[1fr_auto] gap-3 items-end">
                                 <div className="space-y-2">
-                                  <Label>Logo URL</Label>
+                                  <Label>Company Logo</Label>
                                   <Input placeholder="https://example.com/logo.png" value={config.logoUrl} onChange={(e) => updatePreferenceCenterField("logoUrl", e.target.value)} />
                                 </div>
                                 <div className="space-y-2">
