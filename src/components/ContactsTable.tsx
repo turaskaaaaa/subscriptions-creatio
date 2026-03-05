@@ -20,7 +20,7 @@ const ContactsTable = () => {
             <Plus className="w-4 h-4" />
             New
           </button>
-          <button className="flex items-center gap-2 border border-border text-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-secondary transition-colors">
+          <button onClick={() => setImportOpen(true)} className="flex items-center gap-2 border border-border text-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-secondary transition-colors">
             <Download className="w-4 h-4" />
             Import
           </button>
