@@ -98,7 +98,7 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
           {/* ===== OPT-IN / OPT-OUT TAB ===== */}
           <TabsContent value="optin" className="mt-6 space-y-6">
             <div>
-              <h3 className="text-base font-semibold text-foreground mb-1">Opt-in / Opt-out settings</h3>
+              
               <p className="text-sm text-muted-foreground">
                 Configure how contacts subscribe and unsubscribe from your bulk emails
               </p>
