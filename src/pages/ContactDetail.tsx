@@ -149,7 +149,7 @@ const ContactDetail = () => {
                   {/* Email delivery routing - primary address */}
                   <div className="border-2 border-primary/40 bg-primary/5 rounded-lg p-5 space-y-4">
                     <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Email delivery routing</p>
-                    <p className="text-xs text-muted-foreground -mt-2">Emails will be sent to the primary address unless a different one is selected for a specific subscription type.</p>
+                    <p className="text-xs text-muted-foreground -mt-2">Emails are sent to the primary address unless another address is selected for a specific subscription</p>
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-primary">
                         <Mail className="w-5 h-5 text-primary-foreground" />
