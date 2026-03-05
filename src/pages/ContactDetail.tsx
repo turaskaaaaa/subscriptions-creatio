@@ -4,7 +4,9 @@ import TopBar from "@/components/TopBar";
 import AppSidebar from "@/components/AppSidebar";
 import { ArrowLeft, Tag, Lock, MessageSquare, Paperclip, Plus, RefreshCw, MoreVertical, Search, ChevronUp, User, Mail, Phone, X, ShieldAlert, Ban, Clock, Send, ExternalLink, Scale, CheckCircle2, AlertCircle, Globe, Monitor } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -17,6 +19,8 @@ const ContactDetail = () => {
   const navigate = useNavigate();
   const { doubleOptInEnabled } = useSettings();
   const [verificationProof, setVerificationProof] = useState<DoubleOptInProof | null>(null);
+  const [subscribeAllOpen, setSubscribeAllOpen] = useState(false);
+  const [selectedLegalBasis, setSelectedLegalBasis] = useState<string>("Explicit consent");
   const contact = contactsData.find((c) => c.id === Number(id));
 
   if (!contact) {
@@ -198,7 +202,7 @@ const ContactDetail = () => {
                               variant="secondary"
                               size="sm"
                               disabled={allEmailSubscribed}
-                              onClick={() => toast.success("Subscribed to all email lists", { description: `${emailSubs.length} email subscriptions activated` })}
+                              onClick={() => setSubscribeAllOpen(true)}
                               className="gap-2"
                             >
                               <Mail className="w-3.5 h-3.5" />
@@ -587,6 +591,46 @@ const ContactDetail = () => {
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Subscribe All Email Dialog */}
+      <Dialog open={subscribeAllOpen} onOpenChange={setSubscribeAllOpen}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Subscribe All Email</DialogTitle>
+            <DialogDescription>
+              Select the legal basis that will be applied to all email subscriptions for this contact.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-2">
+            <Label htmlFor="legal-basis" className="text-sm font-medium">Legal Basis</Label>
+            <Select value={selectedLegalBasis} onValueChange={setSelectedLegalBasis}>
+              <SelectTrigger id="legal-basis" className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Explicit consent">Explicit consent</SelectItem>
+                <SelectItem value="Legitimate interest">Legitimate interest</SelectItem>
+                <SelectItem value="Contract necessity">Contract necessity</SelectItem>
+                <SelectItem value="Legal obligation">Legal obligation</SelectItem>
+                <SelectItem value="Vital interest">Vital interest</SelectItem>
+                <SelectItem value="Public task">Public task</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button variant="outline" onClick={() => setSubscribeAllOpen(false)}>Cancel</Button>
+            <Button onClick={() => {
+              const emailSubs = contact.subscriptions.filter((s) => s.channel === "Email");
+              toast.success("Subscribed to all email lists", {
+                description: `${emailSubs.length} subscriptions activated with "${selectedLegalBasis}"`
+              });
+              setSubscribeAllOpen(false);
+            }}>
+              Confirm
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>);
