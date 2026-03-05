@@ -1,9 +1,12 @@
 import { useSettings } from "@/contexts/SettingsContext";
 import { Switch } from "@/components/ui/switch";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Mail, Shield, MailX, MessageSquareMore, ClipboardList } from "lucide-react";
 
-const PreferenceCenterPreview = () => {
+interface PreferenceCenterPreviewProps {
+  activeTab: string;
+}
+
+const PreferenceCenterPreview = ({ activeTab }: PreferenceCenterPreviewProps) => {
   const { preferenceCenterConfig: config } = useSettings();
 
   const visibleSubs = config.subscriptionTypes.filter(s => s.visibleInPreferenceCenter && s.channel === "Email");
@@ -23,146 +26,157 @@ const PreferenceCenterPreview = () => {
 
   return (
     <div className="w-full max-w-sm">
-      <Tabs defaultValue="unsubscribe" className="w-full">
-        <TabsList className="w-full grid grid-cols-3 mb-3">
-          <TabsTrigger value="unsubscribe" className="text-xs gap-1"><MailX className="w-3 h-3" /> Unsub</TabsTrigger>
-          <TabsTrigger value="feedback" className="text-xs gap-1"><MessageSquareMore className="w-3 h-3" /> Feedback</TabsTrigger>
-          <TabsTrigger value="preferences" className="text-xs gap-1"><ClipboardList className="w-3 h-3" /> Prefs</TabsTrigger>
-        </TabsList>
-
-        {/* Unsubscribe Page */}
-        <TabsContent value="unsubscribe">
-          <div className="rounded-lg border bg-card shadow-sm overflow-hidden">
-            <Header />
-            <div className="p-6 text-center space-y-4">
-              <MailX className="w-10 h-10 mx-auto text-muted-foreground" />
-              <h3 className="font-semibold text-foreground">{unsub.pageName || "Unsubscribe"}</h3>
-              <p className="text-sm text-muted-foreground">{unsub.confirmationMessage}</p>
-              <button
-                className="w-full text-sm font-medium py-2.5 rounded-md text-white disabled:opacity-90"
-                style={{ backgroundColor: `hsl(${config.primaryColor})` }}
-                disabled
-              >
-                Unsubscribe
-              </button>
-              <p className="text-xs text-muted-foreground">
-                Or <span className="underline" style={{ color: `hsl(${config.primaryColor})` }}>manage your preferences</span> instead
-              </p>
-            </div>
-            <div className="px-6 py-3 border-t bg-muted/30">
-              <p className="text-xs text-muted-foreground">{config.footerText}</p>
-            </div>
+      {/* Tab indicators (read-only, synced) */}
+      <div className="w-full grid grid-cols-3 mb-3 bg-muted rounded-lg p-1">
+        {[
+          { value: "unsubscribe", label: "Unsub", icon: MailX },
+          { value: "feedback", label: "Feedback", icon: MessageSquareMore },
+          { value: "preferences", label: "Prefs", icon: ClipboardList },
+        ].map(({ value, label, icon: Icon }) => (
+          <div
+            key={value}
+            className={`flex items-center justify-center gap-1 text-xs py-1.5 rounded-md transition-colors ${
+              activeTab === value ? "bg-background shadow-sm font-medium text-foreground" : "text-muted-foreground"
+            }`}
+          >
+            <Icon className="w-3 h-3" />
+            {label}
           </div>
-        </TabsContent>
+        ))}
+      </div>
 
-        {/* Feedback Page */}
-        <TabsContent value="feedback">
-          <div className="rounded-lg border bg-card shadow-sm overflow-hidden">
-            <Header />
-            <div className="p-6 space-y-4">
-              <div className="text-center">
-                <MessageSquareMore className="w-10 h-10 mx-auto text-muted-foreground mb-2" />
-                <h3 className="font-semibold text-foreground">Before you go…</h3>
-                <p className="text-sm text-muted-foreground mt-1">Help us improve by sharing why you're leaving.</p>
+      {/* Unsubscribe Page */}
+      {activeTab === "unsubscribe" && (
+        <div className="rounded-lg border bg-card shadow-sm overflow-hidden">
+          <Header />
+          <div className="p-6 text-center space-y-4">
+            <MailX className="w-10 h-10 mx-auto text-muted-foreground" />
+            <h3 className="font-semibold text-foreground">{unsub.pageName || "Unsubscribe"}</h3>
+            <p className="text-sm text-muted-foreground">{unsub.confirmationMessage}</p>
+            <button
+              className="w-full text-sm font-medium py-2.5 rounded-md text-white disabled:opacity-90"
+              style={{ backgroundColor: `hsl(${config.primaryColor})` }}
+              disabled
+            >
+              Unsubscribe
+            </button>
+            <p className="text-xs text-muted-foreground">
+              Or <span className="underline" style={{ color: `hsl(${config.primaryColor})` }}>manage your preferences</span> instead
+            </p>
+          </div>
+          <div className="px-6 py-3 border-t bg-muted/30">
+            <p className="text-xs text-muted-foreground">{config.footerText}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Feedback Page */}
+      {activeTab === "feedback" && (
+        <div className="rounded-lg border bg-card shadow-sm overflow-hidden">
+          <Header />
+          <div className="p-6 space-y-4">
+            <div className="text-center">
+              <MessageSquareMore className="w-10 h-10 mx-auto text-muted-foreground mb-2" />
+              <h3 className="font-semibold text-foreground">Before you go…</h3>
+              <p className="text-sm text-muted-foreground mt-1">Help us improve by sharing why you're leaving.</p>
+            </div>
+            {unsub.reasons.filter(Boolean).length > 0 ? (
+              <div className="space-y-2">
+                {unsub.reasons.filter(Boolean).map((reason, i) => (
+                  <label key={i} className="flex items-center gap-2.5 text-sm text-foreground p-2 rounded-md border bg-muted/20">
+                    <input type="radio" name="preview-reason" disabled className="accent-primary" />
+                    {reason}
+                  </label>
+                ))}
               </div>
-              {unsub.reasons.filter(Boolean).length > 0 ? (
-                <div className="space-y-2">
-                  {unsub.reasons.filter(Boolean).map((reason, i) => (
-                    <label key={i} className="flex items-center gap-2.5 text-sm text-foreground p-2 rounded-md border bg-muted/20">
-                      <input type="radio" name="preview-reason" disabled className="accent-primary" />
-                      {reason}
+            ) : (
+              <p className="text-sm text-muted-foreground text-center py-2">No reasons configured</p>
+            )}
+            <button
+              className="w-full text-sm font-medium py-2.5 rounded-md text-white disabled:opacity-90"
+              style={{ backgroundColor: `hsl(${config.primaryColor})` }}
+              disabled
+            >
+              Submit Feedback
+            </button>
+            <button
+              className="w-full text-sm font-medium py-2 rounded-md border border-input text-muted-foreground"
+              disabled
+            >
+              Skip
+            </button>
+          </div>
+          <div className="px-6 py-3 border-t bg-muted/30">
+            <p className="text-xs text-muted-foreground">{config.footerText}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Manage Preferences Page */}
+      {activeTab === "preferences" && (
+        <div className="rounded-lg border bg-card shadow-sm overflow-hidden">
+          <Header />
+          <div className="p-5 space-y-5">
+            <div className="text-center">
+              <h3 className="font-semibold text-foreground">{config.title}</h3>
+              {config.welcomeMessage && (
+                <p className="text-sm text-muted-foreground mt-1">{config.welcomeMessage}</p>
+              )}
+            </div>
+
+            {visibleSubs.length > 0 && (
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <Mail className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Email Subscriptions</span>
+                </div>
+                <div className="space-y-3">
+                  {visibleSubs.map(sub => (
+                    <div key={sub.name} className="flex items-center justify-between">
+                      <span className="text-sm text-foreground">{sub.name}</span>
+                      <Switch checked={true} disabled className="pointer-events-none" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {manage.showContentCategories && manage.contentCategories.filter(Boolean).length > 0 && (
+              <div>
+                <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Content Categories</span>
+                <div className="space-y-2 mt-2">
+                  {manage.contentCategories.filter(Boolean).map((cat, i) => (
+                    <label key={i} className="flex items-center gap-2.5 text-sm text-foreground">
+                      <input type="checkbox" checked disabled className="accent-primary" />
+                      {cat}
                     </label>
                   ))}
                 </div>
-              ) : (
-                <p className="text-sm text-muted-foreground text-center py-2">No reasons configured</p>
-              )}
-              <button
-                className="w-full text-sm font-medium py-2.5 rounded-md text-white disabled:opacity-90"
-                style={{ backgroundColor: `hsl(${config.primaryColor})` }}
-                disabled
-              >
-                Submit Feedback
-              </button>
-              <button
-                className="w-full text-sm font-medium py-2 rounded-md border border-input text-muted-foreground"
-                disabled
-              >
-                Skip
-              </button>
-            </div>
-            <div className="px-6 py-3 border-t bg-muted/30">
-              <p className="text-xs text-muted-foreground">{config.footerText}</p>
-            </div>
-          </div>
-        </TabsContent>
-
-        {/* Manage Preferences Page */}
-        <TabsContent value="preferences">
-          <div className="rounded-lg border bg-card shadow-sm overflow-hidden">
-            <Header />
-            <div className="p-5 space-y-5">
-              <div className="text-center">
-                <h3 className="font-semibold text-foreground">{config.title}</h3>
-                {config.welcomeMessage && (
-                  <p className="text-sm text-muted-foreground mt-1">{config.welcomeMessage}</p>
-                )}
               </div>
+            )}
 
-              {visibleSubs.length > 0 && (
-                <div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <Mail className="w-4 h-4 text-muted-foreground" />
-                    <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Email Subscriptions</span>
-                  </div>
-                  <div className="space-y-3">
-                    {visibleSubs.map(sub => (
-                      <div key={sub.name} className="flex items-center justify-between">
-                        <span className="text-sm text-foreground">{sub.name}</span>
-                        <Switch checked={true} disabled className="pointer-events-none" />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+            {config.showLegalBasis && (
+              <div className="flex items-start gap-2 pt-2 border-t">
+                <Shield className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
+                <p className="text-xs text-muted-foreground">
+                  Your data is processed based on your explicit consent. You can withdraw consent at any time.
+                </p>
+              </div>
+            )}
 
-              {manage.showContentCategories && manage.contentCategories.filter(Boolean).length > 0 && (
-                <div>
-                  <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Content Categories</span>
-                  <div className="space-y-2 mt-2">
-                    {manage.contentCategories.filter(Boolean).map((cat, i) => (
-                      <label key={i} className="flex items-center gap-2.5 text-sm text-foreground">
-                        <input type="checkbox" checked disabled className="accent-primary" />
-                        {cat}
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {config.showLegalBasis && (
-                <div className="flex items-start gap-2 pt-2 border-t">
-                  <Shield className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
-                  <p className="text-xs text-muted-foreground">
-                    Your data is processed based on your explicit consent. You can withdraw consent at any time.
-                  </p>
-                </div>
-              )}
-
-              <button
-                className="w-full text-sm font-medium py-2.5 rounded-md text-white disabled:opacity-90"
-                style={{ backgroundColor: `hsl(${config.primaryColor})` }}
-                disabled
-              >
-                Save Preferences
-              </button>
-            </div>
-            <div className="px-6 py-3 border-t bg-muted/30">
-              <p className="text-xs text-muted-foreground">{config.footerText}</p>
-            </div>
+            <button
+              className="w-full text-sm font-medium py-2.5 rounded-md text-white disabled:opacity-90"
+              style={{ backgroundColor: `hsl(${config.primaryColor})` }}
+              disabled
+            >
+              Save Preferences
+            </button>
           </div>
-        </TabsContent>
-      </Tabs>
+          <div className="px-6 py-3 border-t bg-muted/30">
+            <p className="text-xs text-muted-foreground">{config.footerText}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
