@@ -1,27 +1,29 @@
 
 
-## Preference Center Configuration Page
+## Move Color Picker Into Each Page Section (Under Logo URL)
 
-A new admin-facing page where CRM administrators can configure the Preference Center settings that contacts will see when managing their subscriptions.
+Currently the primary color picker sits in a shared "Appearance" card above the sub-tabs. The user wants it placed directly inside each page's config card, right below the "Logo URL" field.
 
-### What it includes
+### Changes — `src/pages/PreferenceCenter.tsx`
 
-1. **New route `/preference-center`** added to the router and sidebar navigation (between "Contacts" and "Campaigns")
+1. **Remove** the standalone Appearance `<Card>` (lines 143-161) that sits above the sub-tabs.
 
-2. **Page sections:**
-   - **General Settings** -- Preference center name/title, company logo URL, welcome message text, footer text
-   - **Subscription Types** -- Table listing all available subscription types (e.g. Newsletter, Promotions, Information material) with toggles to show/hide each in the preference center, grouped by channel (Email / SMS)
-   - **Appearance** -- Primary color picker, toggle for dark/light mode support
-   - **Compliance** -- Toggle to require re-confirmation on re-subscribe, toggle to show legal basis info to contacts, custom privacy policy URL
-   - **Preview panel** -- A live card preview on the right side showing how the preference center will look to contacts, updating as the admin changes settings
+2. **Add** the color picker field inside each of the three sub-tab cards, positioned right after the Logo URL input:
 
-3. **State management** -- Settings stored in a new `PreferenceCenterContext` (or extend existing `SettingsContext`) so values persist across the app session. The "Copy Preference Center Link" button on contact detail pages already generates URLs pointing to this.
+   - **Unsubscribe tab** (line ~195, after Logo URL input): Insert a "Primary Color" field with the same `<input type="color">` + HSL label.
+   - **Feedback tab** (line ~243, inside the Feedback Page card): Add Logo URL + Primary Color fields (currently feedback has no logo field — add both).
+   - **Preferences tab** (line ~304, inside General Settings card): Add Logo URL + Primary Color fields after Welcome Message.
 
-### Files to create/modify
+Each insertion is the same small block:
+```tsx
+<div className="space-y-2">
+  <Label>Primary Color</Label>
+  <div className="flex items-center gap-2">
+    <input type="color" value={hslToHex(config.primaryColor)} onChange={e => updatePreferenceCenterField("primaryColor", hexToHsl(e.target.value))} className="w-9 h-9 rounded-md border border-input cursor-pointer p-0.5" />
+    <span className="text-xs text-muted-foreground font-mono">{config.primaryColor}</span>
+  </div>
+</div>
+```
 
-- **Create** `src/pages/PreferenceCenter.tsx` -- Main config page with form sections
-- **Create** `src/components/PreferenceCenterPreview.tsx` -- Live preview card component
-- **Modify** `src/App.tsx` -- Add `/preference-center` route
-- **Modify** `src/components/AppSidebar.tsx` -- Add nav item with `Settings2` or `SlidersHorizontal` icon
-- **Modify** `src/contexts/SettingsContext.tsx` -- Add preference center config fields (title, welcome message, visible subscription types, colors, compliance toggles)
+For the Feedback and Preferences tabs, also add the Logo URL field if not already present, so it mirrors the Unsubscribe tab structure.
 
