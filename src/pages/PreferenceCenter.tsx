@@ -17,7 +17,7 @@ import { useState } from "react";
 const channels = ["Email", "WhatsApp", "SMS"] as const;
 
 const PreferenceCenter = () => {
-  const { preferenceCenterConfig: config, updatePreferenceCenterField } = useSettings();
+  const { preferenceCenterConfig: config, updatePreferenceCenterField, selfServiceLegalBasis } = useSettings();
   const [activePreviewTab, setActivePreviewTab] = useState("unsubscribe");
 
   const unsub = config.unsubscribePage;
