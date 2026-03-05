@@ -371,7 +371,7 @@ const ContactDetail = () => {
                                   {sub.legalBasis}
                                 </span>
                               </td>
-                              {doubleOptInEnabled && <td className="py-3 px-4">
+                              <td className="py-3 px-4">
                                 {sub.doubleOptIn ?
                               <div className="space-y-1">
                                     <span className="inline-flex items-center gap-1.5 text-xs font-medium text-primary">
@@ -387,7 +387,7 @@ const ContactDetail = () => {
                                   }
                                     </div>
                                   </div> :
-                              sub.status === "Pending" ?
+                              sub.status === "Pending" && doubleOptInEnabled ?
                               <div className="space-y-1.5">
                                     <span className="inline-flex items-center gap-1.5 text-xs font-medium text-accent-foreground">
                                       <AlertCircle className="w-3.5 h-3.5" />
@@ -408,7 +408,7 @@ const ContactDetail = () => {
 
                               <span className="text-xs text-muted-foreground">—</span>
                               }
-                              </td>}
+                              </td>
                             </tr>
                           )}
                         </tbody>
