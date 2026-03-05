@@ -42,9 +42,11 @@ const PreferenceCenterPreview = ({ activeTab }: PreferenceCenterPreviewProps) =>
             >
               Unsubscribe
             </button>
-            <p className="text-xs text-muted-foreground">
-              Or <span className="underline" style={{ color: `hsl(${config.primaryColor})` }}>manage your preferences</span> instead
-            </p>
+            {unsub.showManagePreferencesLink && (
+              <p className="text-xs text-muted-foreground">
+                Or <span className="underline" style={{ color: `hsl(${config.primaryColor})` }}>manage your preferences</span> instead
+              </p>
+            )}
           </div>
           <div className="px-6 py-3 border-t bg-muted/30">
             <p className="text-xs text-muted-foreground">{config.footerText}</p>
