@@ -176,7 +176,7 @@ const ContactDetail = () => {
                           className="gap-2"
                         >
                           <Send className="w-3.5 h-3.5" />
-                          Send Re-consent Email
+                          Send Re-consent request
                         </Button>
                         <Button
                           variant="ghost"
