@@ -150,7 +150,27 @@ const PreferenceCenter = () => {
                         </CardContent>
                       </Card>
 
-                      {/* Appearance */}
+                      {/* Email-specific: Page Name, Unsubscribe & Manage Preferences */}
+                      {channel === "Email" && (
+                        <>
+                          <Card>
+                            <CardHeader className="pb-4">
+                              <CardTitle className="text-base">Email Page Name</CardTitle>
+                              <CardDescription>The name displayed for this channel's preference page</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                              <Input
+                                value={config.emailPageName}
+                                onChange={e => updatePreferenceCenterField("emailPageName", e.target.value)}
+                                placeholder="Email Preferences"
+                              />
+                            </CardContent>
+                          </Card>
+                          <UnsubscribePageSection />
+                          <ManagePreferencesSection />
+                        </>
+                      )}
+
                       <Card>
                         <CardHeader className="pb-4">
                           <CardTitle className="text-base">Appearance</CardTitle>
