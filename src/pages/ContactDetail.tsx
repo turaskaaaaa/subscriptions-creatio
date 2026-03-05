@@ -324,17 +324,19 @@ const ContactDetail = () => {
                               <td className="py-3 px-4">
                                 <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${
                               sub.status === "Subscribed" ? "bg-primary/10 text-primary border border-primary/30" :
-                              sub.status === "Pending" ? "bg-accent text-accent-foreground border border-border" :
+                              sub.status === "Pending" && doubleOptInEnabled ? "bg-accent text-accent-foreground border border-border" :
+                              sub.status === "Pending" ? "bg-primary/10 text-primary border border-primary/30" :
                               "bg-destructive/10 text-destructive border border-destructive/30"}`
                               }>
                                   <span className={`w-1.5 h-1.5 rounded-full ${
                                 sub.status === "Subscribed" ? "bg-primary" :
-                                sub.status === "Pending" ? "bg-accent-foreground" :
+                                sub.status === "Pending" && doubleOptInEnabled ? "bg-accent-foreground" :
+                                sub.status === "Pending" ? "bg-primary" :
                                 "bg-destructive"}`
                                 } />
-                                  {sub.status === "Subscribed" ? "Opted In" : sub.status === "Pending" ? "Pending" : "Opted Out"}
+                                  {sub.status === "Subscribed" ? "Opted In" : sub.status === "Pending" && doubleOptInEnabled ? "Pending" : sub.status === "Pending" ? "Opted In" : "Opted Out"}
                                 </span>
-                                {sub.status === "Pending" && sub.confirmationSentAt &&
+                                {doubleOptInEnabled && sub.status === "Pending" && sub.confirmationSentAt &&
                               <p className="text-[10px] text-muted-foreground mt-1">Sent {sub.confirmationSentAt}</p>
                               }
                               </td>
