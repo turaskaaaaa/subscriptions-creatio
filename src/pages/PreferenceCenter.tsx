@@ -8,6 +8,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import PreferenceCenterPreview from "@/components/PreferenceCenterPreview";
+import UnsubscribePageSection from "@/components/UnsubscribePageSection";
+import ManagePreferencesSection from "@/components/ManagePreferencesSection";
 import { Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -148,6 +150,12 @@ const PreferenceCenter = () => {
                         </CardContent>
                       </Card>
 
+
+                      {/* Unsubscribe Page */}
+                      <UnsubscribePageSection />
+
+                      {/* Manage Preferences Page */}
+                      <ManagePreferencesSection />
 
                       {/* Compliance */}
                       <Card>

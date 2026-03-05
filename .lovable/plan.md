@@ -1,32 +1,27 @@
 
 
-## Plan: Add Configuration Sections for the 3 Preview Pages
+## Preference Center Configuration Page
 
-Currently the left panel has General Settings, Subscription Types, and Compliance cards. The `UnsubscribePageSection` and `ManagePreferencesSection` components already exist but are **not rendered** on the page. The user wants to expose configuration controls for all three pages (Unsubscribe, Feedback/Questionnaire, Manage Preferences).
+A new admin-facing page where CRM administrators can configure the Preference Center settings that contacts will see when managing their subscriptions.
 
-### Changes
+### What it includes
 
-**`src/pages/PreferenceCenter.tsx`** — Add the existing section components into the left column, between the Subscription Types card and the Compliance card:
+1. **New route `/preference-center`** added to the router and sidebar navigation (between "Contacts" and "Campaigns")
 
-1. Import `UnsubscribePageSection` and `ManagePreferencesSection`
-2. Render `<UnsubscribePageSection />` after the Subscription Types card — this already has fields for page name, confirmation message, reason toggle, and editable reasons list
-3. Render `<ManagePreferencesSection />` after the Unsubscribe section — this already has fields for page name, content categories toggle, and editable category list
-4. Remove the inline mini-previews from both section components (since the live preview sidebar already covers that)
+2. **Page sections:**
+   - **General Settings** -- Preference center name/title, company logo URL, welcome message text, footer text
+   - **Subscription Types** -- Table listing all available subscription types (e.g. Newsletter, Promotions, Information material) with toggles to show/hide each in the preference center, grouped by channel (Email / SMS)
+   - **Appearance** -- Primary color picker, toggle for dark/light mode support
+   - **Compliance** -- Toggle to require re-confirmation on re-subscribe, toggle to show legal basis info to contacts, custom privacy policy URL
+   - **Preview panel** -- A live card preview on the right side showing how the preference center will look to contacts, updating as the admin changes settings
 
-**`src/components/UnsubscribePageSection.tsx`** — Remove the mini preview block (lines 102-123) to avoid duplication with the sidebar live preview.
+3. **State management** -- Settings stored in a new `PreferenceCenterContext` (or extend existing `SettingsContext`) so values persist across the app session. The "Copy Preference Center Link" button on contact detail pages already generates URLs pointing to this.
 
-**`src/components/ManagePreferencesSection.tsx`** — Remove the mini preview block (lines 95-134) to avoid duplication with the sidebar live preview.
+### Files to create/modify
 
-No context or data model changes needed — everything is already wired up in `SettingsContext`.
-
-### Result
-
-The left column will show, in order:
-1. General Settings (title, logo, welcome, footer)
-2. Subscription Types (visibility toggles)
-3. Unsubscribe Page (page name, message, reasons)
-4. Manage Preferences Page (page name, content categories)
-5. Compliance (legal basis)
-
-The right column continues to show the 3-tab live preview that updates in real time.
+- **Create** `src/pages/PreferenceCenter.tsx` -- Main config page with form sections
+- **Create** `src/components/PreferenceCenterPreview.tsx` -- Live preview card component
+- **Modify** `src/App.tsx` -- Add `/preference-center` route
+- **Modify** `src/components/AppSidebar.tsx` -- Add nav item with `Settings2` or `SlidersHorizontal` icon
+- **Modify** `src/contexts/SettingsContext.tsx` -- Add preference center config fields (title, welcome message, visible subscription types, colors, compliance toggles)
 
