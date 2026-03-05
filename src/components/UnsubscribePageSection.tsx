@@ -99,28 +99,6 @@ const UnsubscribePageSection = () => {
               </div>
             )}
 
-            {/* Mini preview */}
-            <div className="border rounded-lg p-5 bg-muted/30 mt-4">
-              <p className="text-xs font-medium text-muted-foreground mb-3">Preview</p>
-              <div className="rounded-md border bg-card p-6 text-center max-w-xs mx-auto space-y-3">
-                <MailX className="w-8 h-8 mx-auto text-muted-foreground" />
-                <h4 className="font-semibold text-foreground">{unsub.pageName || "Unsubscribe"}</h4>
-                <p className="text-sm text-muted-foreground">{unsub.confirmationMessage}</p>
-                {unsub.showReasonSelection && unsub.reasons.length > 0 && (
-                  <div className="space-y-1.5 text-left">
-                    {unsub.reasons.filter(Boolean).map((r, i) => (
-                      <label key={i} className="flex items-center gap-2 text-sm text-foreground">
-                        <input type="radio" name="preview-reason" disabled className="accent-primary" />
-                        {r}
-                      </label>
-                    ))}
-                  </div>
-                )}
-                <Button size="sm" disabled className="w-full pointer-events-none">
-                  Confirm Unsubscribe
-                </Button>
-              </div>
-            </div>
           </CardContent>
         </CollapsibleContent>
       </Card>

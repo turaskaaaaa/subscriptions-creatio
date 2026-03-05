@@ -151,6 +151,12 @@ const PreferenceCenter = () => {
                       </Card>
 
 
+                      {/* Unsubscribe Page */}
+                      <UnsubscribePageSection />
+
+                      {/* Manage Preferences Page */}
+                      <ManagePreferencesSection />
+
                       {/* Compliance */}
                       <Card>
                         <CardHeader className="pb-4">

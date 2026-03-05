@@ -92,46 +92,6 @@ const ManagePreferencesSection = () => {
               </div>
             )}
 
-            {/* Mini preview */}
-            <div className="border rounded-lg p-5 bg-muted/30 mt-4">
-              <p className="text-xs font-medium text-muted-foreground mb-3">Preview</p>
-              <div className="rounded-md border bg-card p-6 max-w-xs mx-auto space-y-4">
-                <div className="text-center">
-                  <SlidersHorizontal className="w-8 h-8 mx-auto text-muted-foreground mb-2" />
-                  <h4 className="font-semibold text-foreground">{prefs.pageName || "Manage Preferences"}</h4>
-                </div>
-
-                {/* Subscription toggles */}
-                {emailSubs.length > 0 && (
-                  <div className="space-y-2">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Subscriptions</p>
-                    {emailSubs.map(sub => (
-                      <div key={sub.name} className="flex items-center justify-between">
-                        <span className="text-sm text-foreground">{sub.name}</span>
-                        <Switch checked disabled className="pointer-events-none" />
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Content categories */}
-                {prefs.showContentCategories && prefs.contentCategories.filter(Boolean).length > 0 && (
-                  <div className="space-y-2">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Topics</p>
-                    {prefs.contentCategories.filter(Boolean).map((cat, i) => (
-                      <div key={i} className="flex items-center justify-between">
-                        <span className="text-sm text-foreground">{cat}</span>
-                        <Switch checked disabled className="pointer-events-none" />
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                <Button size="sm" disabled className="w-full pointer-events-none">
-                  Save Preferences
-                </Button>
-              </div>
-            </div>
           </CardContent>
         </CollapsibleContent>
       </Card>
