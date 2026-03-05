@@ -183,8 +183,8 @@ const PreferenceCenter = () => {
                               </div>
                               <div className="flex items-center justify-between">
                                 <div>
-                                  <Label>Show "Manage Preferences" Link</Label>
-                                  <p className="text-xs text-muted-foreground mt-0.5">Display a link to manage preferences instead of fully unsubscribing</p>
+                                  <Label>Show "Manage Preferences" options</Label>
+                                  <p className="text-xs text-muted-foreground mt-0.5">Allow contacts to update their email preferences instead of unsubscribing completely.</p>
                                 </div>
                                 <Switch checked={unsub.showManagePreferencesLink} onCheckedChange={(v) => updateUnsubField("showManagePreferencesLink", v)} />
                               </div>
