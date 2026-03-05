@@ -65,7 +65,8 @@ const ImportContactsDialog = ({ open, onOpenChange }: ImportContactsDialogProps)
                 Mark imported contacts as opted in
               </Label>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                All imported contacts will receive an <strong>opted-in</strong> subscription status for email communications. Uncheck this if you want to manually manage their consent later.
+                Imported contacts will be marked as opted in for email communications.
+                Turn this off if you want to review or manage their consent later.
               </p>
             </div>
           </div>
@@ -83,7 +84,7 @@ const ImportContactsDialog = ({ open, onOpenChange }: ImportContactsDialogProps)
             <div className="flex items-start gap-2 rounded-md bg-emerald-500/10 border border-emerald-500/20 p-3">
               <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
               <p className="text-xs text-emerald-700 dark:text-emerald-400 leading-relaxed">
-                Contacts will be marked as opted-in and eligible for email communications immediately after import.
+                Imported contacts will be eligible to receive marketing emails immediately after the import is complete.
               </p>
             </div>
           )}
