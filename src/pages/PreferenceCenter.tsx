@@ -222,9 +222,17 @@ const PreferenceCenter = () => {
                           <Card>
                             <CardHeader className="pb-4">
                               <CardTitle className="text-base">Feedback Page</CardTitle>
-                              <CardDescription>Configure the feedback form shown before confirming unsubscribe</CardDescription>
+                              <CardDescription>Configure the feedback form shown after a contact unsubscribes</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
+                              <div className="flex items-center justify-between">
+                                <div>
+                                  <Label>Enable Feedback Page</Label>
+                                  <p className="text-xs text-muted-foreground mt-0.5">Show a feedback form after contacts unsubscribe</p>
+                                </div>
+                                <Switch checked={unsub.showFeedbackPage} onCheckedChange={(v) => updateUnsubField("showFeedbackPage", v)} />
+                              </div>
+                              {unsub.showFeedbackPage && <>
                               <div className="grid grid-cols-[1fr_auto] gap-3 items-end">
                                 <div className="space-y-2">
                                   <Label>Company Logo</Label>
