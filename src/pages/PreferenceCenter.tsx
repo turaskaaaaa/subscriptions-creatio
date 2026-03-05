@@ -133,6 +133,13 @@ const PreferenceCenter = () => {
                                 <Label>Footer Text</Label>
                                 <Input value={config.footerText} onChange={e => updatePreferenceCenterField("footerText", e.target.value)} />
                               </div>
+                              <div className="flex items-center justify-between">
+                                <div>
+                                  <Label>Show "Manage Preferences" Link</Label>
+                                  <p className="text-xs text-muted-foreground mt-0.5">Display a link to manage preferences instead of fully unsubscribing</p>
+                                </div>
+                                <Switch checked={unsub.showManagePreferencesLink} onCheckedChange={v => updateUnsubField("showManagePreferencesLink", v)} />
+                              </div>
                             </CardContent>
                           </Card>
                         </TabsContent>
