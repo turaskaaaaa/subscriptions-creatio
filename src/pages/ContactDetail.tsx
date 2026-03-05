@@ -148,7 +148,7 @@ const ContactDetail = () => {
 
                   {/* Email delivery routing - primary address */}
                   <div className="border-2 border-primary/40 bg-primary/5 rounded-lg p-5 space-y-4">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Email delivery routing</p>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">EMAIL DELIVERY</p>
                     <p className="text-xs text-muted-foreground -mt-2">Emails are sent to the primary address unless another address is selected for a specific subscription</p>
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-primary">
@@ -173,8 +173,8 @@ const ContactDetail = () => {
                           variant="outline"
                           size="sm"
                           onClick={() => toast.info("Re-consent email sent", { description: `Sent to ${contact.email}` })}
-                          className="gap-2"
-                        >
+                          className="gap-2">
+                          
                           <Send className="w-3.5 h-3.5" />
                           Send Re-consent request
                         </Button>
@@ -185,8 +185,8 @@ const ContactDetail = () => {
                             navigator.clipboard.writeText(`https://preferences.example.com/${contact.id}`);
                             toast.success("Preference center link copied to clipboard");
                           }}
-                          className="gap-2"
-                        >
+                          className="gap-2">
+                          
                           <ExternalLink className="w-3.5 h-3.5" />
                           Copy Preference Center Link
                         </Button>
@@ -203,8 +203,8 @@ const ContactDetail = () => {
                               size="sm"
                               disabled={allEmailSubscribed}
                               onClick={() => setSubscribeAllOpen(true)}
-                              className="gap-2"
-                            >
+                              className="gap-2">
+                              
                               <Mail className="w-3.5 h-3.5" />
                               Subscribe to All
                             </Button>
@@ -213,13 +213,13 @@ const ContactDetail = () => {
                               size="sm"
                               disabled={allEmailUnsubscribed}
                               onClick={() => toast.warning("Unsubscribed from all email lists", { description: `${emailSubs.length} email subscriptions deactivated` })}
-                              className="gap-2 text-destructive hover:text-destructive hover:bg-destructive/10"
-                            >
+                              className="gap-2 text-destructive hover:text-destructive hover:bg-destructive/10">
+                              
                               <X className="w-3.5 h-3.5" />
                               Unsubscribe from All
                             </Button>
-                          </div>
-                        );
+                          </div>);
+
                       })()}
                     </div>
                   </div>
@@ -237,9 +237,9 @@ const ContactDetail = () => {
                     const activeSuppressions = contact.suppressions.length;
                     const hardBounces = contact.suppressions.filter((s) => s.reason === "Hard bounce").length;
                     const spamComplaints = contact.suppressions.filter((s) => s.reason === "Spam complaint").length;
-                    const filteredTimeline = doubleOptInEnabled 
-                      ? contact.consentTimeline 
-                      : contact.consentTimeline.filter(e => e.action !== "Double opt-in sent" && e.action !== "Double opt-in confirmed");
+                    const filteredTimeline = doubleOptInEnabled ?
+                    contact.consentTimeline :
+                    contact.consentTimeline.filter((e) => e.action !== "Double opt-in sent" && e.action !== "Double opt-in confirmed");
                     const lastEvent = filteredTimeline.length > 0 ? filteredTimeline[0] : null;
 
                     return (
@@ -380,18 +380,18 @@ const ContactDetail = () => {
                               </td>
                               <td className="py-3 px-4">
                                 {sub.doubleOptIn ?
-                                  <Button variant="outline" size="sm" className="gap-1.5 text-xs text-primary border-primary/30 hover:bg-primary/5"
-                                    onClick={() => setVerificationProof(sub.doubleOptIn!)}>
+                              <Button variant="outline" size="sm" className="gap-1.5 text-xs text-primary border-primary/30 hover:bg-primary/5"
+                              onClick={() => setVerificationProof(sub.doubleOptIn!)}>
                                     <CheckCircle2 className="w-3.5 h-3.5" />
                                     Verified
                                   </Button> :
                               sub.status === "Pending" && doubleOptInEnabled ?
-                                  <Button variant="outline" size="sm" className="gap-1.5 text-xs"
-                                    onClick={() => {
-                                      toast.info("Confirmation resent", {
-                                        description: `Double opt-in ${sub.channel === "SMS" ? "code" : "email"} resent to ${sub.channel === "SMS" ? contact.mobilePhone : contact.email}`
-                                      });
-                                    }}>
+                              <Button variant="outline" size="sm" className="gap-1.5 text-xs"
+                              onClick={() => {
+                                toast.info("Confirmation resent", {
+                                  description: `Double opt-in ${sub.channel === "SMS" ? "code" : "email"} resent to ${sub.channel === "SMS" ? contact.mobilePhone : contact.email}`
+                                });
+                              }}>
                                     <AlertCircle className="w-3.5 h-3.5" />
                                     Awaiting — Resend
                                   </Button> :
@@ -478,9 +478,9 @@ const ContactDetail = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {contact.consentTimeline
-                            .filter((evt) => doubleOptInEnabled || (evt.action !== "Double opt-in sent" && evt.action !== "Double opt-in confirmed"))
-                            .map((evt, idx) =>
+                            {contact.consentTimeline.
+                          filter((evt) => doubleOptInEnabled || evt.action !== "Double opt-in sent" && evt.action !== "Double opt-in confirmed").
+                          map((evt, idx) =>
                           <tr key={idx} className="border-t border-border hover:bg-secondary/30 transition-colors">
                                 <td className="py-3 px-4 text-muted-foreground whitespace-nowrap">
                                   <span className="inline-flex items-center gap-1.5">
@@ -551,8 +551,8 @@ const ContactDetail = () => {
           <DialogHeader>
             <DialogTitle className="text-base uppercase tracking-wider">Verification</DialogTitle>
           </DialogHeader>
-          {verificationProof && (
-            <div className="space-y-4">
+          {verificationProof &&
+          <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-5 h-5 text-primary" />
                 <span className="text-sm font-semibold text-primary">Verified</span>
@@ -580,18 +580,18 @@ const ContactDetail = () => {
                     <p className="text-sm text-foreground">{verificationProof.method}</p>
                   </div>
                 </div>
-                {verificationProof.userAgent && (
-                  <div className="flex items-center gap-3">
+                {verificationProof.userAgent &&
+              <div className="flex items-center gap-3">
                     <Monitor className="w-4 h-4 shrink-0" />
                     <div>
                       <p className="text-xs text-muted-foreground">User Agent</p>
                       <p className="text-sm text-foreground truncate max-w-[250px]" title={verificationProof.userAgent}>{verificationProof.userAgent}</p>
                     </div>
                   </div>
-                )}
+              }
               </div>
             </div>
-          )}
+          }
         </DialogContent>
       </Dialog>
 
