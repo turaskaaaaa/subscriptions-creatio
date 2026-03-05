@@ -4,23 +4,13 @@ import TopBar from "@/components/TopBar";
 import AppSidebar from "@/components/AppSidebar";
 import { ArrowLeft, Tag, Lock, MessageSquare, Paperclip, Plus, RefreshCw, MoreVertical, Search, ChevronUp, User, Mail, Phone, X, ShieldAlert, Ban, Clock, Send, ExternalLink, Scale, CheckCircle2, AlertCircle, Globe, Monitor } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useState } from "react";
-import { useSettings } from "@/contexts/SettingsContext";
-import type { DoubleOptInProof } from "@/data/contactsData";
 
 const ContactDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { doubleOptInEnabled } = useSettings();
-  const [verificationProof, setVerificationProof] = useState<DoubleOptInProof | null>(null);
-  const [subscribeAllOpen, setSubscribeAllOpen] = useState(false);
-  const [selectedLegalBasis, setSelectedLegalBasis] = useState<string>("Explicit consent");
   const contact = contactsData.find((c) => c.id === Number(id));
 
   if (!contact) {
@@ -149,7 +139,7 @@ const ContactDetail = () => {
                   {/* Email delivery routing - primary address */}
                   <div className="border-2 border-primary/40 bg-primary/5 rounded-lg p-5 space-y-4">
                     <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Email delivery routing</p>
-                    <p className="text-xs text-muted-foreground -mt-2">Emails are sent to the primary address unless another address is selected for a specific subscription</p>
+                    <p className="text-xs text-muted-foreground -mt-2">Emails will be sent to the primary address unless a different one is selected for a specific subscription type.</p>
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-primary">
                         <Mail className="w-5 h-5 text-primary-foreground" />
@@ -163,65 +153,49 @@ const ContactDetail = () => {
                   </div>
 
                   {/* Re-consent action bar */}
-                  <div className="border border-border rounded-lg overflow-hidden">
-                    <div className="px-4 py-2.5 bg-muted/30 border-b border-border">
-                      <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Actions</span>
-                    </div>
-                    <div className="p-3 flex flex-col gap-3">
-                      <div className="flex items-center gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => toast.info("Re-consent email sent", { description: `Sent to ${contact.email}` })}
-                          className="gap-2"
-                        >
-                          <Send className="w-3.5 h-3.5" />
-                          Send Re-consent request
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            navigator.clipboard.writeText(`https://preferences.example.com/${contact.id}`);
-                            toast.success("Preference center link copied to clipboard");
-                          }}
-                          className="gap-2"
-                        >
-                          <ExternalLink className="w-3.5 h-3.5" />
-                          Copy Preference Center Link
-                        </Button>
-                      </div>
-                      <Separator />
-                      {(() => {
-                        const emailSubs = contact.subscriptions.filter((s) => s.channel === "Email");
-                        const allEmailSubscribed = emailSubs.length > 0 && emailSubs.every((s) => s.status === "Subscribed");
-                        const allEmailUnsubscribed = emailSubs.length > 0 && emailSubs.every((s) => s.status === "Unsubscribed");
-                        return (
-                          <div className="flex items-center gap-2">
-                            <Button
-                              variant="secondary"
-                              size="sm"
-                              disabled={allEmailSubscribed}
-                              onClick={() => setSubscribeAllOpen(true)}
-                              className="gap-2"
-                            >
-                              <Mail className="w-3.5 h-3.5" />
-                              Subscribe to All
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              disabled={allEmailUnsubscribed}
-                              onClick={() => toast.warning("Unsubscribed from all email lists", { description: `${emailSubs.length} email subscriptions deactivated` })}
-                              className="gap-2 text-destructive hover:text-destructive hover:bg-destructive/10"
-                            >
-                              <X className="w-3.5 h-3.5" />
-                              Unsubscribe from All
-                            </Button>
-                          </div>
-                        );
-                      })()}
-                    </div>
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <button
+                      onClick={() => toast.info("Re-consent email sent", { description: `Sent to ${contact.email}` })}
+                      className="flex items-center gap-2 border border-destructive/40 px-4 py-2 rounded-md text-sm font-medium transition-colors text-primary bg-primary-foreground">
+                      <Send className="w-4 h-4" />
+                      Send Re-consent Email
+                    </button>
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(`https://preferences.example.com/${contact.id}`);
+                        toast.success("Preference center link copied to clipboard");
+                      }}
+                      className="flex items-center gap-2 border border-border text-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-secondary transition-colors">
+                      <ExternalLink className="w-4 h-4" />
+                      Copy Preference Center Link
+                    </button>
+
+                    <div className="h-6 w-px bg-border mx-1" />
+
+                    {/* Bulk email subscription actions */}
+                    {(() => {
+                      const emailSubs = contact.subscriptions.filter((s) => s.channel === "Email");
+                      const allEmailSubscribed = emailSubs.length > 0 && emailSubs.every((s) => s.status === "Subscribed");
+                      const allEmailUnsubscribed = emailSubs.length > 0 && emailSubs.every((s) => s.status === "Unsubscribed");
+                      return (
+                        <>
+                          <button
+                            disabled={allEmailSubscribed}
+                            onClick={() => toast.success("Subscribed to all email lists", { description: `${emailSubs.length} email subscriptions activated` })}
+                            className="flex items-center gap-2 border border-primary/30 bg-primary/5 text-primary px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                            <Mail className="w-4 h-4" />
+                            Subscribe All Email
+                          </button>
+                          <button
+                            disabled={allEmailUnsubscribed}
+                            onClick={() => toast.warning("Unsubscribed from all email lists", { description: `${emailSubs.length} email subscriptions deactivated` })}
+                            className="flex items-center gap-2 border border-destructive/30 text-destructive px-4 py-2 rounded-md text-sm font-medium hover:bg-destructive/5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                            <X className="w-4 h-4" />
+                            Unsubscribe All Email
+                          </button>
+                        </>);
+
+                    })()}
                   </div>
 
                   {/* Compliance summary cards */}
@@ -237,16 +211,13 @@ const ContactDetail = () => {
                     const activeSuppressions = contact.suppressions.length;
                     const hardBounces = contact.suppressions.filter((s) => s.reason === "Hard bounce").length;
                     const spamComplaints = contact.suppressions.filter((s) => s.reason === "Spam complaint").length;
-                    const filteredTimeline = doubleOptInEnabled 
-                      ? contact.consentTimeline 
-                      : contact.consentTimeline.filter(e => e.action !== "Double opt-in sent" && e.action !== "Double opt-in confirmed");
-                    const lastEvent = filteredTimeline.length > 0 ? filteredTimeline[0] : null;
+                    const lastEvent = contact.consentTimeline.length > 0 ? contact.consentTimeline[0] : null;
 
                     return (
                       <div className="grid grid-cols-4 gap-4">
                         {/* Marketing Email Status */}
                         <div className="border border-border rounded-lg p-5 space-y-3">
-                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Bulk Email Subscriptions</p>
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Marketing Email Status</p>
                           <p className="text-3xl font-bold text-foreground">{emailSubscribed} <span className="text-sm font-normal text-muted-foreground">of {emailTotal}</span></p>
                           <div className="w-full bg-muted rounded-full h-2">
                             <div className="bg-primary h-2 rounded-full" style={{ width: emailTotal > 0 ? `${emailSubscribed / emailTotal * 100}%` : '0%' }} />
@@ -256,7 +227,7 @@ const ContactDetail = () => {
 
                         {/* SMS Status */}
                         <div className="border border-border rounded-lg p-5 space-y-3">
-                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">SMS Subscriptions</p>
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">SMS Status</p>
                           <p className="text-3xl font-bold text-foreground">{smsSubscribed} <span className="text-sm font-normal text-muted-foreground">of {smsTotal}</span></p>
                           <div className="w-full bg-muted rounded-full h-2">
                             <div className="bg-primary h-2 rounded-full" style={{ width: smsTotal > 0 ? `${smsSubscribed / smsTotal * 100}%` : '0%' }} />
@@ -266,7 +237,7 @@ const ContactDetail = () => {
 
                         {/* Active Suppressions */}
                         <div className={`border rounded-lg p-5 space-y-3 ${activeSuppressions > 0 ? 'border-destructive/30 bg-destructive/5' : 'border-border'}`}>
-                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Suppression Status</p>
+                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Active Suppressions</p>
                           <p className={`text-3xl font-bold ${activeSuppressions > 0 ? 'text-destructive' : 'text-foreground'}`}>{activeSuppressions}</p>
                           {activeSuppressions > 0 &&
                           <>
@@ -351,19 +322,17 @@ const ContactDetail = () => {
                               <td className="py-3 px-4">
                                 <span className={`inline-flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 font-medium ${
                               sub.status === "Subscribed" ? "bg-primary/10 text-primary border border-primary/30" :
-                              sub.status === "Pending" && doubleOptInEnabled ? "bg-accent text-accent-foreground border border-border" :
-                              sub.status === "Pending" ? "bg-primary/10 text-primary border border-primary/30" :
+                              sub.status === "Pending" ? "bg-accent text-accent-foreground border border-border" :
                               "bg-destructive/10 text-destructive border border-destructive/30"}`
                               }>
                                   <span className={`w-1.5 h-1.5 rounded-full ${
                                 sub.status === "Subscribed" ? "bg-primary" :
-                                sub.status === "Pending" && doubleOptInEnabled ? "bg-accent-foreground" :
-                                sub.status === "Pending" ? "bg-primary" :
+                                sub.status === "Pending" ? "bg-accent-foreground" :
                                 "bg-destructive"}`
                                 } />
-                                  {sub.status === "Subscribed" ? "Opted In" : sub.status === "Pending" && doubleOptInEnabled ? "Pending" : sub.status === "Pending" ? "Opted In" : "Opted Out"}
+                                  {sub.status === "Subscribed" ? "Opted In" : sub.status === "Pending" ? "Pending" : "Opted Out"}
                                 </span>
-                                {doubleOptInEnabled && sub.status === "Pending" && sub.confirmationSentAt &&
+                                {sub.status === "Pending" && sub.confirmationSentAt &&
                               <p className="text-[10px] text-muted-foreground mt-1">Sent {sub.confirmationSentAt}</p>
                               }
                               </td>
@@ -380,21 +349,39 @@ const ContactDetail = () => {
                               </td>
                               <td className="py-3 px-4">
                                 {sub.doubleOptIn ?
-                                  <Button variant="outline" size="sm" className="gap-1.5 text-xs text-primary border-primary/30 hover:bg-primary/5"
-                                    onClick={() => setVerificationProof(sub.doubleOptIn!)}>
-                                    <CheckCircle2 className="w-3.5 h-3.5" />
-                                    Verified
-                                  </Button> :
-                              sub.status === "Pending" && doubleOptInEnabled ?
-                                  <Button variant="outline" size="sm" className="gap-1.5 text-xs"
-                                    onClick={() => {
-                                      toast.info("Confirmation resent", {
-                                        description: `Double opt-in ${sub.channel === "SMS" ? "code" : "email"} resent to ${sub.channel === "SMS" ? contact.mobilePhone : contact.email}`
-                                      });
-                                    }}>
-                                    <AlertCircle className="w-3.5 h-3.5" />
-                                    Awaiting — Resend
-                                  </Button> :
+                              <div className="space-y-1">
+                                    <span className="inline-flex items-center gap-1.5 text-xs font-medium text-primary">
+                                      <CheckCircle2 className="w-3.5 h-3.5" />
+                                      Verified
+                                    </span>
+                                    <div className="text-[10px] text-muted-foreground space-y-0.5">
+                                      <p className="flex items-center gap-1"><Clock className="w-2.5 h-2.5" /> {sub.doubleOptIn.confirmationDate}</p>
+                                      <p className="flex items-center gap-1"><Globe className="w-2.5 h-2.5" /> {sub.doubleOptIn.ipAddress}</p>
+                                      <p className="flex items-center gap-1"><Mail className="w-2.5 h-2.5" /> {sub.doubleOptIn.method}</p>
+                                      {sub.doubleOptIn.userAgent &&
+                                  <p className="flex items-center gap-1 truncate max-w-[180px]" title={sub.doubleOptIn.userAgent}><Monitor className="w-2.5 h-2.5" /> {sub.doubleOptIn.userAgent.split('(')[0].trim()}</p>
+                                  }
+                                    </div>
+                                  </div> :
+                              sub.status === "Pending" ?
+                              <div className="space-y-1.5">
+                                    <span className="inline-flex items-center gap-1.5 text-xs font-medium text-accent-foreground">
+                                      <AlertCircle className="w-3.5 h-3.5" />
+                                      Awaiting
+                                    </span>
+                                    <button
+                                  onClick={() => {
+                                    toast.info("Confirmation resent", {
+                                      description: `Double opt-in ${sub.channel === "SMS" ? "code" : "email"} resent to ${sub.channel === "SMS" ? contact.mobilePhone : contact.email}`
+                                    });
+                                  }}
+                                  className="flex items-center gap-1 text-[10px] font-medium text-primary hover:underline">
+                                  
+                                      <RefreshCw className="w-2.5 h-2.5" />
+                                      Resend
+                                    </button>
+                                  </div> :
+
                               <span className="text-xs text-muted-foreground">—</span>
                               }
                               </td>
@@ -406,8 +393,7 @@ const ContactDetail = () => {
                   </div>
                   {/* Suppressions / Blocked List */}
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">SUPPRESSIONS (BLOCKED LIST)</p>
-                    <p className="text-xs text-muted-foreground mb-3">Emails on this list cannot receive messages through the specified channel.</p>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">SUPPRESSIONS (BLOCKED LIST)</p>
                     {contact.suppressions.length === 0 ?
                     <div className="border border-border rounded-lg p-6 flex flex-col items-center gap-2 text-muted-foreground">
                         <ShieldAlert className="w-6 h-6" />
@@ -472,15 +458,13 @@ const ContactDetail = () => {
                               <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Date</th>
                               <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Action</th>
                               <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Subscription</th>
-                              <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Channel</th>
+                              <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">SUBSCRIPTION HISTORY</th>
                               <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Source</th>
                               <th className="text-left py-2.5 px-4 font-semibold text-xs uppercase tracking-wider text-muted-foreground">Modified By</th>
                             </tr>
                           </thead>
                           <tbody>
-                            {contact.consentTimeline
-                            .filter((evt) => doubleOptInEnabled || (evt.action !== "Double opt-in sent" && evt.action !== "Double opt-in confirmed"))
-                            .map((evt, idx) =>
+                            {contact.consentTimeline.map((evt, idx) =>
                           <tr key={idx} className="border-t border-border hover:bg-secondary/30 transition-colors">
                                 <td className="py-3 px-4 text-muted-foreground whitespace-nowrap">
                                   <span className="inline-flex items-center gap-1.5">
@@ -544,96 +528,6 @@ const ContactDetail = () => {
           </div>
         </div>
       </div>
-
-      {/* Verification Dialog */}
-      <Dialog open={!!verificationProof} onOpenChange={(open) => !open && setVerificationProof(null)}>
-        <DialogContent className="sm:max-w-sm">
-          <DialogHeader>
-            <DialogTitle className="text-base uppercase tracking-wider">Verification</DialogTitle>
-          </DialogHeader>
-          {verificationProof && (
-            <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-5 h-5 text-primary" />
-                <span className="text-sm font-semibold text-primary">Verified</span>
-              </div>
-              <Separator />
-              <div className="space-y-3 text-sm text-muted-foreground">
-                <div className="flex items-center gap-3">
-                  <Clock className="w-4 h-4 shrink-0" />
-                  <div>
-                    <p className="text-xs text-muted-foreground">Confirmed on</p>
-                    <p className="text-sm text-foreground">{verificationProof.confirmationDate}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Globe className="w-4 h-4 shrink-0" />
-                  <div>
-                    <p className="text-xs text-muted-foreground">IP Address</p>
-                    <p className="text-sm text-foreground">{verificationProof.ipAddress}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Mail className="w-4 h-4 shrink-0" />
-                  <div>
-                    <p className="text-xs text-muted-foreground">Method</p>
-                    <p className="text-sm text-foreground">{verificationProof.method}</p>
-                  </div>
-                </div>
-                {verificationProof.userAgent && (
-                  <div className="flex items-center gap-3">
-                    <Monitor className="w-4 h-4 shrink-0" />
-                    <div>
-                      <p className="text-xs text-muted-foreground">User Agent</p>
-                      <p className="text-sm text-foreground truncate max-w-[250px]" title={verificationProof.userAgent}>{verificationProof.userAgent}</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
-
-      {/* Subscribe All Email Dialog */}
-      <Dialog open={subscribeAllOpen} onOpenChange={setSubscribeAllOpen}>
-        <DialogContent className="sm:max-w-sm">
-          <DialogHeader>
-            <DialogTitle>Subscribe All Email</DialogTitle>
-            <DialogDescription>
-              Select the legal basis that will be applied to all email subscriptions for this contact.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-2">
-            <Label htmlFor="legal-basis" className="text-sm font-medium">Legal Basis</Label>
-            <Select value={selectedLegalBasis} onValueChange={setSelectedLegalBasis}>
-              <SelectTrigger id="legal-basis" className="w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Explicit consent">Explicit consent</SelectItem>
-                <SelectItem value="Legitimate interest">Legitimate interest</SelectItem>
-                <SelectItem value="Contract necessity">Contract necessity</SelectItem>
-                <SelectItem value="Legal obligation">Legal obligation</SelectItem>
-                <SelectItem value="Vital interest">Vital interest</SelectItem>
-                <SelectItem value="Public task">Public task</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <DialogFooter className="gap-2 sm:gap-0">
-            <Button variant="outline" onClick={() => setSubscribeAllOpen(false)}>Cancel</Button>
-            <Button onClick={() => {
-              const emailSubs = contact.subscriptions.filter((s) => s.channel === "Email");
-              toast.success("Subscribed to all email lists", {
-                description: `${emailSubs.length} subscriptions activated with "${selectedLegalBasis}"`
-              });
-              setSubscribeAllOpen(false);
-            }}>
-              Confirm
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>);
 
 };
