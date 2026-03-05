@@ -193,8 +193,8 @@ const PreferenceCenter = () => {
 
                           <Card>
                             <CardHeader className="pb-4">
-                              <CardTitle className="text-base">Compliance</CardTitle>
-                              <CardDescription>Legal and compliance settings for the unsubscribe page</CardDescription>
+                              <CardTitle className="text-base">Compliance & Legal</CardTitle>
+                              <CardDescription>Display the legal reason you are allowed to send emails (for example, explicit consent).</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
                               <div className="flex items-center justify-between">
