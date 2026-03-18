@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useSettings } from "@/contexts/SettingsContext";
-import { Scale, ShieldAlert, CalendarClock, RefreshCw, Mail, CheckCircle2 } from "lucide-react";
 import type { LegalBasis } from "@/data/contactsData";
 
 interface BulkEmailSettingsDialogProps {
@@ -14,29 +13,29 @@ interface BulkEmailSettingsDialogProps {
 }
 
 const SUBSCRIPTION_TYPE_OPTIONS = [
-"Information material",
-"Newsletter",
-"Promotions",
-"Account alerts",
-"Appointment reminders",
-"Security alerts"];
+  "Information material",
+  "Newsletter",
+  "Promotions",
+  "Account alerts",
+  "Appointment reminders",
+  "Security alerts",
+];
 
+const LEGAL_BASIS_OPTIONS: { value: LegalBasis; label: string; description: string }[] = [
+  { value: "Explicit consent", label: "Explicit consent", description: "User actively opted in (GDPR Art. 6(1)(a))" },
+  { value: "Legitimate interest", label: "Legitimate interest", description: "Reasonable business interest (GDPR Art. 6(1)(f))" },
+  { value: "Contract necessity", label: "Contract necessity", description: "Required for contract fulfillment (GDPR Art. 6(1)(b))" },
+  { value: "Legal obligation", label: "Legal obligation", description: "Required by law (GDPR Art. 6(1)(c))" },
+  { value: "Vital interest", label: "Vital interest", description: "Protecting vital interests (GDPR Art. 6(1)(d))" },
+  { value: "Public task", label: "Public task", description: "Public interest or official authority (GDPR Art. 6(1)(e))" },
+];
 
-const LEGAL_BASIS_OPTIONS: {value: LegalBasis;label: string;description: string;}[] = [
-{ value: "Explicit consent", label: "Explicit consent", description: "User actively opted in (GDPR Art. 6(1)(a))" },
-{ value: "Legitimate interest", label: "Legitimate interest", description: "Reasonable business interest (GDPR Art. 6(1)(f))" },
-{ value: "Contract necessity", label: "Contract necessity", description: "Required for contract fulfillment (GDPR Art. 6(1)(b))" },
-{ value: "Legal obligation", label: "Legal obligation", description: "Required by law (GDPR Art. 6(1)(c))" },
-{ value: "Vital interest", label: "Vital interest", description: "Protecting vital interests (GDPR Art. 6(1)(d))" },
-{ value: "Public task", label: "Public task", description: "Public interest or official authority (GDPR Art. 6(1)(e))" }];
-
-
-const Toggle = ({ checked, onChange }: {checked: boolean;onChange: (val: boolean) => void;}) =>
-<label className="relative inline-flex items-center cursor-pointer shrink-0">
+const Toggle = ({ checked, onChange }: { checked: boolean; onChange: (val: boolean) => void }) => (
+  <label className="relative inline-flex items-center cursor-pointer shrink-0">
     <input type="checkbox" className="sr-only peer" checked={checked} onChange={(e) => onChange(e.target.checked)} />
-    <div className="w-9 h-5 bg-muted-foreground/30 peer-checked:bg-primary rounded-full peer-focus:ring-2 peer-focus:ring-ring transition-colors after:content-[''] after:absolute after:top-0.5 after:left-[2px] peer-checked:after:translate-x-full after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
-  </label>;
-
+    <div className="w-9 h-5 bg-muted-foreground/30 peer-checked:bg-primary rounded-full peer-focus:ring-2 peer-focus:ring-ring transition-colors after:content-[''] after:absolute after:top-0.5 after:left-[2px] peer-checked:after:translate-x-full after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all" />
+  </label>
+);
 
 const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialogProps) => {
   const {
@@ -52,7 +51,7 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
     softBounceThreshold, setSoftBounceThreshold,
     spamComplaintThreshold, setSpamComplaintThreshold,
     autoSuppressHardBounce, setAutoSuppressHardBounce,
-    autoSuppressSpamComplaint, setAutoSuppressSpamComplaint
+    autoSuppressSpamComplaint, setAutoSuppressSpamComplaint,
   } = useSettings();
 
   const [domains, setDomains] = useState(
@@ -66,9 +65,9 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
 
   const toggleSubscriptionType = (type: string) => {
     setDoubleOptInSubscriptionTypes(
-      doubleOptInSubscriptionTypes.includes(type) ?
-      doubleOptInSubscriptionTypes.filter((t) => t !== type) :
-      [...doubleOptInSubscriptionTypes, type]
+      doubleOptInSubscriptionTypes.includes(type)
+        ? doubleOptInSubscriptionTypes.filter((t) => t !== type)
+        : [...doubleOptInSubscriptionTypes, type]
     );
   };
 
@@ -95,72 +94,54 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
             </TabsTrigger>
           </TabsList>
 
-          {/* ===== OPT-IN / OPT-OUT TAB ===== */}
-          <TabsContent value="optin" className="mt-6 space-y-6">
-            <div>
-              
-              <p className="text-sm text-muted-foreground">
-                Configure how contacts subscribe and unsubscribe from your bulk emails
-              </p>
-            </div>
+          {/* ===== SUBSCRIPTION TAB ===== */}
+          <TabsContent value="optin" className="mt-6 space-y-5">
 
-            {/* --- Unsubscribe Link (Enforced) --- */}
-            <div className="flex items-center justify-between p-4 border border-border rounded-lg bg-muted/20">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                  <Mail className="w-4 h-4 text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-foreground">Unsubscribe link</p>
-                  <p className="text-xs text-muted-foreground">
-                    Automatically include an unsubscribe link in all bulk emails
-                  </p>
-                  <p className="text-[10px] text-destructive mt-1">
-                    Required by CAN-SPAM, GDPR, and CASL regulations. This setting cannot be disabled.
-                  </p>
-                </div>
+            {/* --- Unsubscribe Link --- */}
+            <div className="flex items-center justify-between py-3">
+              <div>
+                <p className="text-sm font-medium text-foreground">Unsubscribe link</p>
+                <p className="text-xs text-muted-foreground">Automatically include an unsubscribe link in all bulk emails</p>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide">Enforced</span>
+                <span className="text-[10px] text-muted-foreground">Enforced</span>
                 <Toggle checked={true} onChange={() => {}} />
               </div>
             </div>
 
-            <div className="flex items-center justify-between p-4 border border-border rounded-lg">
+            <Separator />
+
+            {/* --- Marketing Consent --- */}
+            <div className="flex items-center justify-between py-3">
               <div>
                 <p className="text-sm font-medium text-foreground">Marketing consent default</p>
-                <p className="text-xs text-muted-foreground">New contacts will have “Allow marketing emails” enabled by default
-
-                </p>
+                <p className="text-xs text-muted-foreground">New contacts will have "Allow marketing emails" enabled by default</p>
               </div>
               <Toggle checked={marketingConsentDefault} onChange={setMarketingConsentDefault} />
             </div>
 
-            {/* --- Legal Basis Default --- */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <Scale className="w-4 h-4 text-primary" />
-                <h4 className="text-sm font-semibold text-foreground">Default legal basis</h4>
-              </div>
-              <p className="text-xs text-muted-foreground">Select the default GDPR legal basis used for marketing subscriptions. This can be overridden for individual subscriptions.
+            <Separator />
 
-              </p>
+            {/* --- Legal Basis Default --- */}
+            <div className="space-y-3 py-3">
+              <div>
+                <h4 className="text-sm font-semibold text-foreground">Default legal basis</h4>
+                <p className="text-xs text-muted-foreground mt-0.5">Select the default GDPR legal basis used for marketing subscriptions.</p>
+              </div>
 
               <div className="grid grid-cols-2 gap-6">
-                {/* Manual creation */}
-                <div className="space-y-2">
-                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">When created by Creatio user</p>
-                  <p className="text-[10px] text-muted-foreground">Applied when a contact is manually added or edited by an admin</p>
+                <div className="space-y-1.5">
+                  <p className="text-xs font-medium text-muted-foreground">When created by Creatio user</p>
                   <Select value={manualLegalBasis} onValueChange={(val) => setManualLegalBasis(val as LegalBasis)}>
                     <SelectTrigger className="h-9 text-xs">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      {LEGAL_BASIS_OPTIONS.map((option) =>
-                      <SelectItem key={option.value} value={option.value} className="text-xs">
+                      {LEGAL_BASIS_OPTIONS.map((option) => (
+                        <SelectItem key={option.value} value={option.value} className="text-xs">
                           {option.label}
                         </SelectItem>
-                      )}
+                      ))}
                     </SelectContent>
                   </Select>
                   <p className="text-[10px] text-muted-foreground">
@@ -168,20 +149,18 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                   </p>
                 </div>
 
-                {/* Self-service */}
-                <div className="space-y-2">
-                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">When updated via preference center</p>
-                  <p className="text-[10px] text-muted-foreground">Applied when a contact opts in through the preference center</p>
+                <div className="space-y-1.5">
+                  <p className="text-xs font-medium text-muted-foreground">When updated via preference center</p>
                   <Select value={selfServiceLegalBasis} onValueChange={(val) => setSelfServiceLegalBasis(val as LegalBasis)}>
                     <SelectTrigger className="h-9 text-xs">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      {LEGAL_BASIS_OPTIONS.map((option) =>
-                      <SelectItem key={option.value} value={option.value} className="text-xs">
+                      {LEGAL_BASIS_OPTIONS.map((option) => (
+                        <SelectItem key={option.value} value={option.value} className="text-xs">
                           {option.label}
                         </SelectItem>
-                      )}
+                      ))}
                     </SelectContent>
                   </Select>
                   <p className="text-[10px] text-muted-foreground">
@@ -193,60 +172,32 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
 
             <Separator />
 
-            {/* --- Double Opt-In Section --- */}
-            <div className="border border-border rounded-lg overflow-hidden">
-              <div className="flex items-center justify-between p-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <CheckCircle2 className="w-4 h-4 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-foreground">Double opt-in</p>
-                    <p className="text-xs text-muted-foreground">
-                      Require contacts to confirm their subscription via a confirmation email
-                    </p>
-                  </div>
+            {/* --- Double Opt-In --- */}
+            <div className="py-3 space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-foreground">Double opt-in</p>
+                  <p className="text-xs text-muted-foreground">Require contacts to confirm their subscription via a confirmation email</p>
                 </div>
                 <Toggle checked={doubleOptInEnabled} onChange={setDoubleOptInEnabled} />
               </div>
 
-              {doubleOptInEnabled &&
-              <div className="border-t border-border bg-muted/30 p-4 space-y-4">
+              {doubleOptInEnabled && (
+                <div className="border border-border rounded-lg p-4 space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
-                        <CalendarClock className="w-3 h-3" /> Confirmation expiry
-                      </label>
+                      <label className="text-xs font-medium text-muted-foreground">Confirmation expiry</label>
                       <div className="flex items-center gap-2">
-                        <Input
-                        type="number"
-                        min={1}
-                        max={168}
-                        value={doubleOptInExpiryHours}
-                        onChange={(e) => setDoubleOptInExpiryHours(Number(e.target.value))}
-                        className="w-20 h-8 text-sm" />
-                      
+                        <Input type="number" min={1} max={168} value={doubleOptInExpiryHours} onChange={(e) => setDoubleOptInExpiryHours(Number(e.target.value))} className="w-20 h-8 text-sm" />
                         <span className="text-xs text-muted-foreground">hours</span>
                       </div>
-                      <p className="text-[10px] text-muted-foreground">Confirmation link expires after this period</p>
                     </div>
-
                     <div className="space-y-1.5">
-                      <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
-                        <RefreshCw className="w-3 h-3" /> Max resend attempts
-                      </label>
+                      <label className="text-xs font-medium text-muted-foreground">Max resend attempts</label>
                       <div className="flex items-center gap-2">
-                        <Input
-                        type="number"
-                        min={1}
-                        max={10}
-                        value={doubleOptInMaxResends}
-                        onChange={(e) => setDoubleOptInMaxResends(Number(e.target.value))}
-                        className="w-20 h-8 text-sm" />
-                      
+                        <Input type="number" min={1} max={10} value={doubleOptInMaxResends} onChange={(e) => setDoubleOptInMaxResends(Number(e.target.value))} className="w-20 h-8 text-sm" />
                         <span className="text-xs text-muted-foreground">times</span>
                       </div>
-                      <p className="text-[10px] text-muted-foreground">Maximum number of confirmation resends per contact</p>
                     </div>
                   </div>
 
@@ -254,116 +205,73 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
                     <label className="text-xs font-medium text-muted-foreground">Require double opt-in for:</label>
                     <div className="flex flex-wrap gap-2">
                       {SUBSCRIPTION_TYPE_OPTIONS.map((type) => {
-                      const isActive = doubleOptInSubscriptionTypes.includes(type);
-                      return (
-                        <button
-                          key={type}
-                          onClick={() => toggleSubscriptionType(type)}
-                          className={`text-xs px-3 py-1.5 rounded-full border transition-colors font-medium ${
-                          isActive ?
-                          "bg-primary/10 text-primary border-primary/30" :
-                          "bg-muted text-muted-foreground border-border hover:border-primary/30"}`
-                          }>
-                          
+                        const isActive = doubleOptInSubscriptionTypes.includes(type);
+                        return (
+                          <button
+                            key={type}
+                            onClick={() => toggleSubscriptionType(type)}
+                            className={`text-xs px-3 py-1.5 rounded-full border transition-colors font-medium ${
+                              isActive
+                                ? "bg-primary/10 text-primary border-primary/30"
+                                : "bg-muted text-muted-foreground border-border hover:border-primary/30"
+                            }`}
+                          >
                             {type}
-                          </button>);
-
-                    })}
+                          </button>
+                        );
+                      })}
                     </div>
-                    <p className="text-[10px] text-muted-foreground">
-                      Only selected subscription types will require double opt-in confirmation
-                    </p>
                   </div>
                 </div>
-              }
+              )}
             </div>
 
             <Separator />
 
             {/* --- Suppression Rules --- */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <ShieldAlert className="w-4 h-4 text-destructive" />
+            <div className="py-3 space-y-4">
+              <div>
                 <h4 className="text-sm font-semibold text-foreground">Suppression rules</h4>
+                <p className="text-xs text-muted-foreground mt-0.5">Configure automatic suppression thresholds for bounces and spam complaints.</p>
               </div>
-              <p className="text-xs text-muted-foreground">
-                Configure automatic suppression thresholds. Contacts exceeding these limits will be blocked from receiving emails.
-              </p>
 
-              <div className="space-y-3">
-                <div className="flex items-center justify-between p-4 border border-border rounded-lg">
-                  <div>
-                    <p className="text-sm font-medium text-foreground">Auto-suppress on hard bounce</p>
-                    <p className="text-xs text-muted-foreground">
-                      Immediately block delivery after a single hard bounce (permanent failure)
-                    </p>
-                  </div>
-                  <Toggle checked={autoSuppressHardBounce} onChange={setAutoSuppressHardBounce} />
+              <div className="flex items-center justify-between py-2">
+                <div>
+                  <p className="text-sm font-medium text-foreground">Auto-suppress on hard bounce</p>
+                  <p className="text-xs text-muted-foreground">Block delivery after a hard bounce</p>
                 </div>
+                <Toggle checked={autoSuppressHardBounce} onChange={setAutoSuppressHardBounce} />
+              </div>
 
-                <div className="flex items-center justify-between p-4 border border-border rounded-lg">
-                  <div>
-                    <p className="text-sm font-medium text-foreground">Auto-suppress on spam complaint</p>
-                    <p className="text-xs text-muted-foreground">
-                      Immediately block delivery when a spam complaint is received
-                    </p>
-                  </div>
-                  <Toggle checked={autoSuppressSpamComplaint} onChange={setAutoSuppressSpamComplaint} />
+              <div className="flex items-center justify-between py-2">
+                <div>
+                  <p className="text-sm font-medium text-foreground">Auto-suppress on spam complaint</p>
+                  <p className="text-xs text-muted-foreground">Block delivery when a spam complaint is received</p>
                 </div>
+                <Toggle checked={autoSuppressSpamComplaint} onChange={setAutoSuppressSpamComplaint} />
+              </div>
 
-                <div className="border border-border rounded-lg p-4 space-y-4">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-medium text-muted-foreground">Soft bounce threshold</label>
-                    <div className="flex items-center gap-2">
-                      <Input
-                        type="number"
-                        min={1}
-                        max={20}
-                        value={softBounceThreshold}
-                        onChange={(e) => setSoftBounceThreshold(Number(e.target.value))}
-                        className="w-20 h-8 text-sm" />
-                      
-                      <span className="text-xs text-muted-foreground">consecutive soft bounces before auto-suppression</span>
-                    </div>
-                    <p className="text-[10px] text-muted-foreground">
-                      After this many consecutive soft bounces, the address will be automatically suppressed
-                    </p>
+              <div className="border border-border rounded-lg p-4 space-y-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-muted-foreground">Soft bounce threshold</label>
+                  <div className="flex items-center gap-2">
+                    <Input type="number" min={1} max={20} value={softBounceThreshold} onChange={(e) => setSoftBounceThreshold(Number(e.target.value))} className="w-20 h-8 text-sm" />
+                    <span className="text-xs text-muted-foreground">consecutive soft bounces before auto-suppression</span>
                   </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-medium text-muted-foreground">Spam complaint threshold</label>
-                    <div className="flex items-center gap-2">
-                      <Input
-                        type="number"
-                        min={1}
-                        max={10}
-                        value={spamComplaintThreshold}
-                        onChange={(e) => setSpamComplaintThreshold(Number(e.target.value))}
-                        className="w-20 h-8 text-sm" />
-                      
-                      <span className="text-xs text-muted-foreground">complaints before permanent block</span>
-                    </div>
-                    <p className="text-[10px] text-muted-foreground">
-                      After this many spam complaints across campaigns, the contact is permanently blocked
-                    </p>
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-muted-foreground">Spam complaint threshold</label>
+                  <div className="flex items-center gap-2">
+                    <Input type="number" min={1} max={10} value={spamComplaintThreshold} onChange={(e) => setSpamComplaintThreshold(Number(e.target.value))} className="w-20 h-8 text-sm" />
+                    <span className="text-xs text-muted-foreground">complaints before permanent block</span>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="flex justify-end gap-3 pt-4">
-              <button
-                onClick={() => onOpenChange(false)}
-                className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-                
-                Cancel
-              </button>
-              <button
-                onClick={() => onOpenChange(false)}
-                className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">
-                
-                Save
-              </button>
+              <button onClick={() => onOpenChange(false)} className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors">Cancel</button>
+              <button onClick={() => onOpenChange(false)} className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">Save</button>
             </div>
           </TabsContent>
 
@@ -371,9 +279,7 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
           <TabsContent value="tracking" className="mt-6 space-y-6">
             <div>
               <h3 className="text-base font-semibold text-foreground mb-1">Source tracking</h3>
-              <p className="text-sm text-muted-foreground">
-                Configure default UTM parameters for tracking traffic from your emails
-              </p>
+              <p className="text-sm text-muted-foreground">Configure default UTM parameters for tracking traffic from your emails</p>
             </div>
 
             <div className="space-y-1">
@@ -422,8 +328,8 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
           </TabsContent>
         </Tabs>
       </DialogContent>
-    </Dialog>);
-
+    </Dialog>
+  );
 };
 
 export default BulkEmailSettingsDialog;
