@@ -1,27 +1,26 @@
 
 
-## Preference Center Configuration Page
+## Plan: Restyle Bulk Email Subscription tab to match Creatio UI
 
-A new admin-facing page where CRM administrators can configure the Preference Center settings that contacts will see when managing their subscriptions.
+The screenshot shows Creatio's clean settings page style. The goal is to match that visual pattern for the existing subscription tab content.
 
-### What it includes
+### Key visual differences from screenshot
 
-1. **New route `/preference-center`** added to the router and sidebar navigation (between "Contacts" and "Campaigns")
+1. **Page-level layout**: Clean white background, no heavy card nesting — content sections use subtle borders and generous spacing
+2. **Section headers**: Simple bold text with description, no colored icon circles
+3. **Toggle rows**: Flat layout with label + description on left, toggle on right — no rounded card borders on every row
+4. **Card widgets**: Thin border, white background, header row with title (left) and action link/button (right, blue text), content below with large emphasis text
+5. **Tabs**: Underline-style tabs (already matching)
+6. **Typography**: Cleaner, less dense — fewer uppercase labels, more natural casing
 
-2. **Page sections:**
-   - **General Settings** -- Preference center name/title, company logo URL, welcome message text, footer text
-   - **Subscription Types** -- Table listing all available subscription types (e.g. Newsletter, Promotions, Information material) with toggles to show/hide each in the preference center, grouped by channel (Email / SMS)
-   - **Appearance** -- Primary color picker, toggle for dark/light mode support
-   - **Compliance** -- Toggle to require re-confirmation on re-subscribe, toggle to show legal basis info to contacts, custom privacy policy URL
-   - **Preview panel** -- A live card preview on the right side showing how the preference center will look to contacts, updating as the admin changes settings
+### Changes to `src/components/BulkEmailSettingsDialog.tsx`
 
-3. **State management** -- Settings stored in a new `PreferenceCenterContext` (or extend existing `SettingsContext`) so values persist across the app session. The "Copy Preference Center Link" button on contact detail pages already generates URLs pointing to this.
+- Remove colored icon circles (the `w-8 h-8 rounded-full bg-primary/10` wrappers) from toggle rows — use flat text-based layout instead
+- Simplify toggle row cards: remove `bg-muted/20`, use lighter borders or no borders for simple settings, keep border only for grouped sections
+- Reduce visual density: remove redundant description text, use consistent spacing
+- Make section headings match Creatio style: simple bold text + muted description, no icon prefixes on headings
+- Clean up the double opt-in expanded area to use a cleaner white card style instead of `bg-muted/30`
+- Adjust suppression rules section to match the cleaner card pattern
 
-### Files to create/modify
-
-- **Create** `src/pages/PreferenceCenter.tsx` -- Main config page with form sections
-- **Create** `src/components/PreferenceCenterPreview.tsx` -- Live preview card component
-- **Modify** `src/App.tsx` -- Add `/preference-center` route
-- **Modify** `src/components/AppSidebar.tsx` -- Add nav item with `Settings2` or `SlidersHorizontal` icon
-- **Modify** `src/contexts/SettingsContext.tsx` -- Add preference center config fields (title, welcome message, visible subscription types, colors, compliance toggles)
+This is a styling-only change — no functionality or state changes.
 
