@@ -3,7 +3,7 @@ import AppSidebar from "@/components/AppSidebar";
 import { useSettings } from "@/contexts/SettingsContext";
 
 const EmailPreview = () => {
-  const { preferenceCenterConfig, unsubscribeLinkEnabled, showLegalBasis } = useSettings();
+  const { preferenceCenterConfig, unsubscribeLinkEnabled } = useSettings();
   const { footerText, primaryColor, logoUrl, unsubscribePage } = preferenceCenterConfig;
 
   const primaryHsl = `hsl(${primaryColor})`;
