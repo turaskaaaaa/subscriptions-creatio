@@ -10,6 +10,7 @@ import type { LegalBasis } from "@/data/contactsData";
 interface BulkEmailSettingsDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  mode?: "full" | "subscription-only";
 }
 
 const SUBSCRIPTION_TYPE_OPTIONS = [
@@ -37,7 +38,7 @@ const Toggle = ({ checked, onChange }: { checked: boolean; onChange: (val: boole
   </label>
 );
 
-const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialogProps) => {
+const BulkEmailSettingsDialog = ({ open, onOpenChange, mode = "full" }: BulkEmailSettingsDialogProps) => {
   const {
     marketingConsentDefault, setMarketingConsentDefault,
     doubleOptInEnabled, setDoubleOptInEnabled,
@@ -75,24 +76,28 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-3xl max-h-[95vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-lg font-semibold">Subscription settings</DialogTitle>
+          <DialogTitle className="text-lg font-semibold">
+            {mode === "subscription-only" ? "Subscription settings" : "Bulk email settings"}
+          </DialogTitle>
         </DialogHeader>
 
         <Tabs defaultValue="optin" className="w-full">
-          <TabsList className="w-full justify-start bg-transparent border-b border-border rounded-none h-auto p-0 gap-0">
-            <TabsTrigger value="optin" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2 text-xs font-semibold uppercase tracking-wide">
-              Subscription
-            </TabsTrigger>
-            <TabsTrigger value="tracking" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2 text-xs font-semibold uppercase tracking-wide">
-              Tracking defaults
-            </TabsTrigger>
-            <TabsTrigger value="multilanguage" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2 text-xs font-semibold uppercase tracking-wide">
-              Multilanguage defaults
-            </TabsTrigger>
-            <TabsTrigger value="limits" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2 text-xs font-semibold uppercase tracking-wide">
-              Limits defaults
-            </TabsTrigger>
-          </TabsList>
+          {mode === "full" && (
+            <TabsList className="w-full justify-start bg-transparent border-b border-border rounded-none h-auto p-0 gap-0">
+              <TabsTrigger value="optin" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2 text-xs font-semibold uppercase tracking-wide">
+                Subscription
+              </TabsTrigger>
+              <TabsTrigger value="tracking" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2 text-xs font-semibold uppercase tracking-wide">
+                Tracking defaults
+              </TabsTrigger>
+              <TabsTrigger value="multilanguage" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2 text-xs font-semibold uppercase tracking-wide">
+                Multilanguage defaults
+              </TabsTrigger>
+              <TabsTrigger value="limits" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2 text-xs font-semibold uppercase tracking-wide">
+                Limits defaults
+              </TabsTrigger>
+            </TabsList>
+          )}
 
           {/* ===== SUBSCRIPTION TAB ===== */}
           <TabsContent value="optin" className="mt-6 space-y-5">

@@ -127,7 +127,7 @@ const PreferenceCenter = () => {
                </Button>
               </div>
              </div>
-             <BulkEmailSettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
+             <BulkEmailSettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} mode="subscription-only" />
 
             <Tabs defaultValue="Email">
               <TabsList className="w-full justify-start border-b rounded-none bg-transparent p-0 h-auto">
