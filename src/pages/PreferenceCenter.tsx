@@ -15,7 +15,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useState } from "react";
 import BulkEmailSettingsDialog from "@/components/BulkEmailSettingsDialog";
 
-const channels = ["Email", "WhatsApp", "SMS"] as const;
+const channels = ["Email"] as const;
 
 const PreferenceCenter = () => {
   const { preferenceCenterConfig: config, updatePreferenceCenterField, selfServiceLegalBasis } = useSettings();
