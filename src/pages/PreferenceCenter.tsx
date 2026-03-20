@@ -143,11 +143,11 @@ const PreferenceCenter = () => {
                           <TabsTrigger value="unsubscribe" className="text-xs gap-1.5">
                             <MailX className="w-3.5 h-3.5" /> Unsubscribe
                           </TabsTrigger>
-                          <TabsTrigger value="feedback" className="text-xs gap-1.5">
-                            <MessageSquareMore className="w-3.5 h-3.5" /> Feedback
-                          </TabsTrigger>
                           <TabsTrigger value="preferences" className="text-xs gap-1.5">
                             <ClipboardList className="w-3.5 h-3.5" /> Preferences
+                          </TabsTrigger>
+                          <TabsTrigger value="feedback" className="text-xs gap-1.5">
+                            <MessageSquareMore className="w-3.5 h-3.5" /> Feedback
                           </TabsTrigger>
                         </TabsList>
 
