@@ -261,49 +261,6 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
             </div>
           </TabsContent>
 
-          {/* ===== TRACKING TAB ===== */}
-          <TabsContent value="tracking" className="mt-6 space-y-6">
-            <div>
-              <h3 className="text-base font-semibold text-foreground mb-1">Source tracking</h3>
-              <p className="text-sm text-muted-foreground">Configure default UTM parameters for tracking traffic from your emails</p>
-            </div>
-
-            <div className="space-y-1">
-              <label className="text-sm text-muted-foreground">List of domains<span className="text-destructive">*</span></label>
-              <Input value={domains} onChange={(e) => setDomains(e.target.value)} />
-              <p className="text-xs text-muted-foreground">Enter the domains where your email links will direct users.</p>
-            </div>
-            <div className="space-y-1">
-              <label className="text-sm text-muted-foreground">utm_source<span className="text-destructive">*</span></label>
-              <Input value={utmSource} onChange={(e) => setUtmSource(e.target.value)} />
-              <p className="text-xs text-muted-foreground">Identifies where the traffic originated.</p>
-            </div>
-            <div className="space-y-1">
-              <label className="text-sm text-muted-foreground">utm_campaign<span className="text-destructive">*</span></label>
-              <Input value={utmCampaign} onChange={(e) => setUtmCampaign(e.target.value)} />
-              <p className="text-xs text-muted-foreground">Specifies the name of the email campaign or promotion.</p>
-            </div>
-            <div className="space-y-1">
-              <label className="text-sm text-muted-foreground">utm_medium<span className="text-destructive">*</span></label>
-              <Input value={utmMedium} onChange={(e) => setUtmMedium(e.target.value)} />
-              <p className="text-xs text-muted-foreground">Describes the type of marketing channel.</p>
-            </div>
-            <div className="space-y-1">
-              <label className="text-sm text-muted-foreground">utm_term</label>
-              <Input value={utmTerm} onChange={(e) => setUtmTerm(e.target.value)} />
-              <p className="text-xs text-muted-foreground">(Optional) Used for tracking specific keywords or audience segments.</p>
-            </div>
-            <div className="space-y-1">
-              <label className="text-sm text-muted-foreground">utm_content</label>
-              <Input value={utmContent} onChange={(e) => setUtmContent(e.target.value)} />
-              <p className="text-xs text-muted-foreground">(Optional) Helps identify which specific link or creative was clicked.</p>
-            </div>
-
-            <div className="flex justify-end gap-3 pt-4">
-              <button onClick={() => onOpenChange(false)} className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors">Cancel</button>
-              <button onClick={() => onOpenChange(false)} className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">Save</button>
-            </div>
-          </TabsContent>
 
         </Tabs>
       </DialogContent>
