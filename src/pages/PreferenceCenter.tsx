@@ -218,7 +218,7 @@ const PreferenceCenter = () => {
                                   <p className="text-xs text-muted-foreground">
                                     Self-service legal basis: <span className="font-medium text-foreground">{selfServiceLegalBasis}</span>
                                   </p>
-                                  <p className="text-[10px] text-muted-foreground mt-0.5">Configured in Bulk Email Settings → Opt-in / Opt-out</p>
+                                   <p className="text-[10px] text-muted-foreground mt-0.5">Configured in Subscription Settings → Subscription</p>
                                 </div>
                               </div>
                             </CardContent>
