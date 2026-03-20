@@ -75,7 +75,7 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-3xl max-h-[95vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-lg font-semibold">Bulk email settings</DialogTitle>
+          <DialogTitle className="text-lg font-semibold">Subscription settings</DialogTitle>
         </DialogHeader>
 
         <Tabs defaultValue="optin" className="w-full">
