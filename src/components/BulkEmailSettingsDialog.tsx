@@ -305,13 +305,6 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialog
             </div>
           </TabsContent>
 
-          <TabsContent value="multilanguage" className="mt-6">
-            <p className="text-sm text-muted-foreground">Multilanguage default settings will appear here.</p>
-          </TabsContent>
-
-          <TabsContent value="limits" className="mt-6">
-            <p className="text-sm text-muted-foreground">Limits default settings will appear here.</p>
-          </TabsContent>
         </Tabs>
       </DialogContent>
     </Dialog>
