@@ -141,7 +141,7 @@ const PreferenceCenter = () => {
                       <Tabs value={activePreviewTab} onValueChange={setActivePreviewTab}>
                         <TabsList className="w-full grid grid-cols-3 mb-4">
                           <TabsTrigger value="unsubscribe" className="text-xs gap-1.5">
-                            <MailX className="w-3.5 h-3.5" /> Unsubscribe
+                            <MailX className="w-3.5 h-3.5" /> UnsubscribePage
                           </TabsTrigger>
                           <TabsTrigger value="preferences" className="text-xs gap-1.5">
                             <ClipboardList className="w-3.5 h-3.5" /> Preferences
