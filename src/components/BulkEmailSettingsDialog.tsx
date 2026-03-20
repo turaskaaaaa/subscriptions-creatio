@@ -38,7 +38,7 @@ const Toggle = ({ checked, onChange }: { checked: boolean; onChange: (val: boole
   </label>
 );
 
-const BulkEmailSettingsDialog = ({ open, onOpenChange }: BulkEmailSettingsDialogProps) => {
+const BulkEmailSettingsDialog = ({ open, onOpenChange, mode = "full" }: BulkEmailSettingsDialogProps) => {
   const {
     marketingConsentDefault, setMarketingConsentDefault,
     doubleOptInEnabled, setDoubleOptInEnabled,
