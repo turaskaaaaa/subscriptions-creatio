@@ -10,6 +10,7 @@ import type { LegalBasis } from "@/data/contactsData";
 interface BulkEmailSettingsDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  mode?: "full" | "subscription-only";
 }
 
 const SUBSCRIPTION_TYPE_OPTIONS = [
