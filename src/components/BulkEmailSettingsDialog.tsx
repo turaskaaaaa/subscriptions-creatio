@@ -81,7 +81,7 @@ const BulkEmailSettingsDialog = ({ open, onOpenChange, mode = "full" }: BulkEmai
           </DialogTitle>
         </DialogHeader>
 
-        <Tabs defaultValue="optin" className="w-full">
+        <Tabs defaultValue={mode === "subscription-only" ? "optin" : "tracking"} className="w-full">
           {mode === "full" && (
             <TabsList className="w-full justify-start bg-transparent border-b border-border rounded-none h-auto p-0 gap-0">
               <TabsTrigger value="tracking" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2 text-xs font-semibold uppercase tracking-wide">
