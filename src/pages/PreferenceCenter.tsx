@@ -122,7 +122,7 @@ const PreferenceCenter = () => {
                  <Save className="w-4 h-4" />
                  Save Changes
                </Button>
-               <Button variant="outline" size="icon" onClick={() => setSettingsOpen(true)} title="Bulk email settings">
+               <Button variant="outline" size="icon" onClick={() => setSettingsOpen(true)} title="Subscription settings">
                  <Settings className="w-4 h-4" />
                </Button>
               </div>
