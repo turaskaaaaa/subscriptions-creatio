@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Contacts from "./pages/Contacts";
 import ContactDetail from "./pages/ContactDetail";
 import PreferenceCenter from "./pages/PreferenceCenter";
+import EmailPreview from "./pages/EmailPreview";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();

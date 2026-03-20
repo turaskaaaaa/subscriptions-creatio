@@ -1,4 +1,4 @@
-import { Mail, Megaphone, Globe, HeartPulse, ChevronLeft, Search, Users, SlidersHorizontal } from "lucide-react";
+import { Mail, Megaphone, Globe, HeartPulse, ChevronLeft, Search, Users, SlidersHorizontal, Eye } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const navItems = [
