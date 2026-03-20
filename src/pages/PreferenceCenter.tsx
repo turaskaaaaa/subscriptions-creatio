@@ -20,6 +20,7 @@ const channels = ["Email", "WhatsApp", "SMS"] as const;
 const PreferenceCenter = () => {
   const { preferenceCenterConfig: config, updatePreferenceCenterField, selfServiceLegalBasis } = useSettings();
   const [activePreviewTab, setActivePreviewTab] = useState("unsubscribe");
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const unsub = config.unsubscribePage;
   const prefs = config.managePreferencesPage;
