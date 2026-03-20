@@ -117,11 +117,15 @@ const PreferenceCenter = () => {
                 <h1 className="text-xl font-semibold text-foreground">Preference Center</h1>
                 <p className="text-sm text-muted-foreground mt-1">Customize the experience contacts see when managing their communication preferences.</p>
               </div>
-              <Button onClick={() => toast.success("Preference center settings saved")} size="sm">
-                <Save className="w-4 h-4" />
-                Save Changes
-              </Button>
-            </div>
+               <Button variant="outline" size="icon" onClick={() => setSettingsOpen(true)} title="Bulk email settings">
+                 <Settings className="w-4 h-4" />
+               </Button>
+               <Button onClick={() => toast.success("Preference center settings saved")} size="sm">
+                 <Save className="w-4 h-4" />
+                 Save Changes
+               </Button>
+             </div>
+             <BulkEmailSettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
 
             <Tabs defaultValue="Email">
               <TabsList className="w-full justify-start border-b rounded-none bg-transparent p-0 h-auto">
