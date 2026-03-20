@@ -144,7 +144,7 @@ const PreferenceCenter = () => {
                             <MailX className="w-3.5 h-3.5" /> UnsubscribePage
                           </TabsTrigger>
                           <TabsTrigger value="preferences" className="text-xs gap-1.5">
-                            <ClipboardList className="w-3.5 h-3.5" /> Preferences
+                            <ClipboardList className="w-3.5 h-3.5" /> PreferencesCenter
                           </TabsTrigger>
                           <TabsTrigger value="feedback" className="text-xs gap-1.5">
                             <MessageSquareMore className="w-3.5 h-3.5" /> Feedback
