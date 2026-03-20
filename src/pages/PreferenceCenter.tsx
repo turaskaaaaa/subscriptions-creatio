@@ -8,17 +8,19 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import PreferenceCenterPreview from "@/components/PreferenceCenterPreview";
-import { Save, MailX, MessageSquareMore, ClipboardList, Plus, X, Shield, Palette } from "lucide-react";
+import { Save, MailX, MessageSquareMore, ClipboardList, Plus, X, Shield, Palette, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useState } from "react";
+import BulkEmailSettingsDialog from "@/components/BulkEmailSettingsDialog";
 
 const channels = ["Email", "WhatsApp", "SMS"] as const;
 
 const PreferenceCenter = () => {
   const { preferenceCenterConfig: config, updatePreferenceCenterField, selfServiceLegalBasis } = useSettings();
   const [activePreviewTab, setActivePreviewTab] = useState("unsubscribe");
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const unsub = config.unsubscribePage;
   const prefs = config.managePreferencesPage;
@@ -115,11 +117,15 @@ const PreferenceCenter = () => {
                 <h1 className="text-xl font-semibold text-foreground">Preference Center</h1>
                 <p className="text-sm text-muted-foreground mt-1">Customize the experience contacts see when managing their communication preferences.</p>
               </div>
-              <Button onClick={() => toast.success("Preference center settings saved")} size="sm">
-                <Save className="w-4 h-4" />
-                Save Changes
-              </Button>
-            </div>
+               <Button variant="outline" size="icon" onClick={() => setSettingsOpen(true)} title="Bulk email settings">
+                 <Settings className="w-4 h-4" />
+               </Button>
+               <Button onClick={() => toast.success("Preference center settings saved")} size="sm">
+                 <Save className="w-4 h-4" />
+                 Save Changes
+               </Button>
+             </div>
+             <BulkEmailSettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
 
             <Tabs defaultValue="Email">
               <TabsList className="w-full justify-start border-b rounded-none bg-transparent p-0 h-auto">
