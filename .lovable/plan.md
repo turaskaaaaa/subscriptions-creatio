@@ -1,18 +1,33 @@
 
 
-## Add Gear Icon to Open Subscription Settings Dialog on Subscription Center Page
+## Marketing Email Preview Page
 
-### Summary
-Add a gear icon button to the Subscription Center page header that opens the existing `BulkEmailSettingsDialog` (which already contains the Subscription tab). No new tabs or screens needed — just wire up the existing dialog.
+### What we're building
+A new page that shows a preview of what a marketing email looks like, focusing on the email footer with "Unsubscribe" and "Manage Preferences" links. This gives users a visual representation of the recipient experience.
 
-### Changes
+### Plan
 
-**`src/pages/PreferenceCenter.tsx`**
-- Import `Settings` icon from lucide-react and `BulkEmailSettingsDialog` component
-- Add a `useState<boolean>` for controlling the dialog open state
-- Add a gear icon `Button` next to the "Save Changes" button in the page header
-- Render `<BulkEmailSettingsDialog open={...} onOpenChange={...} />` in the component tree
+1. **Create `src/pages/EmailPreview.tsx`**
+   - Full-page layout with AppSidebar + TopBar (consistent with other pages)
+   - Renders a mock marketing email in a centered card/container:
+     - **Email header**: Company logo + primary color banner
+     - **Email body**: Placeholder marketing content (headline, paragraph, CTA button)
+     - **Email footer**: The key part — shows:
+       - Company footer text
+       - "Unsubscribe" link (styled with primary color)
+       - "Manage your preferences" link (conditionally shown based on `unsubscribePage.showManagePreferencesLink`)
+       - Legal basis text (conditionally shown based on `showLegalBasis`)
+   - All content pulls from `SettingsContext` (preferenceCenterConfig) so it reflects the user's current configuration
 
-### Result
-Clicking the gear icon on the Subscription Center page opens the same Bulk Email Settings dialog (with its Subscription tab) that exists elsewhere, giving admins quick access to subscription defaults without leaving the page.
+2. **Add route in `src/App.tsx`**
+   - Add `/email-preview` route pointing to the new page
+
+3. **Add sidebar nav item in `src/components/AppSidebar.tsx`**
+   - Add an "Email Preview" entry to the navigation (e.g., using `Eye` or `FileText` icon)
+
+### Technical details
+- The email preview is purely visual/static (no interactivity beyond navigation)
+- Uses existing `useSettings()` context for branding (logo, primary color, footer text, legal basis)
+- Footer links are disabled/non-functional — they're just for visual preview
+- Responsive: email container is max-width constrained and centered
 
