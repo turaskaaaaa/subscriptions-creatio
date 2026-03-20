@@ -1,27 +1,18 @@
 
 
-## Preference Center Configuration Page
+## Add Gear Icon to Open Subscription Settings Dialog on Subscription Center Page
 
-A new admin-facing page where CRM administrators can configure the Preference Center settings that contacts will see when managing their subscriptions.
+### Summary
+Add a gear icon button to the Subscription Center page header that opens the existing `BulkEmailSettingsDialog` (which already contains the Subscription tab). No new tabs or screens needed — just wire up the existing dialog.
 
-### What it includes
+### Changes
 
-1. **New route `/preference-center`** added to the router and sidebar navigation (between "Contacts" and "Campaigns")
+**`src/pages/PreferenceCenter.tsx`**
+- Import `Settings` icon from lucide-react and `BulkEmailSettingsDialog` component
+- Add a `useState<boolean>` for controlling the dialog open state
+- Add a gear icon `Button` next to the "Save Changes" button in the page header
+- Render `<BulkEmailSettingsDialog open={...} onOpenChange={...} />` in the component tree
 
-2. **Page sections:**
-   - **General Settings** -- Preference center name/title, company logo URL, welcome message text, footer text
-   - **Subscription Types** -- Table listing all available subscription types (e.g. Newsletter, Promotions, Information material) with toggles to show/hide each in the preference center, grouped by channel (Email / SMS)
-   - **Appearance** -- Primary color picker, toggle for dark/light mode support
-   - **Compliance** -- Toggle to require re-confirmation on re-subscribe, toggle to show legal basis info to contacts, custom privacy policy URL
-   - **Preview panel** -- A live card preview on the right side showing how the preference center will look to contacts, updating as the admin changes settings
-
-3. **State management** -- Settings stored in a new `PreferenceCenterContext` (or extend existing `SettingsContext`) so values persist across the app session. The "Copy Preference Center Link" button on contact detail pages already generates URLs pointing to this.
-
-### Files to create/modify
-
-- **Create** `src/pages/PreferenceCenter.tsx` -- Main config page with form sections
-- **Create** `src/components/PreferenceCenterPreview.tsx` -- Live preview card component
-- **Modify** `src/App.tsx` -- Add `/preference-center` route
-- **Modify** `src/components/AppSidebar.tsx` -- Add nav item with `Settings2` or `SlidersHorizontal` icon
-- **Modify** `src/contexts/SettingsContext.tsx` -- Add preference center config fields (title, welcome message, visible subscription types, colors, compliance toggles)
+### Result
+Clicking the gear icon on the Subscription Center page opens the same Bulk Email Settings dialog (with its Subscription tab) that exists elsewhere, giving admins quick access to subscription defaults without leaving the page.
 
